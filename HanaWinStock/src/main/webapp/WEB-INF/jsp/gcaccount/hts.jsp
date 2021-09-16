@@ -21,6 +21,12 @@
 <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/style.css">
 <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/skin_color.css">
 <script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/client.js"></script>
+<!--   <script src="https://www.webrtc-experiment.com/one-to-many-video-broadcasting/meeting.js"></script>
+  <script src="https://cdn.firebase.com/v0/firebase.js"></script> -->
+		
+	<script src="${ pageContext.request.contextPath }/resources/main.js"></script>
+	<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
 <style>
 .enlarged-btn {
 	height: 350px;
@@ -29,18 +35,28 @@
 }
 
 .remove-chart {
-	float: right;
-	
-	
-	
+	float: right;	
 }
 	
 
 
+.remove-chat{
+	float : right;
+}
+
+
+
 </style>
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script> -->
+
+
+
 
 
 <script>
+
+
 /* 	
 	function getRealTimeData() {
 		$.ajax({type : 'get',
@@ -65,7 +81,183 @@
 		})
 	}
  */
-		
+ 
+ 
+//-------------------------------web socket----------------------------------
+/* 						<div class="col-md-12 right-col">
+						<div id="chart-area">
+							<div class="row" id="row-chat">
+								<div class="col" id="row-chat-col"></div>
+							</div>
+							<div class="row" id="row-one">
+								<div class="col" id="row-one-col"></div>
+							</div>
+							<div class="row" id="row-two">
+								<div class="col" id="row-two-col"></div>
+							</div>
+							<div class="row" id="row-three">
+								<div class="col" id="row-three-col"></div>
+							</div>
+							<div class="row" id="row-final">
+								<div class="col-md-4" id="sc-one"></div>
+								<div class="col-md-4" id="sc-two"></div>
+								<div class="col-md-4" id="sc-three"></div>
+								<div class="col-md-6" id="lc-one"></div>
+								<div class="col-md-6" id="lc-two"></div>
+							</div>
+						</div>
+					</div>
+				</div>				
+			$("#three-cross").click(function(){
+					box_counts  = 3;
+					$('#box-one').appendTo('#sc-one');
+					$('#box-one').show()
+					
+					$('#box-two').appendTo('#sc-two');
+					$('#box-two').show()
+					
+					$('#box-three').appendTo("#sc-three");
+					$('#box-three').show()
+
+				})
+			})			 */	
+
+
+		function chatServer(box){
+			enterChatServer(box_info[box]['symbol'])			
+			$('#box-' + box).appendTo('row-chat-col')
+		}
+
+
+		 var room;
+ 
+ 		 function enterChatServer(symbol){
+ 			 if(!Object.keys(stockNameMap).includes(symbol)){
+ 				 myAlarm("warning:error:해당 종목은 존재 하지 않습니다.")
+ 			 }else{
+ 				$('#direct-chat').empty()
+ 				if(chattingToggle == 1){
+ 					openchatbox()
+ 				}else{
+ 					ws.close();
+ 				}
+ 				room = symbol
+ 				wsOpen(room)
+ 				}
+ 		 }
+ 		 function openchatbox(){
+ 			console.log("opening chat box")
+ 			
+			$('#close-chat').show()
+			
+			$('.left-col').each(function(){
+				$(this).removeClass('col-xs-12');
+				$(this).addClass('col-md-3');				
+			})
+			$('.right-col').each(function(){
+				$(this).removeClass('col-md-12')
+				$(this).addClass('col-md-9')				
+			})
+			$('.full-chat-box').hide()
+			$('.full-chat-box').show()
+			chattingToggle = 2;
+ 		 }
+ 		
+ 		function removechatbox(){
+ 			$('#close-chat').hide()
+ 			$('#direct-chat').empty()
+ 			$('.left-col').each(function(){
+ 				$(this).removeClass('col-md-3');
+ 				$(this).addClass('col-xs-12');
+ 			})
+ 			$('.right-col').each(function(){
+ 				$(this).removeClass('col-md-9')
+ 				$(this).addClass('col-md-12')
+ 			})
+ 			$('.full-chat-box').hide()
+ 			if(chattingToggle == 2){
+ 				ws.close()	
+ 			}						
+ 			chattingToggle = 1;			
+ 		}
+ 		 
+ 		 
+	     function wsOpen(room){
+		      ws = new WebSocket("ws://" + location.host + "/HanaWinStock/account/hts/" + room);
+		      wsEvt();      
+		  }			 
+    	 function wsEvt() {
+    	     ws.onopen = function(data){
+    	        //소켓이 열리면 초기화 세팅하기
+    	        console.log('소켓열림');
+    	        console.log('ws : ' + ws.url);
+    	     }
+    	     
+    	     ws.onmessage = function(data) {
+    	        //메시지를 받으면 동작
+    	        console.log("msg received")
+    	        var msg = data.data;
+    	        console.log("msg : " +  msg);
+    	        if(msg != null && msg.trim() != ''){
+    	           var d = JSON.parse(msg);
+    	           if(d.type == "getId"){
+    	              var si = d.sessionId != null ? d.sessionId : "";
+    	              if(si != ''){
+    	                 $("#sessionId").val(si); 
+    	              }
+    	           }else if(d.type == "message"){
+    	              if(d.sessionId == $("#sessionId").val()){
+    	                  var newmsg = '<div class="direct-chat-msg clearfix right mb-30">' +
+    	                  				'<div class="direct-chat-text">'+
+    	                  				'<p>' + d.msg + '</p>'+
+    	                  				'<p class="direct-chat-timestamp"><time datetime="'+ d.year+'">'+ d.hourMin +'</time></p>'+
+    	                  				'</div></div>';        	  
+    	            	  $("#direct-chat").append(newmsg);   
+    	              }else{
+    	            	  var newmsg ='<div class="direct-chat-msg mb-30">'+
+    	            	  '<div class="clearfix mb-15">' +
+							'<span class="direct-chat-name">James Anderson</span>' + 
+						  '</div>' +
+ 						'<img class="direct-chat-img avatar" src="${ pageContext.request.contextPath }/resources/images/user1-128x128.jpg" alt="message user image">'+
+ 						' <div class="direct-chat-text">' +
+ 						'<p>' + d.msg + '</p>' +
+ 						'<p class="direct-chat-timestamp"><time datetime="'+  d.year  +'">'+ d.hourMin+'</time></p>' +
+ 						'</div></div>';    	            	  					    	            	  
+    	            	 $("#direct-chat").append(newmsg);
+    	              }
+    	                 
+    	           }else{
+    	              console.warn("unknown type!")
+    	           }
+    	        }
+    	     }
+   		 }
+   	    document.addEventListener("keypress", function(e){
+      	        if(e.keyCode == 13){ //enter press
+      	           send();
+      	        }
+      	 });
+    		
+    	 function send() {
+    	      
+    	      var d = new Date();
+    	      var option ={
+    	         type: "message",
+    	         sessionId : $("#sessionId").val(),
+    	         userName : "${leagueAccountVO.id}",
+    	         room : room,
+    	         msg : $("#chat").val(),
+    	         tier : "${leagueAccountVO.tier}",
+    	         year : String(d.getFullYear()),
+    	         hourMin : String(d.getHours()) + ":" + String(d.getMinutes())     	   
+    	      }
+    	      console.log(option)
+    	      ws.send(JSON.stringify(option))
+    	      $('#chat').val("");
+    	   }
+ 
+ 
+//-----------------------------------------------------------------
 		xtime = ~~(Date. now() / 1000) - 1631215740  
 		
 		
@@ -86,7 +278,7 @@
 		
 		stockNameMap = {}
 		
-		
+		userId ="${userVO.id}"
 		box_info = {}
 		box_info["one"] =  {"symbol" : null,
 				"type" : "candlestick",
@@ -128,7 +320,7 @@
 		
 					
 	
-		function start(box){
+		function start2(box){
 			$('#modal-center-dates').modal('show');						
 			clicked_box = box;				
 		}
@@ -202,10 +394,7 @@
 			    $("#box-" + box + " .marketPrice").css("color" , "black")
 			  }
 			});
-		  
-		
-			
-			
+		  	
 			$("#box-" + box + " .marketChangePercent").html(result.marketChangePercent);
 			$("#box-" + box + " .marketVolume").html(result.marketVolume);
 			$("#box-" + box + " .bid").html(result.bid + "/" + result.bidSize );
@@ -263,7 +452,7 @@
 	      			}
 				})
 				
-		}
+			}
 			
 			
 			
@@ -422,12 +611,12 @@
 	      			
 	      			dataDict[symbol] = data
 	      																		
-					console.log( "newSymbol : " +   symbol)					
+					console.log( "newSymbol : " +   symbol)
 					let chartId = "chart_" +  symbol																																			
 					let chartDiv = document.createElement("div");									
-					chartDiv.id = chartId									
+					chartDiv.id = chartId
 					chartDiv.classList.add("col-xl-8");
-					chartDiv.classList.add("col-12");					
+					chartDiv.classList.add("col-12");
 					let chartBody = document.querySelector(".box-" + box + "-body .chart .chart-row" );					
 					chartBody.appendChild(chartDiv);
 					
@@ -746,28 +935,306 @@
 					}
 				}						
 			}			
+			
+/* 			<!-- modal -->
+			<div class="modal center-modal fade" id="modal-center-chat" tabindex="-1">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">종목 코드 입력</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<p>종목 코드 입력 <br>
+							예시. <br>
+							전체방 : ALL <br>
+							애플 : APPL <br>
+							테슬라 : TSLA <br>
+							</p>
+							
+							<input class="bootstrap-tagsinput bg-transparent" type="text" id="chat-symbol-code">
+						</div>
+						<div class="modal-footer modal-footer-uniform">
+							<button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
+							<button type="button" id="enter-chat" data-bs-dismiss="modal" class="btn btn-primary float-end">확인</button>
+						</div>
+					</div>
+				</div>
+			</div>	 */
+		var ws;	
+		var chattingToggle = 1;
 		
-		$(document).ready(function() {
+	
+
+		// Define MediaStreams callbacks.
+
+		// Sets the MediaStream as the video element src.
+		function gotLocalMediaStream(mediaStream) {
+		  localVideo.srcObject = mediaStream;
+		  localStream = mediaStream;
+		  trace('Received local stream.');
+		  callButton.disabled = false;  // Enable call button.
+		}
+
+		// Handles error by logging a message to the console.
+		function handleLocalMediaStreamError(error) {
+		  trace(`navigator.getUserMedia error: ${error.toString()}.`);
+		}
+
+		// Handles remote MediaStream success by adding it as the remoteVideo src.
+		function gotRemoteMediaStream(event) {
+		  const mediaStream = event.stream;
+		  remoteVideo.srcObject = mediaStream;
+		  remoteStream = mediaStream;
+		  trace('Remote peer connection received remote stream.');
+		}
+
+
+		// Add behavior for video streams.
+
+		// Logs a message with the id and size of a video element.
+		function logVideoLoaded(event) {
+		  const video = event.target;
+		  trace(`${video.id} videoWidth: ${video.videoWidth}px, ` +
+		        `videoHeight: ${video.videoHeight}px.`);
+		}
+
+		// Logs a message with the id and size of a video element.
+		// This event is fired when video begins streaming.
+		function logResizedVideo(event) {
+		  logVideoLoaded(event);
+
+		  if (startTime) {
+		    const elapsedTime = window.performance.now() - startTime;
+		    startTime = null;
+		    trace(`Setup time: ${elapsedTime.toFixed(3)}ms.`);
+		  }
+		}
+
+		// Connects with new peer candidate.
+		function handleConnection(event) {
+		  const peerConnection = event.target;
+		  const iceCandidate = event.candidate;
+
+		  if (iceCandidate) {
+		    const newIceCandidate = new RTCIceCandidate(iceCandidate);
+		    const otherPeer = getOtherPeer(peerConnection);
+
+		    otherPeer.addIceCandidate(newIceCandidate)
+		      .then(() => {
+		        handleConnectionSuccess(peerConnection);
+		      }).catch((error) => {
+		        handleConnectionFailure(peerConnection, error);
+		      });
+
+		    trace(`${getPeerName(peerConnection)} ICE candidate:\n` +
+		          `${event.candidate.candidate}.`);
+		  }
+		}
+
+		// Logs that the connection succeeded.
+		function handleConnectionSuccess(peerConnection) {
+		  trace(`${getPeerName(peerConnection)} addIceCandidate success.`);
+		};
+
+		// Logs that the connection failed.
+		function handleConnectionFailure(peerConnection, error) {
+		  trace(`${getPeerName(peerConnection)} failed to add ICE Candidate:\n`+
+		        `${error.toString()}.`);
+		}
+
+		// Logs changes to the connection state.
+		function handleConnectionChange(event) {
+		  const peerConnection = event.target;
+		  console.log('ICE state change event: ', event);
+		  trace(`${getPeerName(peerConnection)} ICE state: ` +
+		        `${peerConnection.iceConnectionState}.`);
+		}
+
+		// Logs error when setting session description fails.
+		function setSessionDescriptionError(error) {
+		  trace(`Failed to create session description: ${error.toString()}.`);
+		}
+
+		// Logs success when setting session description.
+		function setDescriptionSuccess(peerConnection, functionName) {
+		  const peerName = getPeerName(peerConnection);
+		  trace(`${peerName} ${functionName} complete.`);
+		}
+
+		// Logs success when localDescription is set.
+		function setLocalDescriptionSuccess(peerConnection) {
+		  setDescriptionSuccess(peerConnection, 'setLocalDescription');
+		}
+
+		// Logs success when remoteDescription is set.
+		function setRemoteDescriptionSuccess(peerConnection) {
+		  setDescriptionSuccess(peerConnection, 'setRemoteDescription');
+		}
+
+		// Logs offer creation and sets peer connection session descriptions.
+		function createdOffer(description) {
+		  trace(`Offer from localPeerConnection:\n${description.sdp}`);
+
+		  trace('localPeerConnection setLocalDescription start.');
+		  localPeerConnection.setLocalDescription(description)
+		    .then(() => {
+		      setLocalDescriptionSuccess(localPeerConnection);
+		    }).catch(setSessionDescriptionError);
+
+		  trace('remotePeerConnection setRemoteDescription start.');
+		  remotePeerConnection.setRemoteDescription(description)
+		    .then(() => {
+		      setRemoteDescriptionSuccess(remotePeerConnection);
+		    }).catch(setSessionDescriptionError);
+
+		  trace('remotePeerConnection createAnswer start.');
+		  remotePeerConnection.createAnswer()
+		    .then(createdAnswer)
+		    .catch(setSessionDescriptionError);
+		}
+
+		// Logs answer to offer creation and sets peer connection session descriptions.
+		function createdAnswer(description) {
+		  trace(`Answer from remotePeerConnection:\n${description.sdp}.`);
+
+		  trace('remotePeerConnection setLocalDescription start.');
+		  remotePeerConnection.setLocalDescription(description)
+		    .then(() => {
+		      setLocalDescriptionSuccess(remotePeerConnection);
+		    }).catch(setSessionDescriptionError);
+
+		  trace('localPeerConnection setRemoteDescription start.');
+		  localPeerConnection.setRemoteDescription(description)
+		    .then(() => {
+		      setRemoteDescriptionSuccess(localPeerConnection);
+		    }).catch(setSessionDescriptionError);
+		}
+
+
+		// Handles start button action: creates local MediaStream.
+		function startAction() {
+		  startButton.disabled = true;
+		  navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
+		    .then(gotLocalMediaStream).catch(handleLocalMediaStreamError);
+		  trace('Requesting local stream.');
+		}
+
+		// Handles call button action: creates peer connection.
+		function callAction() {
+		  callButton.disabled = true;
+		  hangupButton.disabled = false;
+
+		  trace('Starting call.');
+		  startTime = window.performance.now();
+
+		  // Get local media stream tracks.
+		  const videoTracks = localStream.getVideoTracks();
+		  const audioTracks = localStream.getAudioTracks();
+		  if (videoTracks.length > 0) {
+		    trace(`Using video device: ${videoTracks[0].label}.`);
+		  }
+		  if (audioTracks.length > 0) {
+		    trace(`Using audio device: ${audioTracks[0].label}.`);
+		  }
+
+		  const servers = null;  // Allows for RTC server configuration.
+
+		  // Create peer connections and add behavior.
+		  localPeerConnection = new RTCPeerConnection(servers);
+		  trace('Created local peer connection object localPeerConnection.');
+
+		  localPeerConnection.addEventListener('icecandidate', handleConnection);
+		  localPeerConnection.addEventListener(
+		    'iceconnectionstatechange', handleConnectionChange);
+
+		  remotePeerConnection = new RTCPeerConnection(servers);
+		  trace('Created remote peer connection object remotePeerConnection.');
+
+		  remotePeerConnection.addEventListener('icecandidate', handleConnection);
+		  remotePeerConnection.addEventListener(
+		    'iceconnectionstatechange', handleConnectionChange);
+		  remotePeerConnection.addEventListener('addstream', gotRemoteMediaStream);
+
+		  // Add local stream to connection and create offer to connect.
+		  localPeerConnection.addStream(localStream);
+		  trace('Added local stream to localPeerConnection.');
+
+		  trace('localPeerConnection createOffer start.');
+		  localPeerConnection.createOffer(offerOptions)
+		    .then(createdOffer).catch(setSessionDescriptionError);
+		}
+
+		// Handles hangup action: ends up call, closes connections and resets peers.
+		function hangupAction() {
+		  localPeerConnection.close();
+		  remotePeerConnection.close();
+		  localPeerConnection = null;
+		  remotePeerConnection = null;
+		  hangupButton.disabled = true;
+		  callButton.disabled = false;
+		  trace('Ending call.');
+		}
+		
+
+		// Gets the "other" peer connection.
+		function getOtherPeer(peerConnection) {
+		  return (peerConnection === localPeerConnection) ?
+		      remotePeerConnection : localPeerConnection;
+		}
+
+		// Gets the name of a certain peer connection.
+		function getPeerName(peerConnection) {
+		  return (peerConnection === localPeerConnection) ?
+		      'localPeerConnection' : 'remotePeerConnection';
+		}
+
+		// Logs an action (text) and the time when it happened on the console.
+		function trace(text) {
+		  text = text.trim();
+		  const now = (window.performance.now() / 1000).toFixed(3);
+
+		  console.log(now, text);
+		}
+
+		$(document).ready(function() {			
+
+			
+				 	$('#send-msg').click(function(){
+						send();
+					}) 					
+					/*  var ws;
+			 		 function enterChatServer(symbol){
+			 			 alert('${stockSummaryList}')
+			 		 } */
+					$("#enter-chat").click(function(){
+						enterChatServer($("#chat-symbol-code").val())
+						$("#chat-symbol-code").val("")
+					})
+					
+					removechatbox()
+				
+					
+			
 					$("#box-one").hide()
 					$("#box-two").hide()
 					$("#box-three").hide()
-					$(".box-header").hide()
+					$(".box-header").hide()     
 					$(".hide-toggle").hide()					
 					stockNameMap =  '${stockNameMap}'					
 					stockNameMap  = JSON.parse(stockNameMap);
-					
-				
+								
 					let fullMsg = '${msg}'
 					if (fullMsg != null && fullMsg != "") {
 						myAlarm(fullMsg)
-					}									
-					let chartbox = document.querySelector("#chartbox")
+					}
 					
+					
+					let chartbox = document.querySelector("#chartbox")					
 					$('#add-symbol').click(function(){
-
 						if(! Object.keys(stockNameMap ).includes($("#symbol-code").val()) ){
 							myAlarm("warning:실패:존재 하지 않는 종목 입니다.");							
-						} else if (  allSymbols.includes($("#symbol-code").val() )      ){
+						} else if (  allSymbols.includes($("#symbol-code").val())){
 							myAlarm("warning:실패:이미 화면에 존재 합니다.");
 						}else{
 							var newSymbol = $("#symbol-code").val()	
@@ -994,15 +1461,84 @@
 					$('#box-three').show()
 
 				})
+				
+	
 			})
 			
+
 			
-			
+if('${userVO.id}' == 'hmchung1005'  ){
+	alert("${userVO.id}")
+	
+	
+	const mediaStreamConstraints = {
+		  video: true,
+		};
+
+	// Set up to exchange only video.
+	const offerOptions = {
+	  offerToReceiveVideo: 1,
+	};
+	
+	let startTime = null;
+
+	// Define peer connections, streams and video elements.
+	const localVideo = document.getElementById('localVideo');
+	const remoteVideo = document.getElementById('remoteVideo');
+
+	let localStream;
+	let remoteStream;
+
+	let localPeerConnection;
+	let remotePeerConnection;
+
+
+
+
+	localVideo.addEventListener('loadedmetadata', logVideoLoaded);
+	remoteVideo.addEventListener('loadedmetadata', logVideoLoaded);
+	remoteVideo.addEventListener('onresize', logResizedVideo);
+
+
+
+
+	// Define and add behavior to buttons.
+
+	// Define action buttons.
+	const startButton = document.getElementById('startButton');
+	const callButton = document.getElementById('callButton');
+	const hangupButton = document.getElementById('hangupButton');
+
+	// Set up initial action buttons status: disable call and hangup.
+	callButton.disabled = true;
+	hangupButton.disabled = true;
+	
+	
+}else{
+	let startTime = null;
+	const remoteVideo = document.getElementById('remoteVideo');
+	let remoteStream;
+	let remotePeerConnection;
+	remoteVideo.addEventListener('loadedmetadata', logVideoLoaded);
+	remoteVideo.addEventListener('onresize', logResizedVideo);
+	
+	const startButton = document.getElementById('startButton');
+	const callButton = document.getElementById('callButton');
+	const hangupButton = document.getElementById('hangupButton');
+
+	// Set up initial action buttons status: disable call and hangup.
+	callButton.disabled = true;
+	hangupButton.disabled = true;
+	
+}		  
+		
 			
 </script>
-
+  
 </head>
 <body class="hold-transition light-skin sidebar-mini theme-primary fixed">
+
+    
 	<div class="wrapper">
 		<div id="loader"></div>
 		<header class="main-header">
@@ -1016,9 +1552,12 @@
 	<div class="content-wrapper">
 		<div class="container-full">
 			<!-- Main content -->
+	<!-- 	<iframe src="http://localhost:3000/55228794-6d25-49f9-a82d-802dc6dc9b8c" allow="camera;microphone" ></iframe> -->
+			
+			
+			
 			<section class="content">
 				<div class="row">
-
 					<div class="col-12">
 						<div class="box">
 							<div class="box-body tickers-block">
@@ -1039,38 +1578,51 @@
 						</div>
 					</div>
 				</div>
-				<div class="row mb-10 p-10">
-					<div class="col-md-1">
-						<div class="dropdown">
-							<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">레이아웃</button>
-							<div class="dropdown-menu dropdown-grid">
-								<a id="one" class="dropdown-item" href="#">
-									<span class="icon ti-layout-width-full"></span> <span class="title"></span>
-								</a>
-								<a id="two-vertical" class="dropdown-item" href="#">
-									<span class="icon ti-layout-column2"></span> <span class="title"></span>
-								</a>
-								<a id="three-vertical" class="dropdown-item" href="#">
-									<span class="icon ti-layout-column3"></span> <span class="title"></span>
-								</a>
-								<a id="two-horizontal" class="dropdown-item" href="#">
-									<span class="icon ti-layout-column2 fa-rotate-90"></span> <span class="title"></span>
-								</a>
-								<a id="three-horizontal" class="dropdown-item" href="#">
-									<span class="icon ti-layout-column3 fa-rotate-90"></span> <span class="title"></span>
-								</a>
+				<div class="row">
+					<div class="col-md-3 left-col">
+<!-- <button id="modal-two" type="button" class="enlarged-btn waves-effect waves-light btn btn-light mb-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('two')">
+ -->					
+						<button class="waves-effect waves-light btn btn-light mb-5" id="trigger-chat" type="button" data-bs-toggle="modal" data-bs-target="#modal-center-chat">채팅</button>
+						<button class="btn btn-danger btn-flat mb-5 btn-xs remove-chat" id="close-chat" onclick="removechatbox()"><i class="fa fa-remove"></i></button>
+					</div>
+					
+					
+					<div class="col-md-12 right-col">
+						
+							<div class="col-md-1">
+								<div class="dropdown">
+									<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">레이아웃</button>
+									<div class="dropdown-menu dropdown-grid">
+										<a id="one" class="dropdown-item" href="#">
+											<span class="icon ti-layout-width-full"></span> <span class="title"></span>
+										</a>
+										<a id="two-vertical" class="dropdown-item" href="#">
+											<span class="icon ti-layout-column2"></span> <span class="title"></span>
+										</a>
+										<a id="three-vertical" class="dropdown-item" href="#">
+											<span class="icon ti-layout-column3"></span> <span class="title"></span>
+										</a>
+										<a id="two-horizontal" class="dropdown-item" href="#">
+											<span class="icon ti-layout-column2 fa-rotate-90"></span> <span class="title"></span>
+										</a>
+										<a id="three-horizontal" class="dropdown-item" href="#">
+											<span class="icon ti-layout-column3 fa-rotate-90"></span> <span class="title"></span>
+										</a>
+									</div>
+								</div>
 							</div>
-						</div>
+				
 					</div>
 				</div>
-				<div id="chart-area">
-
-					<div class="row show-grid">						
-						<div class="col-md-3">
-							<jsp:include page="/resources/hts/directChat.jsp" />						
-						</div>
-
-						<div class="col-md-9">
+				<div class="row" id="full-content">
+					<div class="col-md-3 left-col">
+						<jsp:include page="/resources/hts/directChat.jsp" />
+					</div>
+					<div class="col-md-12 right-col">
+						<div id="chart-area">
+							<div class="row" id="row-chat">
+								<div class="col" id="row-chat-col"></div>
+							</div>
 							<div class="row" id="row-one">
 								<div class="col" id="row-one-col"></div>
 							</div>
@@ -1090,10 +1642,9 @@
 						</div>
 					</div>
 				</div>
-		</div>
 
 
-		<div hidden="true" id="e_chart_2" class="" style="height: 285px;"></div>
+				<div hidden="true" id="e_chart_2" class="" style="height: 285px;"></div>
 				<div class="box" id="box-one">
 					<div class="box-header with-border box-one-header">
 						<div class="btn-group">
@@ -1117,7 +1668,10 @@
 							</div>
 						</div>
 						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-one" onclick="start('one')">
-							날짜 변경 <i class="fa fa-play"></i>
+							날짜 설정
+						</button>
+						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="chatServer('one')">
+							종목 채팅방 입장
 						</button>
 					</div>
 					<h4 class="box-title"></h4>
@@ -1167,7 +1721,10 @@
 							</div>
 						</div>
 						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-two" onclick="start('two')">
-							날짜 변경 <i class="fa fa-play"></i>
+						날짜 설정
+						</button>
+						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="chatServer('two')">
+							종목 채팅방 입장
 						</button>
 					</div>
 					<h4 class="box-title"></h4>
@@ -1217,7 +1774,10 @@
 							</div>
 						</div>
 						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="start('three')">
-							날짜 변경 <i class="fa fa-play"></i>
+							날짜 설정
+						</button>
+						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="chatServer('three')">
+							종목 채팅방 입장
 						</button>
 					</div>
 					<h4 class="box-title"></h4>
@@ -1244,15 +1804,27 @@
 						</div>
 					</div>
 				</div>
+				
+<!-- 			---------------------------------------------------------------------------------------->
+				
+<!-- 			---------------------------------------------------------------------------------------->
+				
+  <video id="localVideo" autoplay playsinline></video>
+  <video id="remoteVideo" autoplay playsinline></video>
+
+  <div>
+    <button id="startButton">Start</button>
+    <button id="callButton">Call</button>
+    <button id="hangupButton">Hang Up</button>
+  </div>
+				
 			</section>
 		</div>
 	</div>
+<!-- 
+http://localhost:8080/
 
-
-
-
-
-	<footer class="main-footer">
+ -->	<footer class="main-footer">
 		<jsp:include page="/resources/dash/include/footer.jsp" />
 		&copy; 2021
 		<a href="https://www.multipurposethemes.com/">Multipurpose Themes</a>
@@ -1275,7 +1847,7 @@
 				</div>
 				<div class="modal-body">
 					<p>종목 코드 입력</p>
-					<input class="mt-5" type="text" id="symbol-code">
+					<input class="bootstrap-tagsinput bg-transparent" type="text" id="symbol-code">
 				</div>
 				<div class="modal-footer modal-footer-uniform">
 					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
@@ -1284,6 +1856,33 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- modal -->
+	<div class="modal center-modal fade" id="modal-center-chat" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">종목 코드 입력</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>종목 코드 입력 <br>
+					예시. <br>
+					전체방 : ALL <br>
+					애플 : APPL <br>
+					테슬라 : TSLA <br>
+					</p>
+					<input class="bootstrap-tagsinput bg-transparent" type="text" id="chat-symbol-code">
+				</div>
+				<div class="modal-footer modal-footer-uniform">
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
+					<button type="button" id="enter-chat" data-bs-dismiss="modal" class="btn btn-primary float-end">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
 
 	<!-- modal -->
 
@@ -1296,21 +1895,21 @@
 				</div>
 				<div class="modal-body">
 					<p>날짜 입력</p>
-					<div class="row">
-						<div class=".col-md-1">
-							<input class="stock-time mt-5" type="text" id="stock-year" placeholder="연 ex. 2021">
+					<div class="col-md-4">
+						<div class="ml-1">
+							<input class="form-control my-colorpicker1 colorpicker-element stock-time" type="text" id="stock-year" placeholder="연 ex. 2021">
 						</div>
-						<div class=".col-md-1">
-							<input class="stock-time" type="text" id="stock-month" placeholder="월 ex. 09">
+						<div class="ml-1">
+							<input class="form-control my-colorpicker1 colorpicker-elementstock-time" type="text" id="stock-month" placeholder="월 ex. 09">
 						</div>
-						<div class=".col-md-1">
-							<input class="stock-time" type="text" id="stock-day" placeholder="일 ex. 05">
+						<div class="ml-1">
+							<input class="form-control my-colorpicker1 colorpicker-element stock-time" type="text" id="stock-day" placeholder="일 ex. 05">
 						</div>
-						<div class=".col-md-1">
-							<input class="stock-time" type="text" id="stock-hour" placeholder="시 ex 15">
+						<div class="ml-1">
+							<input class="form-control my-colorpicker1 colorpicker-element stock-time" type="text" id="stock-hour" placeholder="시 ex 15">
 						</div>
-						<div class=".col-md-1">
-							<input class="stock-time" type="text" id="stock-miniute" placeholder="분 ex 32">
+						<div class="ml-1">
+							<input class="form-control my-colorpicker1 colorpicker-element stock-time" type="text" id="stock-miniute" placeholder="분 ex 32">
 						</div>
 					</div>
 				</div>
@@ -1321,7 +1920,6 @@
 			</div>
 		</div>
 	</div>
-
 
 
 
@@ -1355,7 +1953,6 @@
 
 
 
-
 	<!-- alert and notification -->
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/chat-popup.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/icons/feather-icons/feather.min.js"></script>
@@ -1386,6 +1983,7 @@
  --%>
 
 </body>
+
 </html>
 
 

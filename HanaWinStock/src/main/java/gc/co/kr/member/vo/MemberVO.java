@@ -8,6 +8,7 @@ public class MemberVO {
 	private String regDate;
 	private String password;
 	private String name;
+	
 	public String getId() {
 		return id;
 	}

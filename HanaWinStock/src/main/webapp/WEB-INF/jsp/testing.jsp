@@ -35,7 +35,30 @@
 	
 }
 	
-
+/* 	
+	function getRealTimeData() {
+		$.ajax({type : 'get',
+		url : "${pageContext.request.contextPath }/ajax/realTimeStock.json",
+		data : {start : "2021-08-31-17:37:20",
+				end : "2021-08-31-17:40:50",
+				symbols : allSymbols.join(",")
+		},
+		contentType : "application/x-www-form-urlencoded;charset=ISO-8859-15",
+		datatype : 'json',
+		success : function(data) {
+			console.log(data)
+			console.log("success")
+			test = data
+			for(let i in data){
+				allSymbolInfo[ data[i].symbol ] = data[i]
+			}
+		},
+		error : function() {
+			console.log("error")
+			}
+		})
+	}
+ */
 
 </style>
 

@@ -1,3 +1,4 @@
+  
 package gc.co.kr.account.controller;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -143,7 +145,7 @@ public class AccountController {
 	
 	@PostMapping("/leagueSignin")
 	public String leagueAccountDetail(@RequestParam("password") String password , Model model , HttpSession session  ) {
-		System.out.println("league sign in");
+		System.out.println("league sign in~~~~~~~~~");
 		MemberVO userVO  =  (MemberVO)session.getAttribute("userVO");
 		String view;
 		String msg;
@@ -223,11 +225,14 @@ public class AccountController {
 	}
 		
 	@GetMapping("/hts")
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	public String getHTC(Model model) {
+		System.out.println("hts~~~~~~~~~~~~~");
 		List<StockSummaryVO> stockSummaryList = null;
 		List<StockNameVO> stockNameList =  summaryService.selectAllStockNames();
 		List<String>  symbols= new ArrayList<String>();
 		if(stockNameList != null && stockNameList.size() > 0) {			
+			System.out.println("StockNamelist  > 0 ");
 			for(StockNameVO stock : stockNameList) {
 				symbols.add(stock.getSymbol());
 			}			
@@ -246,8 +251,6 @@ public class AccountController {
 		model.addAttribute("stockSummaryList" , stockSummaryList);				
 		return "gcaccount/hts";
 	}
-	
-	
 	
 	
 	

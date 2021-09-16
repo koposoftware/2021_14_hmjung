@@ -50,6 +50,12 @@
         </property>
     </bean>
 	
+    <websocket:handlers allowed-origins="*">
+        <websocket:mapping path="/account/hts/*" handler="chatting"/>
+<!--         <websocket:mapping path="/account/hts/*" handler="chatting2"/> -->
+    </websocket:handlers> 
+     <bean id="chatting" class="gc.co.kr.chating.handler.SocketHandler"/>
+<!-- 	<bean id="chatting" class="gc.co.kr.webrtc.SocketHandler"/> -->
 	
 	
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> 
@@ -74,11 +80,10 @@
 	</bean>	
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 	
-	<websocket:handlers>
-		<websocket:mapping handler="chattingHandler" path="/chatting"/>
-		<websocket:sockjs></websocket:sockjs>
-	</websocket:handlers>
-	<bean id="chattingHandler" class="gc.co.kr.practice.handler.ChattingHandler"/>
+<!-- 	<websocket:handlers allowed-origins="*">
+        <websocket:mapping path="/chatting/*" handler="chatting"/>
+    </websocket:handlers>
+    <bean id="chatting" class="gc.co.kr.practice.handler.SocketHandler"/> -->
 	  
 	<bean class="gc.co.kr.interceptor.SigninInterceptor" id="signinInterceptor" />
 	<bean class="gc.co.kr.interceptor.SignoutInterceptor" id="signoutInterceptor" />

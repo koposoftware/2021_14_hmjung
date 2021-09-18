@@ -1,6 +1,7 @@
 package gc.co.kr.leagueAccount;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -37,5 +38,13 @@ public class LeagueAccountDAOImpl implements LeagueAccountDAO{
 		System.out.println("creating league acc");
 		int row = session.insert("account.AccountDAO.createLeagueAcc" , leagueAccountVO);		
 		return row;
+	}
+
+	@Override 
+	public void transactLeagueStock(Map<String, Object> params) {
+		// TODO Auto-generated method stub
+		session.update("account.AccountDAO.transactAccountLeague", params);
+		session.update("account.AccountDAO.transactAccountStock", params);
+		session.insert("account.AccountDAO.transactAccountStockLog" , params);
 	}
 }

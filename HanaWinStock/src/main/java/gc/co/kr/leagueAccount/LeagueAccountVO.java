@@ -2,7 +2,7 @@ package gc.co.kr.leagueAccount;
 
 public class LeagueAccountVO {
 	private String id;
-	private int balance;
+	private double balance;
 	private String regDate;
 	private String tier;
 	private int followPrice;		
@@ -16,10 +16,10 @@ public class LeagueAccountVO {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public float getBalance() {
+	public double getBalance() {
 		return balance;
 	}
-	public void setBalance(int balance) {
+	public void setBalance(double balance) {
 		this.balance = balance;
 	}
 	public String getRegDate() {

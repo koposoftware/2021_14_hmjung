@@ -23,6 +23,20 @@
 		<result column="follow_price" property="followPrice"></result>		
 	</resultMap>
 	
+	<resultMap type="accountStockVO" id="accountStockMap">
+		<result column="gca_number" property="gcaNumber"></result>
+		<result column="total_counts" property="totalCounts"></result>
+		<result column="spent_total" property="spentTotal"></result>
+		<result column="earned_total" property="earnedTotal"></result>	
+	</resultMap>
+	
+	<resultMap type="accountStockLogVO" id="accountStockLogMap">
+		<result column="gca_number" property="gcaNumber"></result>
+		<result column="pre_balance" property="preBalance"></result>
+		<result column="moment_price" property="momentPrice"></result>
+	</resultMap>
+	
+	
 	
 	
 	<select id="selectLeagueAcc" resultMap="leagueAccountMap" parameterType="string">
@@ -60,5 +74,47 @@
 		select gca_number, nick, id, gca_password, balance, to_char(reg_date , 'yyyy-mm-dd') as reg_date
 		from gc_account
 		where id = #{id , jdbcType=VARCHAR} and gca_number = #{gcaNumber, jdbcType=VARCHAR} and gca_password = #{gcaPassword, jdbcType=VARCHAR}		
-	</select>		
+	</select>
+	
+	
+	<update id="transactAccount" parameterType="hashMap">
+		UPDATE GC_ACCOUNT SET BALANCE = BALANCE + #{totalPrice}  WHERE gca_number = #{gcaNumber}
+	</update>	
+
+	
+	<update id="transactAccountLeague" parameterType="hashMap">
+		 UPDATE GC_LEAGUE SET BALANCE = BALANCE + #{totalPrice}  WHERE ID = #{gcaNumber}
+	</update >
+
+	
+	<update id="transactAccountStock" parameterType="hashMap">
+		  MERGE INTO 
+	         gc_account_stock
+	    USING DUAL 
+	        ON (gca_number  = #{gcaNumber} AND symbol  = #{symbol})
+	    WHEN MATCHED THEN    
+	        UPDATE SET  
+	            total_counts= total_counts + #{counts},
+	            SPENT_TOTAL = SPENT_TOTAL -  LEAST( #{totalPrice} , 0) ,
+	            EARNED_TOTAL = EARNED_TOTAL + GREATEST( #{totalPrice} , 0)              
+	    WHEN NOT MATCHED THEN
+	        INSERT 
+	            (GCA_NUMBER, SYMBOL, TOTAL_COUNTS , SPENT_TOTAL, EARNED_TOTAL)
+	        VALUES
+	            (#{gcaNumber} , #{symbol} ,  #{counts}  , ABS(#{totalPrice})  , 0  )	
+	</update>
+	
+	<insert id="transactAccountStockLog" parameterType="hashMap">
+		  INSERT INTO GC_ACCOUNT_STOCK_LOG(GCA_NUMBER,SYMBOL,ACTION,PRE_BALANCE,POST_BALANCE,COUNTS,MOMENT_PRICE)
+	    VALUES( #{gcaNumber} , #{symbol} , #{action} , #{preBalance} , #{preBalance}  +  #{totalPrice}, ABS(#{counts})  ,#{price} )
+	</insert>
+	
+
+	<select id="getAllAccountStockVO" parameterType="string" resultMap="accountStockMap">
+		select * from gc_account_stock where gca_number = #{key}	
+	</select>	
+		
+	
+	
+			
 </mapper>

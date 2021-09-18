@@ -22,9 +22,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 import gc.co.kr.account.service.AccountService;
+import gc.co.kr.account.vo.AccountStockVO;
 import gc.co.kr.account.vo.AccountVO;
 import gc.co.kr.leagueAccount.LeagueAccountService;
 import gc.co.kr.leagueAccount.LeagueAccountVO;
@@ -46,8 +49,8 @@ public class AccountController {
 	
 	@Autowired
 	private StockSummaryService summaryService;
-	
 
+	ObjectMapper mapper = new ObjectMapper();
 	
 	@GetMapping("/contract")
 	public String getContract() {
@@ -129,7 +132,10 @@ public class AccountController {
 			System.out.println(msg);
 		}else {
 			session.setAttribute("accountVO", accountVO);
-			System.out.println("setting user account");
+			session.setAttribute("accountType" , "accountVO");
+			session.setAttribute("accountKey" , accountVO.getGcaNumber());
+			
+			
 			String dest = (String) session.getAttribute("dest2");
 			if (dest != null) {
 				session.removeAttribute("dest");
@@ -162,9 +168,10 @@ public class AccountController {
 				view = showAllAccounts(model, session);
 				model.addAttribute("msg" , msg);
 				System.out.println( msg);
-			}else {
+			}else {	
 				session.setAttribute("leagueAccountVO", leagueAccountVO);
-				System.out.println("setting user league Account");
+				session.setAttribute("accountType" , "leagueAccountVO");
+				session.setAttribute("accountKey" , userVO.getId() );
 				String dest = (String) session.getAttribute("dest2");
 				if(dest != null) {
 					view = "redirect:" + dest;
@@ -172,26 +179,24 @@ public class AccountController {
 				}else {
 					view = "redirect:/";					
 				}
-				System.out.println("성공");
-				
+				System.out.println("성공");				
 			}
-		}
-		
+		}		
 		System.out.println("post viewleagueaccounts : " + view);
 		return view;
 	}
 	
 	
+	@GetMapping("/signOut")
+	public String accountSignOut(HttpServletRequest request  , HttpSession session) {
+		
+		session.removeAttribute("accountVO");
+		session.removeAttribute("leagueAccountVO");
+		String referer = request.getHeader("Referer");
+	    return "redirect:"+ referer;	
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	@PostMapping("/createLeagueAcc")
 	public String createLeagueAcc(Model model ,  HttpSession session) {
 		System.out.println("creating new League Account");
@@ -226,31 +231,61 @@ public class AccountController {
 		
 	@GetMapping("/hts")
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	public String getHTC(Model model) {
+	public String getHTC(Model model , HttpSession session) {
 		System.out.println("hts~~~~~~~~~~~~~");
 		List<StockSummaryVO> stockSummaryList = null;
 		List<StockNameVO> stockNameList =  summaryService.selectAllStockNames();
 		List<String>  symbols= new ArrayList<String>();
 		if(stockNameList != null && stockNameList.size() > 0) {			
-			System.out.println("StockNamelist  > 0 ");
 			for(StockNameVO stock : stockNameList) {
 				symbols.add(stock.getSymbol());
 			}			
 			stockSummaryList = summaryService.selectCurrentStockSummary(symbols);			
-		}
-		
+		}		
 		Map<String, String> stockNameMap = new HashMap<String, String>();
 		
 		for( StockNameVO stock : stockNameList   ) {
 			stockNameMap.put(stock.getSymbol() , stock.getLongName() );
-		}
-				
+		}				
 		Gson gson = new Gson();
         String serializeString = gson.toJson(stockNameMap);
         model.addAttribute("stockNameMap" , serializeString);			
-		model.addAttribute("stockSummaryList" , stockSummaryList);				
+		model.addAttribute("stockSummaryList" , stockSummaryList);
+		String accountType = (String) session.getAttribute("accountType");
+		String accountKey = (String) session.getAttribute("accountKey");		
+		String userAccountInfo = getAccountInfo(accountType, accountKey);		
+		model.addAttribute("userAccountInfo" , userAccountInfo);		
 		return "gcaccount/hts";
 	}
+
+	
+	public String getAccountInfo(String accountType, String accountKey ){
+		HashMap <String , Object> result = new HashMap<String,Object>();			
+		if(accountType != null && accountType.equals("accountVO")) {
+			result.put("accountType", "accountVO");			
+			AccountVO account = service.selectByAccNum(accountKey);
+			result.put("account", account);										
+		}else if(accountType != null && accountType.equals("leagueAccountVO")) {
+			result.put("accountType", "leagueAccountVO");
+			LeagueAccountVO leagueAccountVO = leagueService.selectLeagueAcc(accountKey);
+			result.put("account", leagueAccountVO );				
+		}
+		List<AccountStockVO> list = service.getAllAccountStockVO( accountKey );	
+		result.put("stockList", list);	
+		String json = null;
+		try {
+			  json = mapper.writeValueAsString(result);
+			  System.out.println("ResultingJSONstring = " + json);
+			  //System.out.println(json);
+			} catch (JsonProcessingException e) {
+			   e.printStackTrace();
+		}
+		return json;
+	}
+	
+	
+	
+	
 	
 	
 	

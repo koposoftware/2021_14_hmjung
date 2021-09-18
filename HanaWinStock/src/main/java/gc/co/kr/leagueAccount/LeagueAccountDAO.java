@@ -1,6 +1,7 @@
 package gc.co.kr.leagueAccount;
 
 import java.util.List;
+import java.util.Map;
 
 public interface LeagueAccountDAO {
 	
@@ -9,5 +10,8 @@ public interface LeagueAccountDAO {
 	List<LeagueFollowVO> selectFollowers(String userID);
 	
 	int createLeagueAcc(LeagueAccountVO leagueAccountVO);
+		
+	void transactLeagueStock(Map<String, Object> params);
+		
 	
 }

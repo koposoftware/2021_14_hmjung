@@ -4,7 +4,7 @@ public class AccountVO {
 	private String gcaNumber;
 	private String id;
 	private String gcaPassword;
-	private int balance;
+	private double balance;
 	private String regDate;
 	private String nick;
 	
@@ -45,12 +45,12 @@ public class AccountVO {
 		this.gcaPassword = gcaPassword;
 	}
 	
-	public int getBalance() {
+	public double getBalance() {
 		return balance;
 	}
 	
-	public void setBalance(int balance) {
-		this.balance = balance;
+	public void setBalance(double f) {
+		this.balance = f;
 	}
 
 	public String getRegDate() {

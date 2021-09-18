@@ -1,6 +1,7 @@
 package gc.co.kr.account.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +9,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import gc.co.kr.account.dao.AccountDAO;
+import gc.co.kr.account.vo.AccountStockVO;
 import gc.co.kr.account.vo.AccountVO;
 
 @Service
 @Transactional
 public class AccountServiceImpl implements AccountService{
+
+	public AccountServiceImpl() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	@Autowired
 	private AccountDAO accountDAO;
@@ -71,6 +78,19 @@ public class AccountServiceImpl implements AccountService{
 	public AccountVO selectByAccNum(String gcaNumber) {
 		AccountVO userAccountVO = accountDAO.selectByAccNum(gcaNumber);
 		return userAccountVO ;
+	}
+
+	@Override
+	public void transact(Map<String, Object> params) {		
+		accountDAO.transactStock(params);
+	}
+
+	@Override
+	public List<AccountStockVO> getAllAccountStockVO(String key) {
+		// TODO Auto-generated method stub
+		List<AccountStockVO> list = accountDAO.getAllAccountStockVO(key);
+		
+		return list;
 	}
 
 

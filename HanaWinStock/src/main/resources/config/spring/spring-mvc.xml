@@ -78,12 +78,7 @@
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"/>
 	</bean>	
-	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
-	
-<!-- 	<websocket:handlers allowed-origins="*">
-        <websocket:mapping path="/chatting/*" handler="chatting"/>
-    </websocket:handlers>
-    <bean id="chatting" class="gc.co.kr.practice.handler.SocketHandler"/> -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>	
 	  
 	<bean class="gc.co.kr.interceptor.SigninInterceptor" id="signinInterceptor" />
 	<bean class="gc.co.kr.interceptor.SignoutInterceptor" id="signoutInterceptor" />

@@ -21,12 +21,7 @@
 <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/style.css">
 <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/skin_color.css">
 <script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/client.js"></script>
-<!--   <script src="https://www.webrtc-experiment.com/one-to-many-video-broadcasting/meeting.js"></script>
-  <script src="https://cdn.firebase.com/v0/firebase.js"></script> -->
-		
-	<script src="${ pageContext.request.contextPath }/resources/main.js"></script>
-	<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+
 <style>
 .enlarged-btn {
 	height: 350px;
@@ -35,13 +30,11 @@
 }
 
 .remove-chart {
-	float: right;	
+	float: right;
 }
-	
 
-
-.remove-chat{
-	float : right;
+.remove-chat {
+	float: right;
 }
 
 
@@ -50,79 +43,12 @@
 
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script> -->
 
-
-
-
-
 <script>
-
-
-/* 	
-	function getRealTimeData() {
-		$.ajax({type : 'get',
-		url : "${pageContext.request.contextPath }/ajax/realTimeStock.json",
-		data : {start : "2021-08-31-17:37:20",
-				end : "2021-08-31-17:40:50",
-				symbols : allSymbols.join(",")
-		},
-		contentType : "application/x-www-form-urlencoded;charset=ISO-8859-15",
-		datatype : 'json',
-		success : function(data) {
-			console.log(data)
-			console.log("success")
-			test = data
-			for(let i in data){
-				allSymbolInfo[ data[i].symbol ] = data[i]
-			}
-		},
-		error : function() {
-			console.log("error")
-			}
-		})
-	}
- */
- 
- 
-//-------------------------------web socket----------------------------------
-/* 						<div class="col-md-12 right-col">
-						<div id="chart-area">
-							<div class="row" id="row-chat">
-								<div class="col" id="row-chat-col"></div>
-							</div>
-							<div class="row" id="row-one">
-								<div class="col" id="row-one-col"></div>
-							</div>
-							<div class="row" id="row-two">
-								<div class="col" id="row-two-col"></div>
-							</div>
-							<div class="row" id="row-three">
-								<div class="col" id="row-three-col"></div>
-							</div>
-							<div class="row" id="row-final">
-								<div class="col-md-4" id="sc-one"></div>
-								<div class="col-md-4" id="sc-two"></div>
-								<div class="col-md-4" id="sc-three"></div>
-								<div class="col-md-6" id="lc-one"></div>
-								<div class="col-md-6" id="lc-two"></div>
-							</div>
-						</div>
-					</div>
-				</div>				
-			$("#three-cross").click(function(){
-					box_counts  = 3;
-					$('#box-one').appendTo('#sc-one');
-					$('#box-one').show()
-					
-					$('#box-two').appendTo('#sc-two');
-					$('#box-two').show()
-					
-					$('#box-three').appendTo("#sc-three");
-					$('#box-three').show()
-
-				})
-			})			 */	
-
-
+//-----------------------------------------------------------------
+									
+		userAccountInfo = JSON.parse('${userAccountInfo}')
+			
+			
 		function chatServer(box){
 			enterChatServer(box_info[box]['symbol'])			
 			$('#box-' + box).appendTo('row-chat-col')
@@ -152,11 +78,11 @@
 			
 			$('.left-col').each(function(){
 				$(this).removeClass('col-xs-12');
-				$(this).addClass('col-md-3');				
+				$(this).addClass('col-md-5');				
 			})
 			$('.right-col').each(function(){
 				$(this).removeClass('col-md-12')
-				$(this).addClass('col-md-9')				
+				$(this).addClass('col-md-7')				
 			})
 			$('.full-chat-box').hide()
 			$('.full-chat-box').show()
@@ -167,11 +93,11 @@
  			$('#close-chat').hide()
  			$('#direct-chat').empty()
  			$('.left-col').each(function(){
- 				$(this).removeClass('col-md-3');
+ 				$(this).removeClass('col-md-5');
  				$(this).addClass('col-xs-12');
  			})
  			$('.right-col').each(function(){
- 				$(this).removeClass('col-md-9')
+ 				$(this).removeClass('col-md-7')
  				$(this).addClass('col-md-12')
  			})
  			$('.full-chat-box').hide()
@@ -216,7 +142,7 @@
     	              }else{
     	            	  var newmsg ='<div class="direct-chat-msg mb-30">'+
     	            	  '<div class="clearfix mb-15">' +
-							'<span class="direct-chat-name">James Anderson</span>' + 
+							'<span class="direct-chat-name">'+   d.userName+ '</span>' + 
 						  '</div>' +
  						'<img class="direct-chat-img avatar" src="${ pageContext.request.contextPath }/resources/images/user1-128x128.jpg" alt="message user image">'+
  						' <div class="direct-chat-text">' +
@@ -406,6 +332,7 @@
 			$("#box-" + box + " .epsForward").html(result.epsForward);			
 		}
 
+
 		
 		
 		function candlefirstrun( symbol , tic , type  , box){
@@ -576,8 +503,7 @@
 			}
 		}
 		
-
-			
+		
 		
 		function getinitdata( box , symbol ){
 			
@@ -936,266 +862,26 @@
 				}						
 			}			
 			
-/* 			<!-- modal -->
-			<div class="modal center-modal fade" id="modal-center-chat" tabindex="-1">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">종목 코드 입력</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-							<p>종목 코드 입력 <br>
-							예시. <br>
-							전체방 : ALL <br>
-							애플 : APPL <br>
-							테슬라 : TSLA <br>
-							</p>
-							
-							<input class="bootstrap-tagsinput bg-transparent" type="text" id="chat-symbol-code">
-						</div>
-						<div class="modal-footer modal-footer-uniform">
-							<button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
-							<button type="button" id="enter-chat" data-bs-dismiss="modal" class="btn btn-primary float-end">확인</button>
-						</div>
-					</div>
-				</div>
-			</div>	 */
+		
+		stockNameMap =  '${stockNameMap}'					
+		stockNameMap  = JSON.parse(stockNameMap)
+		
+		
+		function printLongName(symbol , box){
+			var longName = stockNameMap[symbol] 	
+			$('#box-' + box  + " .box-title").html(longName)
+			
+		}
+		
+		
+			
+		
 		var ws;	
 		var chattingToggle = 1;
+
+	
 		
 	
-
-		// Define MediaStreams callbacks.
-
-		// Sets the MediaStream as the video element src.
-		function gotLocalMediaStream(mediaStream) {
-		  localVideo.srcObject = mediaStream;
-		  localStream = mediaStream;
-		  trace('Received local stream.');
-		  callButton.disabled = false;  // Enable call button.
-		}
-
-		// Handles error by logging a message to the console.
-		function handleLocalMediaStreamError(error) {
-		  trace(`navigator.getUserMedia error: ${error.toString()}.`);
-		}
-
-		// Handles remote MediaStream success by adding it as the remoteVideo src.
-		function gotRemoteMediaStream(event) {
-		  const mediaStream = event.stream;
-		  remoteVideo.srcObject = mediaStream;
-		  remoteStream = mediaStream;
-		  trace('Remote peer connection received remote stream.');
-		}
-
-
-		// Add behavior for video streams.
-
-		// Logs a message with the id and size of a video element.
-		function logVideoLoaded(event) {
-		  const video = event.target;
-		  trace(`${video.id} videoWidth: ${video.videoWidth}px, ` +
-		        `videoHeight: ${video.videoHeight}px.`);
-		}
-
-		// Logs a message with the id and size of a video element.
-		// This event is fired when video begins streaming.
-		function logResizedVideo(event) {
-		  logVideoLoaded(event);
-
-		  if (startTime) {
-		    const elapsedTime = window.performance.now() - startTime;
-		    startTime = null;
-		    trace(`Setup time: ${elapsedTime.toFixed(3)}ms.`);
-		  }
-		}
-
-		// Connects with new peer candidate.
-		function handleConnection(event) {
-		  const peerConnection = event.target;
-		  const iceCandidate = event.candidate;
-
-		  if (iceCandidate) {
-		    const newIceCandidate = new RTCIceCandidate(iceCandidate);
-		    const otherPeer = getOtherPeer(peerConnection);
-
-		    otherPeer.addIceCandidate(newIceCandidate)
-		      .then(() => {
-		        handleConnectionSuccess(peerConnection);
-		      }).catch((error) => {
-		        handleConnectionFailure(peerConnection, error);
-		      });
-
-		    trace(`${getPeerName(peerConnection)} ICE candidate:\n` +
-		          `${event.candidate.candidate}.`);
-		  }
-		}
-
-		// Logs that the connection succeeded.
-		function handleConnectionSuccess(peerConnection) {
-		  trace(`${getPeerName(peerConnection)} addIceCandidate success.`);
-		};
-
-		// Logs that the connection failed.
-		function handleConnectionFailure(peerConnection, error) {
-		  trace(`${getPeerName(peerConnection)} failed to add ICE Candidate:\n`+
-		        `${error.toString()}.`);
-		}
-
-		// Logs changes to the connection state.
-		function handleConnectionChange(event) {
-		  const peerConnection = event.target;
-		  console.log('ICE state change event: ', event);
-		  trace(`${getPeerName(peerConnection)} ICE state: ` +
-		        `${peerConnection.iceConnectionState}.`);
-		}
-
-		// Logs error when setting session description fails.
-		function setSessionDescriptionError(error) {
-		  trace(`Failed to create session description: ${error.toString()}.`);
-		}
-
-		// Logs success when setting session description.
-		function setDescriptionSuccess(peerConnection, functionName) {
-		  const peerName = getPeerName(peerConnection);
-		  trace(`${peerName} ${functionName} complete.`);
-		}
-
-		// Logs success when localDescription is set.
-		function setLocalDescriptionSuccess(peerConnection) {
-		  setDescriptionSuccess(peerConnection, 'setLocalDescription');
-		}
-
-		// Logs success when remoteDescription is set.
-		function setRemoteDescriptionSuccess(peerConnection) {
-		  setDescriptionSuccess(peerConnection, 'setRemoteDescription');
-		}
-
-		// Logs offer creation and sets peer connection session descriptions.
-		function createdOffer(description) {
-		  trace(`Offer from localPeerConnection:\n${description.sdp}`);
-
-		  trace('localPeerConnection setLocalDescription start.');
-		  localPeerConnection.setLocalDescription(description)
-		    .then(() => {
-		      setLocalDescriptionSuccess(localPeerConnection);
-		    }).catch(setSessionDescriptionError);
-
-		  trace('remotePeerConnection setRemoteDescription start.');
-		  remotePeerConnection.setRemoteDescription(description)
-		    .then(() => {
-		      setRemoteDescriptionSuccess(remotePeerConnection);
-		    }).catch(setSessionDescriptionError);
-
-		  trace('remotePeerConnection createAnswer start.');
-		  remotePeerConnection.createAnswer()
-		    .then(createdAnswer)
-		    .catch(setSessionDescriptionError);
-		}
-
-		// Logs answer to offer creation and sets peer connection session descriptions.
-		function createdAnswer(description) {
-		  trace(`Answer from remotePeerConnection:\n${description.sdp}.`);
-
-		  trace('remotePeerConnection setLocalDescription start.');
-		  remotePeerConnection.setLocalDescription(description)
-		    .then(() => {
-		      setLocalDescriptionSuccess(remotePeerConnection);
-		    }).catch(setSessionDescriptionError);
-
-		  trace('localPeerConnection setRemoteDescription start.');
-		  localPeerConnection.setRemoteDescription(description)
-		    .then(() => {
-		      setRemoteDescriptionSuccess(localPeerConnection);
-		    }).catch(setSessionDescriptionError);
-		}
-
-
-		// Handles start button action: creates local MediaStream.
-		function startAction() {
-		  startButton.disabled = true;
-		  navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
-		    .then(gotLocalMediaStream).catch(handleLocalMediaStreamError);
-		  trace('Requesting local stream.');
-		}
-
-		// Handles call button action: creates peer connection.
-		function callAction() {
-		  callButton.disabled = true;
-		  hangupButton.disabled = false;
-
-		  trace('Starting call.');
-		  startTime = window.performance.now();
-
-		  // Get local media stream tracks.
-		  const videoTracks = localStream.getVideoTracks();
-		  const audioTracks = localStream.getAudioTracks();
-		  if (videoTracks.length > 0) {
-		    trace(`Using video device: ${videoTracks[0].label}.`);
-		  }
-		  if (audioTracks.length > 0) {
-		    trace(`Using audio device: ${audioTracks[0].label}.`);
-		  }
-
-		  const servers = null;  // Allows for RTC server configuration.
-
-		  // Create peer connections and add behavior.
-		  localPeerConnection = new RTCPeerConnection(servers);
-		  trace('Created local peer connection object localPeerConnection.');
-
-		  localPeerConnection.addEventListener('icecandidate', handleConnection);
-		  localPeerConnection.addEventListener(
-		    'iceconnectionstatechange', handleConnectionChange);
-
-		  remotePeerConnection = new RTCPeerConnection(servers);
-		  trace('Created remote peer connection object remotePeerConnection.');
-
-		  remotePeerConnection.addEventListener('icecandidate', handleConnection);
-		  remotePeerConnection.addEventListener(
-		    'iceconnectionstatechange', handleConnectionChange);
-		  remotePeerConnection.addEventListener('addstream', gotRemoteMediaStream);
-
-		  // Add local stream to connection and create offer to connect.
-		  localPeerConnection.addStream(localStream);
-		  trace('Added local stream to localPeerConnection.');
-
-		  trace('localPeerConnection createOffer start.');
-		  localPeerConnection.createOffer(offerOptions)
-		    .then(createdOffer).catch(setSessionDescriptionError);
-		}
-
-		// Handles hangup action: ends up call, closes connections and resets peers.
-		function hangupAction() {
-		  localPeerConnection.close();
-		  remotePeerConnection.close();
-		  localPeerConnection = null;
-		  remotePeerConnection = null;
-		  hangupButton.disabled = true;
-		  callButton.disabled = false;
-		  trace('Ending call.');
-		}
-		
-
-		// Gets the "other" peer connection.
-		function getOtherPeer(peerConnection) {
-		  return (peerConnection === localPeerConnection) ?
-		      remotePeerConnection : localPeerConnection;
-		}
-
-		// Gets the name of a certain peer connection.
-		function getPeerName(peerConnection) {
-		  return (peerConnection === localPeerConnection) ?
-		      'localPeerConnection' : 'remotePeerConnection';
-		}
-
-		// Logs an action (text) and the time when it happened on the console.
-		function trace(text) {
-		  text = text.trim();
-		  const now = (window.performance.now() / 1000).toFixed(3);
-
-		  console.log(now, text);
-		}
 
 		$(document).ready(function() {			
 
@@ -1221,8 +907,7 @@
 					$("#box-three").hide()
 					$(".box-header").hide()     
 					$(".hide-toggle").hide()					
-					stockNameMap =  '${stockNameMap}'					
-					stockNameMap  = JSON.parse(stockNameMap);
+					
 								
 					let fullMsg = '${msg}'
 					if (fullMsg != null && fullMsg != "") {
@@ -1276,6 +961,8 @@
 																						
 							}
 								allSymbols.push(newSymbol)
+								printLongName(newSymbol , clicked_box)
+								
 							} 
 						})
 					$(".attr").hover(
@@ -1317,6 +1004,7 @@
 						$("#modal-" + rbox).addClass("enlarged-btn");
 						$("#box-" + rbox + " .hide-toggle").hide();
 						$(".box-" + rbox + "-header").hide()
+						$("#box-" + rbox + " .box-title").html("")
 					})
 						
 					
@@ -1462,83 +1150,237 @@
 
 				})
 				
+				$(".btn-buy").click(function(){
+					box =  $(this).parents(".chart" ).attr("id").split("-")[1]
+					symbol = box_info[box]["symbol"]
+					action  = "B"
+					
+					userPrice = $("#chart-" + box + " .buyPrice").val()
+					userCounts = $('#chart-' + box + " .buyCount").val()
+					wholeTransact(symbol , action , userCounts, userPrice, box)
+					$("#chart-" + box + " .buyPrice").val("")
+					$('#chart-' + box + " .buyCount").val("")
+					
+				})
+				
+				$(".btn-sell").click(function(){
+					box =  $(this).parents(".chart" ).attr("id").split("-")[1]
+					symbol = box_info[box]["symbol"]
+					action  = "S"
+					userPrice = $("#chart-" + box + " .sellPrice").val()
+					userCounts = $('#chart-' + box + " .sellCount").val()
+					wholeTransact(symbol , action , userCounts, userPrice, box)
+					$("#chart-" + box + " .sellPrice").val("")
+					$('#chart-' + box + " .sellCount").val("")
+				})
 	
+			
+
+
 			})
+	
+					//----------------------------sell buy-------------------------------------
+	
+		function wholeTransact(symbol , action , counts , price , box){
+			if(userAccountInfo["accountType"] == 'leagueAccountVO'){
+				key = userAccountInfo["account"]["id"]
+				console.log("key : "  +  key)
+			}else{
+				key = userAccountInfo["account"]["gcaNumber"]
+				console.log("key : "  +  key)				
+			}
+			$.ajax({type : 'post',
+	      		url : "${pageContext.request.contextPath }/ajax/account/updateUserAccountInfo.json",
+	      		data : {
+	      			accountType : userAccountInfo["accountType"],
+	      			accountKey : key	      		
+	      		},
+	      		contentType : "application/x-www-form-urlencoded;charset=ISO-8859-15",
+	      		dataType: 'text',
+	      		success : function(result) {
+	      			userAccountInfo = JSON.parse(result)
+	      			valid = validPrice(symbol ,box  , action , price  , counts )
+	      			console.log("update success")
+	      			if(valid){
+	      				$.ajax({type : 'post',
+				      		url : "${pageContext.request.contextPath }/ajax/account/transact.json",
+				      		data : {
+				      			accountType : userAccountInfo["accountType"],
+				      			symbol : symbol,
+				      			action : action,
+				      			counts : counts,
+				      			price : price,
+				      			preBalance : userAccountInfo["account"]["balance"],
+				      			gcaNumber : key
+				      		
+				      		},
+				      		contentType : "application/x-www-form-urlencoded;charset=ISO-8859-15",
+				      		datatype : 'json',
+				      		success : function(result) {
+				      			console.log("transaction result : ")
+				      			console.log(result)
+				      			if(result["result"] == "success"){
+				      				myAlarm("success:체결:주문이 체결 되었습니다.")
+				      				$.ajax({type : 'post',
+				      		      		url : "${pageContext.request.contextPath }/ajax/account/updateUserAccountInfo.json",
+				      		      		data : {
+				      		      			accountType : userAccountInfo["accountType"],
+				      		      			accountKey: key	      		
+				      		      		},
+				      		      		contentType : "application/x-www-form-urlencoded;charset=ISO-8859-15",
+				      		      		dataType: 'text',
+				      		      		success : function(result) {
+				      		      			userAccountInfo = JSON.parse(result)
+				      		      			console.log("update success")
+				      		      		},
+				      		      		error : function() {
+				      		      			console.log("update fail")
+				      		      		}
+				      		      	})	
+				      			}else{
+				      				myAlarm("warning:error:주문이 체결중 문제가 발생 했습니다.")
+				      			}
+				      		},
+				      		error : function() {
+				      			myAlarm("warning:error:주문이 체결중 문제가 발생 했습니다.")	      			
+				      		}
+				      	})	      				
+	      			}	      				      		
+	      		},
+	      		error : function(e) {
+	      			console.log("update fail")
+	      			console.log(e)
+	      		}
+	      	})						
 			
-
+		}		
+	
+					
+		function transact(symbol , action , counts , price){
+			if(userAccountInfo["accountType"] == "league"){
+				key = userAccountInfo["account"]["id"]
+			}else{
+				key = userAccountInfo["account"]["gcaNumber"]
+			}
 			
-if('${userVO.id}' == 'hmchung1005'  ){
-	alert("${userVO.id}")
-	
-	
-	const mediaStreamConstraints = {
-		  video: true,
-		};
-
-	// Set up to exchange only video.
-	const offerOptions = {
-	  offerToReceiveVideo: 1,
-	};
-	
-	let startTime = null;
-
-	// Define peer connections, streams and video elements.
-	const localVideo = document.getElementById('localVideo');
-	const remoteVideo = document.getElementById('remoteVideo');
-
-	let localStream;
-	let remoteStream;
-
-	let localPeerConnection;
-	let remotePeerConnection;
-
-
-
-
-	localVideo.addEventListener('loadedmetadata', logVideoLoaded);
-	remoteVideo.addEventListener('loadedmetadata', logVideoLoaded);
-	remoteVideo.addEventListener('onresize', logResizedVideo);
-
-
-
-
-	// Define and add behavior to buttons.
-
-	// Define action buttons.
-	const startButton = document.getElementById('startButton');
-	const callButton = document.getElementById('callButton');
-	const hangupButton = document.getElementById('hangupButton');
-
-	// Set up initial action buttons status: disable call and hangup.
-	callButton.disabled = true;
-	hangupButton.disabled = true;
-	
-	
-}else{
-	let startTime = null;
-	const remoteVideo = document.getElementById('remoteVideo');
-	let remoteStream;
-	let remotePeerConnection;
-	remoteVideo.addEventListener('loadedmetadata', logVideoLoaded);
-	remoteVideo.addEventListener('onresize', logResizedVideo);
-	
-	const startButton = document.getElementById('startButton');
-	const callButton = document.getElementById('callButton');
-	const hangupButton = document.getElementById('hangupButton');
-
-	// Set up initial action buttons status: disable call and hangup.
-	callButton.disabled = true;
-	hangupButton.disabled = true;
-	
-}		  
+			$.ajax({type : 'post',
+	      		url : "${pageContext.request.contextPath }/ajax/account/transact.json",
+	      		data : {
+	      			accountType : userAccountInfo["accountType"],
+	      			symbol : symbol,
+	      			action : action,
+	      			counts : counts,
+	      			price : price,
+	      			preBalance : userAccountInfo["account"]["balance"],
+	      			gcaNumber : key
+	      		
+	      		},
+	      		contentType : "application/x-www-form-urlencoded;charset=ISO-8859-15",
+	      		datatype : 'json',
+	      		success : function(result) {
+	      			if(result["result"] == "true"){
+	      				myAlarm("success:체결:주문이 체결 되었습니다.")
+	      			}else{
+	      				myAlarm("warning:error:주문이 체결중 문제가 발생 했습니다.")
+	      			}
+	      			updateUserAccountInfo()
+	      		},
+	      		error : function() {
+	      			myAlarm("warning:error:주문이 체결중 문제가 발생 했습니다.")	      			
+	      		}
+	      	})							
+		}
 		
+		function updateUserAccountInfo(){
+			if(userAccountInfo["accountType"] == "league"){
+				key = userAccountInfo["account"]["id"]
+			}else{
+				key = userAccountInfo["account"]["gcaNumber"]
+			}
+			$.ajax({type : 'post',
+	      		url : "${pageContext.request.contextPath }/ajax/account/updateUserAccountInfo.json",
+	      		data : {
+	      			accountType : userAccountInfo["accountType"],
+	      			accountKey : key	      		
+	      		},
+	      		contentType : "application/x-www-form-urlencoded;charset=ISO-8859-15",
+	      		dataType: 'text',
+	      		success : function(result) {
+	      			userAccountInfo = JSON.parse(result)
+	      			console.log("update success")
+	      		},
+	      		error : function() {
+	      			console.log("update fail")
+	      		}
+	      	})						
 			
+			
+		}			
+		function toFixed(x) {
+			  if (Math.abs(x) < 1.0) {
+			    var e = parseInt(x.toString().split('e-')[1]);
+			    if (e) {
+			        x *= Math.pow(10,e-1);
+			        x = '0.' + (new Array(e)).join('0') + x.toString().substring(2);
+			    }
+			  } else {
+			    var e = parseInt(x.toString().split('+')[1]);
+			    if (e > 20) {
+			        e -= 20;
+			        x /= Math.pow(10,e);
+			        x += (new Array(e+1)).join('0');
+			    }
+			  }
+			  return x;
+		}
+		
+		
+		function validPrice(symbol ,box  , action , userPrice  , counts ){
+			realPrice = realdata[box]["marketPrice"]	
+			userPrice = parseFloat(userPrice)
+			counts = parseInt(counts)			
+			console.log(realPrice)
+			console.log(userPrice)
+			console.log(counts )
+			if(action == "B"){
+				if(realPrice > userPrice){
+					myAlarm("warning:error:제시 금액 보다 현재가가 높습니다.")
+					return false;
+				}
+				if(userAccountInfo["account"]["balance"]  <   userPrice * counts){
+					console.log(userAccountInfo["account"]["balance"])
+					myAlarm("warning:error:계좌에 돈이 총분하지 않습니다.}.")
+					return false;
+				}
+			}else if(action == "S"){
+				if(realPrice < userPrice){
+					myAlarm("warning:error:제시 금액 보다 현재가가 낮습니다.")
+					return false;
+				}
+				exist = false;
+				for(i in userAccountInfo["stockList"]){
+					if(userAccountInfo["stockList"][i]['symbol'] == symbol  ){
+						exist = true
+						if(userAccountInfo["stockList"][i]['totalCounts']  < counts   ){
+							myAlarm("warning:error:주식 보유 개수가 총분하지 않습니다.")
+							return false;
+						}else{
+							return true;
+						}					
+					}										
+				}				
+				if(exist == false){
+					return false;
+				}																				
+			}							
+			return true;
+		}
 </script>
-  
+
 </head>
 <body class="hold-transition light-skin sidebar-mini theme-primary fixed">
 
-    
+
 	<div class="wrapper">
 		<div id="loader"></div>
 		<header class="main-header">
@@ -1547,15 +1389,15 @@ if('${userVO.id}' == 'hmchung1005'  ){
 	</div>
 	<aside class="main-sidebar">
 		<jsp:include page="/resources/dash/include/sidebar.jsp" />
-	</aside>
+	</aside> 
 	<!-- Content Wrapper. Contains page content -->
 	<div class="content-wrapper">
 		<div class="container-full">
 			<!-- Main content -->
-	<!-- 	<iframe src="http://localhost:3000/55228794-6d25-49f9-a82d-802dc6dc9b8c" allow="camera;microphone" ></iframe> -->
-			
-			
-			
+			<!-- 	<iframe src="http://localhost:3000/55228794-6d25-49f9-a82d-802dc6dc9b8c" allow="camera;microphone" ></iframe> -->
+
+
+
 			<section class="content">
 				<div class="row">
 					<div class="col-12">
@@ -1580,38 +1422,40 @@ if('${userVO.id}' == 'hmchung1005'  ){
 				</div>
 				<div class="row">
 					<div class="col-md-3 left-col">
-<!-- <button id="modal-two" type="button" class="enlarged-btn waves-effect waves-light btn btn-light mb-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('two')">
- -->					
+						<!-- <button id="modal-two" type="button" class="enlarged-btn waves-effect waves-light btn btn-light mb-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('two')">
+ -->
 						<button class="waves-effect waves-light btn btn-light mb-5" id="trigger-chat" type="button" data-bs-toggle="modal" data-bs-target="#modal-center-chat">채팅</button>
-						<button class="btn btn-danger btn-flat mb-5 btn-xs remove-chat" id="close-chat" onclick="removechatbox()"><i class="fa fa-remove"></i></button>
+						<button class="btn btn-danger btn-flat mb-5 btn-xs remove-chat" id="close-chat" onclick="removechatbox()">
+							<i class="fa fa-remove"></i>
+						</button>
 					</div>
-					
-					
+
+
 					<div class="col-md-12 right-col">
-						
-							<div class="col-md-1">
-								<div class="dropdown">
-									<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">레이아웃</button>
-									<div class="dropdown-menu dropdown-grid">
-										<a id="one" class="dropdown-item" href="#">
-											<span class="icon ti-layout-width-full"></span> <span class="title"></span>
-										</a>
-										<a id="two-vertical" class="dropdown-item" href="#">
-											<span class="icon ti-layout-column2"></span> <span class="title"></span>
-										</a>
-										<a id="three-vertical" class="dropdown-item" href="#">
-											<span class="icon ti-layout-column3"></span> <span class="title"></span>
-										</a>
-										<a id="two-horizontal" class="dropdown-item" href="#">
-											<span class="icon ti-layout-column2 fa-rotate-90"></span> <span class="title"></span>
-										</a>
-										<a id="three-horizontal" class="dropdown-item" href="#">
-											<span class="icon ti-layout-column3 fa-rotate-90"></span> <span class="title"></span>
-										</a>
-									</div>
+
+						<div class="col-md-1">
+							<div class="dropdown">
+								<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">레이아웃</button>
+								<div class="dropdown-menu dropdown-grid">
+									<a id="one" class="dropdown-item" href="#">
+										<span class="icon ti-layout-width-full"></span> <span class="title"></span>
+									</a>
+									<a id="two-vertical" class="dropdown-item" href="#">
+										<span class="icon ti-layout-column2"></span> <span class="title"></span>
+									</a>
+									<a id="three-vertical" class="dropdown-item" href="#">
+										<span class="icon ti-layout-column3"></span> <span class="title"></span>
+									</a>
+									<a id="two-horizontal" class="dropdown-item" href="#">
+										<span class="icon ti-layout-column2 fa-rotate-90"></span> <span class="title"></span>
+									</a>
+									<a id="three-horizontal" class="dropdown-item" href="#">
+										<span class="icon ti-layout-column3 fa-rotate-90"></span> <span class="title"></span>
+									</a>
 								</div>
 							</div>
-				
+						</div>
+
 					</div>
 				</div>
 				<div class="row" id="full-content">
@@ -1667,14 +1511,10 @@ if('${userVO.id}' == 'hmchung1005'  ){
 								<a class="dropdown-item tic-one" onclick="tic('one' , 86400  )" href="#">하루</a>
 							</div>
 						</div>
-						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-one" onclick="start('one')">
-							날짜 설정
-						</button>
-						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="chatServer('one')">
-							종목 채팅방 입장
-						</button>
+						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-one" onclick="start('one')">날짜 설정</button>
+						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="chatServer('one')">종목 채팅방 입장</button>
 					</div>
-					<h4 class="box-title"></h4>
+					<h4 class="box-title ms-10"></h4>
 					<div class="box-body box-one-body">
 						<div class="chart" id="chart-one">
 							<button id="modal-one" type="button" class="enlarged-btn waves-effect waves-light btn btn-light mb-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('one')">
@@ -1720,14 +1560,10 @@ if('${userVO.id}' == 'hmchung1005'  ){
 								<a class="dropdown-item tic-two" onclick="tic('two' , 86400  )" href="#">하루</a>
 							</div>
 						</div>
-						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-two" onclick="start('two')">
-						날짜 설정
-						</button>
-						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="chatServer('two')">
-							종목 채팅방 입장
-						</button>
+						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-two" onclick="start('two')">날짜 설정</button>
+						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="chatServer('two')">종목 채팅방 입장</button>
 					</div>
-					<h4 class="box-title"></h4>
+					<h4 class="box-title ms-10"></h4>
 					<div class="box-body box-two-body">
 						<div class="chart" id="chart-two">
 							<button id="modal-two" type="button" class="enlarged-btn waves-effect waves-light btn btn-light mb-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('two')">
@@ -1773,14 +1609,10 @@ if('${userVO.id}' == 'hmchung1005'  ){
 								<a class="dropdown-item tic-three" onclick="tic('three' , 86400  )" href="#">하루</a>
 							</div>
 						</div>
-						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="start('three')">
-							날짜 설정
-						</button>
-						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="chatServer('three')">
-							종목 채팅방 입장
-						</button>
+						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="start('three')">날짜 설정</button>
+						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="chatServer('three')">종목 채팅방 입장</button>
 					</div>
-					<h4 class="box-title"></h4>
+					<h4 class="box-title ms-10"></h4>
 					<div class="box-body box-three-body">
 						<div class="chart" id="chart-three">
 							<button id="modal-three" type="button" class="enlarged-btn waves-effect waves-light btn btn-light mb-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('three')">
@@ -1804,27 +1636,16 @@ if('${userVO.id}' == 'hmchung1005'  ){
 						</div>
 					</div>
 				</div>
-				
-<!-- 			---------------------------------------------------------------------------------------->
-				
-<!-- 			---------------------------------------------------------------------------------------->
-				
-  <video id="localVideo" autoplay playsinline></video>
-  <video id="remoteVideo" autoplay playsinline></video>
 
-  <div>
-    <button id="startButton">Start</button>
-    <button id="callButton">Call</button>
-    <button id="hangupButton">Hang Up</button>
-  </div>
-				
+
 			</section>
 		</div>
 	</div>
-<!-- 
+	<!-- 
 http://localhost:8080/
 
- -->	<footer class="main-footer">
+ -->
+	<footer class="main-footer">
 		<jsp:include page="/resources/dash/include/footer.jsp" />
 		&copy; 2021
 		<a href="https://www.multipurposethemes.com/">Multipurpose Themes</a>
@@ -1856,7 +1677,7 @@ http://localhost:8080/
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- modal -->
 	<div class="modal center-modal fade" id="modal-center-chat" tabindex="-1">
 		<div class="modal-dialog">
@@ -1866,11 +1687,8 @@ http://localhost:8080/
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<p>종목 코드 입력 <br>
-					예시. <br>
-					전체방 : ALL <br>
-					애플 : APPL <br>
-					테슬라 : TSLA <br>
+					<p>
+						종목 코드 입력 <br> 예시. <br> 전체방 : ALL <br> 애플 : APPL <br> 테슬라 : TSLA <br>
 					</p>
 					<input class="bootstrap-tagsinput bg-transparent" type="text" id="chat-symbol-code">
 				</div>
@@ -1882,7 +1700,8 @@ http://localhost:8080/
 		</div>
 	</div>
 	
-	
+
+
 
 	<!-- modal -->
 
@@ -1919,10 +1738,8 @@ http://localhost:8080/
 				</div>
 			</div>
 		</div>
-	</div>
-
-
-
+	</div>		
+	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/dash/js/includeUtil/sidebar.js"></script>
 	<!-- Vendor JS -->
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/vendors.min.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/chat-popup.js"></script>
@@ -1937,10 +1754,8 @@ http://localhost:8080/
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/echarts-master/dist/echarts-en.min.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/echarts-liquidfill-master/dist/echarts-liquidfill.min.js"></script>
 
+	
 
-
-	<!-- Crypto Admin App -->
-	<!-- check number of dashboart -->
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/template.js"></script>
 	<%-- 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard-chart.js"></script> --%>
@@ -1977,7 +1792,8 @@ http://localhost:8080/
 
 	<!-- webticker -->
 	<%-- <script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard26.js"></script> --%>
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard18.js"></script>  <!-- dashboard9 -->
+	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard18.js"></script>
+	<!-- dashboard9 -->
 	<%--  	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard28-chart.js"></script>
 
  --%>

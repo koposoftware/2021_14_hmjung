@@ -20,28 +20,29 @@
 				<li class="treeview">
 				  <a href="#">
 					<i data-feather="bar-chart-2"></i>
-					<span>Reports</span>
+					<span>계좌 페이지</span>
 					<span class="pull-right-container">
 					  <i class="fa fa-angle-right pull-right"></i>
 					</span>
 				  </a>
 				  <ul class="treeview-menu">
-					<li><a href="reports_transactions.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Transactions</a></li>
-					<li><a href="reports_top_gainers_losers.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Top Gainers/Losers</a></li>
-					<li><a href="reports_market_capitalizations.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Market Capitalizations</a></li>
+					<li><a href="${ pageContext.request.contextPath }/account/transaction/1"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>트랜잭션</a></li>
+					<li><a href="${ pageContext.request.contextPath }/account/portfolio"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>포트폴리오</a></li>
+					<li><a href="${ pageContext.request.contextPath }/account/channel"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>계좌 채널</a></li>
 					<li><a href="reports_crypto_stats.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Crypto Stats</a></li>
 				  </ul>
 				</li>
-				<li class="treeview">
+				<c:if test="${userVO.userType ne 1  }">
+					<li class="treeview">
 				  <a href="#">
-					<i data-feather="pie-chart"></i>
-					<span>Initial Coin Offering</span>
+					<i data-feather="pie-chart"></i>										
+					<span>광고</span>
 					<span class="pull-right-container">
 					  <i class="fa fa-angle-right pull-right"></i>
 					</span>
 				  </a>
 				  <ul class="treeview-menu">
-					<li><a href="ico_distribution_countdown.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Countdown</a></li>
+					<li><a href="${ pageContext.request.contextPath }/advertise/valid"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>인증 서비스</a></li>
 					<li><a href="ico_roadmap_timeline.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Roadmap/Timeline</a></li>
 					<li><a href="ico_progress.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Progress Bar</a></li>
 					<li><a href="ico_details.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Details</a></li>
@@ -49,6 +50,8 @@
 					<li><a href="ico_filter.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>ICO Listing - Filters</a></li>
 				  </ul>
 				</li>
+				</c:if>
+				
 				<li>
 				  <a href="currency_exchange.html">
 					<i data-feather="refresh-ccw"></i>

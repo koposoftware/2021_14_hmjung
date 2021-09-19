@@ -3,6 +3,7 @@ package gc.co.kr.account.dao;
 import java.util.List;
 import java.util.Map;
 
+import gc.co.kr.account.vo.AccountStockLog;
 import gc.co.kr.account.vo.AccountStockVO;
 import gc.co.kr.account.vo.AccountVO;
 
@@ -22,4 +23,7 @@ public interface AccountDAO {
 	
 	List<AccountStockVO> getAllAccountStockVO(String key);
 	
+	List<AccountStockLog> getAllAccountStockLogs(String key);
+	
+	List<AccountStockLog> getAllAccountStockLogsType(Map<String, String> params );
 }

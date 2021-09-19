@@ -1,0 +1,16 @@
+회의 ID: 643 653 3027
+암호: 212213
+
+https://bbbootstrap.com/snippets/multi-step-form-wizard-30467045
+
+<은행코드>
+본성 | 600 세진저축은행 SEJINSAVING
+해명 | 700 WC WC
+민기 | 800 MG구마을금고 MG
+민영 | 900 TVA TVA
+
+<DB 계정>
+본성 DA2103 / da03
+민영 DA2107 / da07
+민기 DA2114 / da14
+해명 DA2117 / da17

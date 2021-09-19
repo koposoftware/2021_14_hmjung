@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import gc.co.kr.account.vo.AccountStockLog;
 import gc.co.kr.account.vo.AccountStockVO;
 import gc.co.kr.account.vo.AccountVO;
 
@@ -62,12 +63,20 @@ public class AccountDAOImpl implements AccountDAO{
 	public List<AccountStockVO> getAllAccountStockVO(String key) {
 		List<AccountStockVO> list = session.selectList( "account.AccountDAO.getAllAccountStockVO" , key);
 		return list;
+	}
+
+	@Override
+	public List<AccountStockLog> getAllAccountStockLogs(String key) {
+		// TODO Auto-generated method stub
+		
+		List<AccountStockLog> logList = session.selectList("account.AccountDAO.getAllAccountStockLog" , key );
+		return logList;
+	}
+
+	@Override
+	public List<AccountStockLog> getAllAccountStockLogsType(Map<String, String> params) {
+		// TODO Auto-generated method stub
+		List<AccountStockLog> logList = session.selectList("account.AccountDAO.getAllAccountStockLogsType" , params );
+		return logList;
+		}
 	}	
-	
-	
-	
-	
-	
-	
-	
-}

@@ -11,9 +11,8 @@
 </style>
 
 <script src="${ pageContext.request.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
-<script>
 
-</script>
+
 <%-- 	<div class="nav-header"> <a href="${ pageContext.request.contextPath }/" style="padding:10px;" class="brand"> <img id="headLogo" src="${ pageContext.request.contextPath }/resources/images/gc_transparent2.png" alt="" /></a>						
  --%>
 
@@ -30,7 +29,7 @@
 		<!-- Sidebar toggle button-->
 		<div class="app-menu">
 			<ul class="header-megamenu nav">
-				<li class="btn-group nav-item"><a href="#" class="waves-effect waves-light nav-link push-btn btn-primary-light" data-toggle="push-menu" role="button"> <i data-feather="align-left"></i>
+				<li id="sidebar-toggle" class="btn-group nav-item"><a href="#" class="waves-effect waves-light nav-link push-btn btn-primary-light" data-toggle="push-menu" role="button"> <i data-feather="align-left"></i>
 				</a></li>
 				<li class="btn-group nav-item d-none d-xl-inline-block"><a href="contact_app_chat.html" class="waves-effect waves-light nav-link svg-bt-icon btn-primary-light" title="Chat"> <i data-feather="message-circle"></i>
 				</a></li>

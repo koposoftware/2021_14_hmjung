@@ -144,7 +144,7 @@
     	            	  '<div class="clearfix mb-15">' +
 							'<span class="direct-chat-name">'+   d.userName+ '</span>' + 
 						  '</div>' +
- 						'<img class="direct-chat-img avatar" src="${ pageContext.request.contextPath }/resources/images/user1-128x128.jpg" alt="message user image">'+
+ 						'<img class="direct-chat-img avatar" src="${ pageContext.request.contextPath }/resources/images/tier/'+d.tier+'.png" alt="message user image">'+
  						' <div class="direct-chat-text">' +
  						'<p>' + d.msg + '</p>' +
  						'<p class="direct-chat-timestamp"><time datetime="'+  d.year  +'">'+ d.hourMin+'</time></p>' +

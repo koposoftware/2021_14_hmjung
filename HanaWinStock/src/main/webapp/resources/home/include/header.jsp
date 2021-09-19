@@ -61,7 +61,7 @@ transform:scale(0.75);
 							<li><a href="${pageContext.request.contextPath}/account/contract"><i class="ti-arrow-circle-right me-10"></i>계좌 생성</a></li>
 							<li><a href="${pageContext.request.contextPath}/account/hts"><i class="ti-arrow-circle-right me-10"></i>웹트레이딩</a></li>
 							<li><a href="${pageContext.request.contextPath}/account/log"><i class="ti-arrow-circle-right me-10"></i>계좌 조회</a></li>
-							<li><a href="register_login.html"><i class="ti-arrow-circle-right me-10"></i>Register & Login</a></li>
+							<li><a href="${ pageContext.request.contextPath }/account/transaction/1"><i class="ti-arrow-circle-right me-10"></i>트랜잭션</a></li>
 							<li><a href="forgot_pass.html"><i class="ti-arrow-circle-right me-10"></i>Forgot Password</a></li>
 							<li><a href="lockscreen.html"><i class="ti-arrow-circle-right me-10"></i>Lock Screen</a></li>
 							<li><a href="maintenance.html"><i class="ti-arrow-circle-right me-10"></i>Under Constructions</a></li>
@@ -69,8 +69,8 @@ transform:scale(0.75);
 					</div>
 					<div class="col-md-3 col-12">
 						<ul class="list-group">
-							<li><h4 class="menu-title">Footer</h4></li>
-							<li><a href="footer_style1.html"><i class="ti-arrow-circle-right me-10"></i>Footer One</a></li>
+							<li><h4 class="menu-title">광고</h4></li>
+							<li><a href="${ pageContext.request.contextPath }/advertise/valid"><i class="ti-arrow-circle-right me-10"></i>인증 서비스</a></li>
 							<li><a href="footer_style2.html"><i class="ti-arrow-circle-right me-10"></i>Footer Two</a></li>
 							<li><a href="footer_style3.html"><i class="ti-arrow-circle-right me-10"></i>Footer Three</a></li>
 							<li><a href="footer_style4.html"><i class="ti-arrow-circle-right me-10"></i>Footer Four</a></li>

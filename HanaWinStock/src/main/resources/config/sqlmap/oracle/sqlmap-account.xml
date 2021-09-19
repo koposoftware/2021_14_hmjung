@@ -33,6 +33,7 @@
 	<resultMap type="accountStockLogVO" id="accountStockLogMap">
 		<result column="gca_number" property="gcaNumber"></result>
 		<result column="pre_balance" property="preBalance"></result>
+		<result column="post_balance" property="postBalance"></result>
 		<result column="moment_price" property="momentPrice"></result>
 	</resultMap>
 	
@@ -114,7 +115,13 @@
 		select * from gc_account_stock where gca_number = #{key}	
 	</select>	
 		
+	<select id="getAllAccountStockLog" parameterType="string" resultMap= "accountStockLogMap">
+		select * from gc_account_stock_log where gca_number = #{key}
+	</select>
 	
+	<select id="getAllAccountStockLogsType" parameterType="hashMap" resultMap= "accountStockLogMap">
+		select * from gc_account_stock_log where gca_number = #{key} and action= #{type}
+	</select>
 	
 			
 </mapper>

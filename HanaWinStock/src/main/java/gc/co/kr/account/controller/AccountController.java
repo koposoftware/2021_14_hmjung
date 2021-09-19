@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 import gc.co.kr.account.service.AccountService;
+import gc.co.kr.account.vo.AccountStockLog;
 import gc.co.kr.account.vo.AccountStockVO;
 import gc.co.kr.account.vo.AccountVO;
 import gc.co.kr.leagueAccount.LeagueAccountService;
@@ -108,10 +109,73 @@ public class AccountController {
 		model.addAttribute("list", list);
 		List<LeagueFollowVO> leagueFollowVOlist = leagueService.selectFollowers(userID);
 		LeagueAccountVO leagueAccountVO = leagueService.selectLeagueAcc(userID);
-		model.addAttribute("leagueFollowList", leagueFollowVOlist );
-		model.addAttribute("leagueAccountVO", leagueAccountVO);		
+		
+		model.addAttribute("leagueFollowList", leagueFollowVOlist );		
+		model.addAttribute("leagueAccountVO", leagueAccountVO);				
+		String userAccountInfo = getAccountInfo("leagueAccountVO", userVO.getId());		
+		model.addAttribute("leagueAccountInfo" , userAccountInfo);	
+		
+		List<AccountStockVO> stockList = service.getAllAccountStockVO( userVO.getId() );		
+		int stockCount = 0;
+		
+		for(AccountStockVO stock : stockList) {
+			stockCount = stockCount + stock.getTotalCounts();			
+		}
+		
+		model.addAttribute("totalStockCounts" , stockCount);
+		 
+		
+		
+		
 		return "gcaccount/viewaccounts";
 	}	
+	
+
+	
+	@GetMapping("/transaction/{page}")
+	public String showTransaction(Model model , HttpServletRequest request,  HttpSession session , @PathVariable("page") int page) {
+		String accountKey = (String) session.getAttribute("accountKey");
+		System.out.println(accountKey);
+		
+		String type=  (String)request.getParameter("type");
+		System.out.println("type : " + type);
+		List<AccountStockLog> logList;
+		if(type == null ) {
+			logList = service.getAllAccountStockLogs(accountKey);
+		}else{
+			Map<String,String> params = new HashMap<String, String>();
+			params.put("key" , accountKey);
+			params.put("type" , type);
+			logList = service.getAllAccountStockLogsType(params);
+		}
+
+		int each = 10;
+		
+		float pagefloat =  ((float)logList.size()) /  ((float)each);		
+		int pageCounts = (int) Math.ceil( pagefloat  );		
+		System.out.println(pageCounts);
+				
+		List<AccountStockLog> showingLogs  = new ArrayList<AccountStockLog>();
+		System.out.println("log size : " +  logList.size());
+		int cnt = (page-1) * each;
+		
+		for(int i = 0 ; i <  each ; i++ ) {
+			System.out.println(cnt);
+			if(cnt > logList.size() - 1) {
+				break;
+			}
+			showingLogs.add( logList.get(cnt) );
+			cnt++;
+		}
+		model.addAttribute("currentPage" , page);			
+		model.addAttribute("pageCounts" , pageCounts);		
+		model.addAttribute("showingLogs" , showingLogs);
+		return "gcaccount/transaction";
+	}
+	
+	
+	
+	
 	
 	
 	
@@ -284,6 +348,21 @@ public class AccountController {
 	}
 	
 	
+	public Map<String,Object> getAccountInfoMap(String accountType, String accountKey ){
+		HashMap <String , Object> result = new HashMap<String,Object>();			
+		if(accountType != null && accountType.equals("accountVO")) {
+			result.put("accountType", "accountVO");			
+			AccountVO account = service.selectByAccNum(accountKey);
+			result.put("account", account);										
+		}else if(accountType != null && accountType.equals("leagueAccountVO")) {
+			result.put("accountType", "leagueAccountVO");
+			LeagueAccountVO leagueAccountVO = leagueService.selectLeagueAcc(accountKey);
+			result.put("account", leagueAccountVO );				
+		}
+		List<AccountStockVO> list = service.getAllAccountStockVO( accountKey );	
+		result.put("stockList", list);			
+		return result;
+	}
 	
 	
 	

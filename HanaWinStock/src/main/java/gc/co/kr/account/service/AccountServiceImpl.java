@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import gc.co.kr.account.dao.AccountDAO;
+import gc.co.kr.account.vo.AccountStockLog;
 import gc.co.kr.account.vo.AccountStockVO;
 import gc.co.kr.account.vo.AccountVO;
 
@@ -91,6 +92,21 @@ public class AccountServiceImpl implements AccountService{
 		List<AccountStockVO> list = accountDAO.getAllAccountStockVO(key);
 		
 		return list;
+	}
+
+	@Override
+	public List<AccountStockLog> getAllAccountStockLogs(String key) {
+		// TODO Auto-generated method stub
+		List<AccountStockLog> logList = accountDAO.getAllAccountStockLogs(key);
+		
+		return logList;
+	}
+
+	@Override
+	public List<AccountStockLog> getAllAccountStockLogsType(Map<String, String> params) {
+		// TODO Auto-generated method stub
+		List<AccountStockLog> logList = accountDAO.getAllAccountStockLogsType(params);
+		return logList ;
 	}
 
 

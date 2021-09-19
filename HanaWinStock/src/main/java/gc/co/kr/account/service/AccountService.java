@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import gc.co.kr.account.vo.AccountStockLog;
 import gc.co.kr.account.vo.AccountStockVO;
 import gc.co.kr.account.vo.AccountVO;
 
@@ -26,6 +27,7 @@ public interface AccountService {
 	
 	List<AccountStockVO> getAllAccountStockVO(String key);
 		
-		
+	List<AccountStockLog> getAllAccountStockLogs(String key);
+	List<AccountStockLog> getAllAccountStockLogsType(Map<String, String> params );
 	
 }

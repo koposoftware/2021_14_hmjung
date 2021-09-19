@@ -31,7 +31,7 @@
 	</script>	
 	
 </head>
-<body class="hold-transition dark-skin sidebar-mini theme-warning fixed">
+<body class="hold-transition light-skin sidebar-mini theme-primary fixed">
 	<div class="wrapper">
 		<div id="loader"></div>
 		<header class="main-header">
@@ -66,42 +66,24 @@
 	<!-- Vendor JS -->
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/vendors.min.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/chat-popup.js"></script>
-    <script src="${ pageContext.request.contextPath }/resources/assets/icons/feather-icons/feather.min.js"></script>
-	
+	<script src="${ pageContext.request.contextPath }/resources/assets/icons/feather-icons/feather.min.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/Flot/jquery.flot.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/Flot/jquery.flot.resize.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/Flot/jquery.flot.pie.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/Flot/jquery.flot.categories.js"></script>
-	<script src="http://www.amcharts.com/lib/3/amcharts.js" type="text/javascript"></script>
-	<script src="http://www.amcharts.com/lib/3/gauge.js" type="text/javascript"></script>
-	<script src="http://www.amcharts.com/lib/3/serial.js" type="text/javascript"></script>
-	<script src="http://www.amcharts.com/lib/3/amstock.js" type="text/javascript"></script>
-	<script src="http://www.amcharts.com/lib/3/pie.js" type="text/javascript"></script>
-	<script src="https://www.amcharts.com/lib/3/plugins/dataloader/dataloader.min.js"></script>
-	<script src="http://www.amcharts.com/lib/3/plugins/animate/animate.min.js" type="text/javascript"></script>
-	<script src="http://www.amcharts.com/lib/3/plugins/export/export.min.js" type="text/javascript"></script>
-	<script src="http://www.amcharts.com/lib/3/themes/patterns.js" type="text/javascript"></script>
-	<script src="http://www.amcharts.com/lib/3/themes/light.js" type="text/javascript"></script>	
-	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/Web-Ticker-master/jquery.webticker.min.js"></script>
-	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/echarts-master/dist/echarts-en.min.js"></script>
-	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/echarts-liquidfill-master/dist/echarts-liquidfill.min.js"></script>
-    <script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/datatable/datatables.min.js"></script>
-	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.js"></script>
-	
+
 	<!-- Crypto Admin App -->
-	<!-- check number of dashboart -->
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/template.js"></script>
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard.js"></script>
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard-chart.js"></script>
-	
-	
-	<!-- alert and notification -->
+
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/chat-popup.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/icons/feather-icons/feather.min.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/sweetalert/sweetalert.min.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/js/sweet-alert.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/jquery-toast-plugin-master/src/jquery.toast.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/notification.js"></script>
-	
+
+
+
+
 </body>          
 </html>

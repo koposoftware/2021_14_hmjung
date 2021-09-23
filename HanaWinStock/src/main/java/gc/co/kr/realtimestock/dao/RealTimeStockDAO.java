@@ -24,4 +24,9 @@ public interface RealTimeStockDAO {
 	List<DailyStockVO> getDailyStocksByRange(Map<String, Object> params);
 	
 	List<DailyStockVO> getDailyStockByRange(Map<String, Object> params);
+	
+	
+	RealTimeStockVO getRecentOneRealTime(String symbol);
 }
+
+

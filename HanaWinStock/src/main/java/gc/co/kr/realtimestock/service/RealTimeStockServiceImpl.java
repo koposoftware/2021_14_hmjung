@@ -67,4 +67,11 @@ public class RealTimeStockServiceImpl implements RealTimeStockService{
      	List<DailyStockVO> list = realTimeStockDAO.getDailyStockByRange(params);
 		return list;
 	}
+
+	@Override
+	public RealTimeStockVO getRecentOneRealTime(String symbol) {
+		// TODO Auto-generated method stub
+		RealTimeStockVO realTimeStockVO = realTimeStockDAO.getRecentOneRealTime(symbol);
+		return realTimeStockVO ;
+	}
 }

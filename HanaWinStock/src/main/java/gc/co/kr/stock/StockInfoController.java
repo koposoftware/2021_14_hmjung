@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 
 import gc.co.kr.realtimestock.service.RealTimeStockService;
 import gc.co.kr.realtimestock.vo.DailyStockVO;
+import gc.co.kr.realtimestock.vo.RealTimeStockVO;
 import gc.co.kr.stocksummary.service.StockSummaryService;
 import gc.co.kr.stocksummary.vo.StockNameVO;
 import gc.co.kr.stocksummary.vo.StockSummaryVO;
@@ -100,7 +101,12 @@ public class StockInfoController {
 		
 	  	StockNameVO stockNameVO =   summaryService.selectStockName(symbol);
 	  	model.addAttribute("stockNameVO" , stockNameVO);
-		
+	  	
+	  	
+	  	RealTimeStockVO realTimeStockVO = service.getRecentOneRealTime(symbol);
+	  	model.addAttribute("realTimeStockVO"  , realTimeStockVO );
+	  	
+	  	
 		return view;
 	}
 	

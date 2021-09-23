@@ -24,5 +24,7 @@ public interface RealTimeStockService {
 	
 	List<DailyStockVO> getDailyStockByRange(Map<String, Object> params);
 	
+	RealTimeStockVO getRecentOneRealTime(String symbol);
+	
 	
 }

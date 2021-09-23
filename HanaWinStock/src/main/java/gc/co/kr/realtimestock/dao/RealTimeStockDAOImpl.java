@@ -73,6 +73,12 @@ public class RealTimeStockDAOImpl implements RealTimeStockDAO{
 		List<DailyStockVO> list = sqlSessionTemplate.selectList("realtimestock.RealTimeStockDAO.getDailyStockByRange" , params);
 		return list;
 	}
+
+	@Override
+	public RealTimeStockVO getRecentOneRealTime(String symbol) {
+		RealTimeStockVO realTimeStockVO = sqlSessionTemplate.selectOne("realtimestock.RealTimeStockDAO.getRecentOneRealTime" , symbol);
+		return realTimeStockVO ;
+	}
 	
 	
 }

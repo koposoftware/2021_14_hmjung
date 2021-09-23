@@ -99,5 +99,10 @@
 		select * from gc_daily_stock where unix_time > #{startTime} and symbol = #{symbol}		
 	</select>
 	
+	
+	<select id="getRecentOneRealTime" parameterType="string" resultMap="realTimeStockMap">
+		select * from gc_realtime_stock  where inorder = (select max(inorder) from gc_realtime_stock where symbol = #{symbol})
+	</select>
+	
 				
 </mapper>

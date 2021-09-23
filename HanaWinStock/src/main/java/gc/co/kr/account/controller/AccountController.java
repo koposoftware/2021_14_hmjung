@@ -454,6 +454,11 @@ public class AccountController {
 		}								
 	}		
 	
+	@GetMapping("/channel")
+	public String getMyChannel() {
+		String view = "gcaccount/channel";
+		return view;		
+	}
 	
 	
 	

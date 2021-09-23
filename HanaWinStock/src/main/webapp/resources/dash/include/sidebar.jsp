@@ -26,10 +26,9 @@
 					</span>
 				  </a>
 				  <ul class="treeview-menu">
-					<li><a href="${ pageContext.request.contextPath }/account/transaction/1"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>트랜잭션</a></li>
-					<li><a href="${ pageContext.request.contextPath }/account/portfolio"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>포트폴리오</a></li>
-					<li><a href="${ pageContext.request.contextPath }/account/channel"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>계좌 채널</a></li>
-					<li><a href="reports_crypto_stats.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Crypto Stats</a></li>
+				    <li><a href="${ pageContext.request.contextPath }/account/channel"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>내 채널</a></li>
+					<li><a href="${ pageContext.request.contextPath }/account/transaction/1"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>내 트랜잭션</a></li>
+					<li><a href="${ pageContext.request.contextPath }/account/portfolio"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>내 포트폴리오</a></li>
 				  </ul>
 				</li>
 				<c:if test="${userVO.userType ne 1  }">

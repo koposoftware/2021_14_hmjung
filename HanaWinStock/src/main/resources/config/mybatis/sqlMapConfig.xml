@@ -13,6 +13,10 @@
 		<typeAlias type="gc.co.kr.stocksummary.vo.StockNameVO" alias="stockNameVO"/>
 		<typeAlias type="gc.co.kr.account.vo.AccountStockVO" alias="accountStockVO"/>
 		<typeAlias type="gc.co.kr.account.vo.AccountStockLog" alias="accountStockLogVO"/>
+		<typeAlias type="gc.co.kr.advertise.vo.AdvertiseMemberRequestVO" alias="advertiseMemberRequestVO" />
+		<typeAlias type="gc.co.kr.message.MessageVO" alias="messageVO"/>
+		<typeAlias type="gc.co.kr.advertise.vo.AdRequestVO" alias="adRequestVO" />
+		<typeAlias type="gc.co.kr.realtimestock.vo.DailyStockVO" alias="dailyStockVO" />					
 		
 	</typeAliases>
 </configuration>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import gc.co.kr.realtimestock.vo.DailyStockVO;
 import gc.co.kr.realtimestock.vo.RealTimeStockVO;
 
 public interface RealTimeStockDAO {
@@ -19,4 +20,8 @@ public interface RealTimeStockDAO {
 	List<RealTimeStockVO> getRealTimeStockData(Map<String,Object> params);
 	
 	RealTimeStockVO getRealTimeStockDataLine(Map<String,Object> params);
+	
+	List<DailyStockVO> getDailyStocksByRange(Map<String, Object> params);
+	
+	List<DailyStockVO> getDailyStockByRange(Map<String, Object> params);
 }

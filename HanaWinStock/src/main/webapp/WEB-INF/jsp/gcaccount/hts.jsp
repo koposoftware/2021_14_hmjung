@@ -36,7 +36,10 @@
 .remove-chat {
 	float: right;
 }
-
+#video {
+   text-align: center;
+   //rest of rules here
+}
 
 
 </style>
@@ -57,13 +60,14 @@
 
 		 var room;
  
- 		 function enterChatServer(symbol){
+ 		 function enterChatServer(symbol){ 			 			 
+ 			 $('.full-chat-box .box-title').text( stockNameMap[symbol] )		
  			 if(!Object.keys(stockNameMap).includes(symbol)){
  				 myAlarm("warning:error:해당 종목은 존재 하지 않습니다.")
  			 }else{
  				$('#direct-chat').empty()
  				if(chattingToggle == 1){
- 					openchatbox()
+ 					openchatbox(symbol)
  				}else{
  					ws.close();
  				}
@@ -71,10 +75,14 @@
  				wsOpen(room)
  				}
  		 }
- 		 function openchatbox(){
+ 		 
+ 		 
+ 		 
+ 		 function openchatbox(symbol){
  			console.log("opening chat box")
- 			
+ 			$("#video-area").empty()
 			$('#close-chat').show()
+			
 			
 			$('.left-col').each(function(){
 				$(this).removeClass('col-xs-12');
@@ -83,9 +91,9 @@
 			$('.right-col').each(function(){
 				$(this).removeClass('col-md-12')
 				$(this).addClass('col-md-7')				
-			})
-			$('.full-chat-box').hide()
+			})			
 			$('.full-chat-box').show()
+			$('.full-chat-box .box-title').text( stockNameMap[symbol] )		
 			chattingToggle = 2;
  		 }
  		
@@ -101,18 +109,18 @@
  				$(this).addClass('col-md-12')
  			})
  			$('.full-chat-box').hide()
- 			if(chattingToggle == 2){
- 				ws.close()	
- 			}						
+ 			$("#video-area").empty()
+			if(chattingToggle == 2){
+				ws.close()
+			}	 									
  			chattingToggle = 1;			
- 		}
- 		 
- 		 
-	     function wsOpen(room){
-		      ws = new WebSocket("ws://" + location.host + "/HanaWinStock/account/hts/" + room);
+ 		} 		  		 
+	    function wsOpen(room){
+		      ws = new WebSocket("ws://" + location.host + "/HanaWinStock/account/" + room);
 		      wsEvt();      
-		  }			 
-    	 function wsEvt() {
+		}		
+	    
+    	function wsEvt() {
     	     ws.onopen = function(data){
     	        //소켓이 열리면 초기화 세팅하기
     	        console.log('소켓열림');
@@ -138,7 +146,7 @@
     	                  				'<p>' + d.msg + '</p>'+
     	                  				'<p class="direct-chat-timestamp"><time datetime="'+ d.year+'">'+ d.hourMin +'</time></p>'+
     	                  				'</div></div>';        	  
-    	            	  $("#direct-chat").append(newmsg);   
+    	            	  $("#direct-chat").append(newmsg);               	  
     	              }else{
     	            	  var newmsg ='<div class="direct-chat-msg mb-30">'+
     	            	  '<div class="clearfix mb-15">' +
@@ -150,14 +158,41 @@
  						'<p class="direct-chat-timestamp"><time datetime="'+  d.year  +'">'+ d.hourMin+'</time></p>' +
  						'</div></div>';    	            	  					    	            	  
     	            	 $("#direct-chat").append(newmsg);
-    	              }
-    	                 
+    	              }    	                 
+    	           }else if( d.type == "ad" ){
+ 	            	  console.log(d.msg)
+ 	            	  if(!$("#ad-video").exists()  ){
+ 	            		 video_url ="${pageContext.request.contextPath}"  +  d.msg.split("main\\webapp")[1]
+ 	 	            	  console.log(video_url)
+ 	 	            	  test = video_url
+ 	 	            	  var video_area = '<video  controls class="w-p100" id="ad-video">' +
+ 	 	         						'<source  type="video/mp4" src="' +  video_url  +  '" >' + 	         						
+ 	 	         		                '</video>' 	            	  
+ 	 	         		  $("#video-area").append(video_area)             	            	   	            	 
+ 	 	            	  $('#video-area video').trigger('play'); 	            	  
+ 		 	         		var ve = document.getElementById("ad-video");
+ 			 	       		if( ve != null && ve.addEventListener) {	
+ 			 	       				ve.addEventListener('ended', function() {
+ 			
+ 			 	       					console.log("종료");
+ 				 	       				$("#video-area").empty()			
+ 			 	       				},false);		
+ 			 	       		} 	            		   	            		   	            		  
+ 	            	  }else{
+ 	            		  console.log("other video is already playing")
+ 	            	  } 	
+ 	            	  		 	       		 	         		                 	         		                 	            	  
     	           }else{
     	              console.warn("unknown type!")
+    	              console.log(d.type)
+    	              ok = d.type
     	           }
     	        }
     	     }
    		 }
+    	
+    	
+    
    	    document.addEventListener("keypress", function(e){
       	        if(e.keyCode == 13){ //enter press
       	           send();
@@ -905,8 +940,9 @@
 					$("#box-one").hide()
 					$("#box-two").hide()
 					$("#box-three").hide()
-					$(".box-header").hide()     
-					$(".hide-toggle").hide()					
+					$("#chartdivs .box-header").hide()
+					
+					$(".hide-toggle").hide()										
 					
 								
 					let fullMsg = '${msg}'
@@ -1489,6 +1525,7 @@
 
 
 				<div hidden="true" id="e_chart_2" class="" style="height: 285px;"></div>
+				<div id="chartdivs">
 				<div class="box" id="box-one">
 					<div class="box-header with-border box-one-header">
 						<div class="btn-group">
@@ -1636,7 +1673,7 @@
 						</div>
 					</div>
 				</div>
-
+			</div>		
 
 			</section>
 		</div>
@@ -1668,7 +1705,7 @@ http://localhost:8080/
 				</div>
 				<div class="modal-body">
 					<p>종목 코드 입력</p>
-					<input class="bootstrap-tagsinput bg-transparent" type="text" id="symbol-code">
+					<input class="bootstrap-tagsinput bg-transparent"  type="text" id="symbol-code">
 				</div>
 				<div class="modal-footer modal-footer-uniform">
 					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>

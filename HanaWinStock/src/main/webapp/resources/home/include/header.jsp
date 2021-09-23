@@ -62,15 +62,26 @@ transform:scale(0.75);
 							<li><a href="${pageContext.request.contextPath}/account/hts"><i class="ti-arrow-circle-right me-10"></i>웹트레이딩</a></li>
 							<li><a href="${pageContext.request.contextPath}/account/log"><i class="ti-arrow-circle-right me-10"></i>계좌 조회</a></li>
 							<li><a href="${ pageContext.request.contextPath }/account/transaction/1"><i class="ti-arrow-circle-right me-10"></i>트랜잭션</a></li>
-							<li><a href="forgot_pass.html"><i class="ti-arrow-circle-right me-10"></i>Forgot Password</a></li>
+							<li><a href="${ pageContext.request.contextPath }/account/portfolio"><i class="ti-arrow-circle-right me-10"></i>포트폴리오</a></li>
 							<li><a href="lockscreen.html"><i class="ti-arrow-circle-right me-10"></i>Lock Screen</a></li>
 							<li><a href="maintenance.html"><i class="ti-arrow-circle-right me-10"></i>Under Constructions</a></li>
 						</ul>
 					</div>
+					<div class="col-lg-3 col-12">
+						<ul class="list-group">
+							<li><h4 class="menu-title">주식</h4></li>
+							<li><a href="${ pageContext.request.contextPath }/stockinfo/search"><i class="ti-arrow-circle-right me-10"></i>종목 상세 정보</a></li>						
+						</ul>
+					</div>
+					
+					
+					
+					
 					<div class="col-md-3 col-12">
 						<ul class="list-group">
 							<li><h4 class="menu-title">광고</h4></li>
-							<li><a href="${ pageContext.request.contextPath }/advertise/valid"><i class="ti-arrow-circle-right me-10"></i>인증 서비스</a></li>
+							<li><a href="${ pageContext.request.contextPath }/account/advertise/valid"><i class="ti-arrow-circle-right me-10"></i>광고주 인증 요청</a></li>
+							<li><a href="${ pageContext.request.contextPath }/account/advertise/requestad"><i class="ti-arrow-circle-right me-10"></i>광고 요청</a></li>												
 							<li><a href="footer_style2.html"><i class="ti-arrow-circle-right me-10"></i>Footer Two</a></li>
 							<li><a href="footer_style3.html"><i class="ti-arrow-circle-right me-10"></i>Footer Three</a></li>
 							<li><a href="footer_style4.html"><i class="ti-arrow-circle-right me-10"></i>Footer Four</a></li>
@@ -80,9 +91,9 @@ transform:scale(0.75);
 					</div>
 					<div class="col-lg-3 col-12">
 						<ul class="list-group">
-							<li><h4 class="menu-title">Header</h4></li>
-							<li><a href="header_default.html"><i class="ti-arrow-circle-right me-10"></i>Header One</a></li>
-							<li><a href="header_style2.html"><i class="ti-arrow-circle-right me-10"></i>Header Two</a></li>
+							<li><h4 class="menu-title">관리자</h4></li>
+							<li><a href="${ pageContext.request.contextPath }/account/advertise/checkvalid"><i class="ti-arrow-circle-right me-10"></i>광고주 검증</a></li>
+							<li><a href="${ pageContext.request.contextPath }/account/advertise/requestadcheck"><i class="ti-arrow-circle-right me-10"></i>광고 요청 검증</a></li>	
 							<li><a href="header_style3.html"><i class="ti-arrow-circle-right me-10"></i>Header Three</a></li>
 							<li><a href="header_style4.html"><i class="ti-arrow-circle-right me-10"></i>Header Four</a></li>
 							<li><a href="header_style5.html"><i class="ti-arrow-circle-right me-10"></i>Header Five</a></li>

@@ -35,10 +35,7 @@
 		<result column="pre_balance" property="preBalance"></result>
 		<result column="post_balance" property="postBalance"></result>
 		<result column="moment_price" property="momentPrice"></result>
-	</resultMap>
-	
-	
-	
+	</resultMap>			
 	
 	<select id="selectLeagueAcc" resultMap="leagueAccountMap" parameterType="string">
 		select id , balance , reg_date , tier , follow_price from gc_league where id = #{id}
@@ -116,12 +113,11 @@
 	</select>	
 		
 	<select id="getAllAccountStockLog" parameterType="string" resultMap= "accountStockLogMap">
-		select * from gc_account_stock_log where gca_number = #{key}
+		select * from gc_account_stock_log where gca_number = #{key} order by time desc
 	</select>
 	
 	<select id="getAllAccountStockLogsType" parameterType="hashMap" resultMap= "accountStockLogMap">
 		select * from gc_account_stock_log where gca_number = #{key} and action= #{type}
-	</select>
-	
+	</select>	
 			
 </mapper>

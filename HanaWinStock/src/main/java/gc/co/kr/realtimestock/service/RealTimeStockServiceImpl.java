@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import gc.co.kr.realtimestock.dao.RealTimeStockDAO;
+import gc.co.kr.realtimestock.vo.DailyStockVO;
 import gc.co.kr.realtimestock.vo.RealTimeStockVO;
 
 @Service
@@ -53,5 +54,17 @@ public class RealTimeStockServiceImpl implements RealTimeStockService{
 		// TODO Auto-generated method stub
 		RealTimeStockVO result = realTimeStockDAO.getRealTimeStockDataLine(params);
 		return result;
+	}
+
+	@Override
+	public List<DailyStockVO> getDailyStocksByRange(Map<String, Object> params) {
+     	List<DailyStockVO> list = realTimeStockDAO.getDailyStocksByRange(params);
+		return list;
 	}	
+	
+	@Override
+	public List<DailyStockVO> getDailyStockByRange(Map<String, Object> params) {
+     	List<DailyStockVO> list = realTimeStockDAO.getDailyStockByRange(params);
+		return list;
+	}
 }

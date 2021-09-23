@@ -33,4 +33,11 @@ public class StockSummaryDAOImpl implements StockSummaryDAO{
 		List<StockNameVO> stockNamesVO = sqlSessionTemplate.selectList("summarystock.SummaryStockDAO.selectAllStockNames");
 		return stockNamesVO;
 	}
+
+	@Override
+	public StockNameVO selectStockName(String symbol) {
+		// TODO Auto-generated method stub
+		StockNameVO stockNameVO = sqlSessionTemplate.selectOne("summarystock.SummaryStockDAO.selectStockName" , symbol);
+		return stockNameVO;
+	}
 }

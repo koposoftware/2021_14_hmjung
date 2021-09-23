@@ -26,5 +26,10 @@
 	
 	<select id="selectAllStockNames" resultMap="stockNameMap">
 		select * from gc_stock
+	</select>
+	
+	<select id="selectStockName" resultMap="stockNameMap" parameterType="string">
+		select * from gc_stock where symbol = #{symbol} 
 	</select>	
+		
 </mapper>

@@ -42,9 +42,8 @@
 					</span>
 				  </a>
 				  <ul class="treeview-menu">
-					<li><a href="${ pageContext.request.contextPath }/advertise/valid"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>인증 서비스</a></li>
-					<li><a href="ico_roadmap_timeline.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Roadmap/Timeline</a></li>
-					<li><a href="ico_progress.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Progress Bar</a></li>
+					<li><a href="${ pageContext.request.contextPath }/account/advertise/valid"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>광고주 인증 요청</a></li>
+					<li><a href="${ pageContext.request.contextPath }/account/advertise/requestad"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>광고 요청</a></li>
 					<li><a href="ico_details.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Details</a></li>
 					<li><a href="ico_listing.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>ICO Listing</a></li>
 					<li><a href="ico_filter.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>ICO Listing - Filters</a></li>
@@ -52,12 +51,44 @@
 				</li>
 				</c:if>
 				
-				<li>
-				  <a href="currency_exchange.html">
-					<i data-feather="refresh-ccw"></i>
-					<span>Currency Exchange</span>
+				
+				<c:if test="${userVO.userType eq 3  }">
+					<li class="treeview">
+				  <a href="#">
+					<i data-feather="pie-chart"></i>										
+					<span>관리자</span>
+					<span class="pull-right-container">
+					  <i class="fa fa-angle-right pull-right"></i>
+					</span>
 				  </a>
+				  <ul class="treeview-menu">
+					<li><a href="${ pageContext.request.contextPath }/account/advertise/checkvalid"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>광고주 인증 검증</a></li>
+					<li><a href="${ pageContext.request.contextPath }/account/advertise/requestadcheck"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>광고 요청 검증</a></li>
+					<li><a href="ico_details.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Details</a></li>
+					<li><a href="ico_listing.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>ICO Listing</a></li>
+					<li><a href="ico_filter.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>ICO Listing - Filters</a></li>
+				  </ul>
 				</li>
+				</c:if>
+				
+				
+				
+				<li class="treeview">
+				  <a href="#">
+					<i data-feather="dollar-sign"></i>
+					<span>주식</span>
+					<span class="pull-right-container">
+					  <i class="fa fa-angle-right pull-right"></i>
+					</span>
+				  </a>
+				  <ul class="treeview-menu">
+					<li><a href="${ pageContext.request.contextPath }/stockinfo/search"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>종목 상세 정보</a></li>
+				  </ul>
+				</li>
+				
+				
+				
+				
 				<li class="treeview">
 				  <a href="#">
 					<i data-feather="users"></i>
@@ -85,21 +116,7 @@
 					<li><a href="tickers_live_pricing.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Live Crypto Prices</a></li>
 				  </ul>
 				</li>
-				<li class="treeview">
-				  <a href="#">
-					<i data-feather="dollar-sign"></i>
-					<span>Transactions</span>
-					<span class="pull-right-container">
-					  <i class="fa fa-angle-right pull-right"></i>
-					</span>
-				  </a>
-				  <ul class="treeview-menu">
-					<li><a href="transactions_tables.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Transactions Tables</a></li>
-					<li><a href="transaction_search.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Transactions Search</a></li>
-					<li><a href="transaction_details.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Single Transaction</a></li>
-					<li><a href="transactions_counter.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Transactions Counter</a></li>
-				  </ul>
-				</li>
+				
 				<li class="treeview">
 				  <a href="#">
 					<i data-feather="pie-chart"></i>

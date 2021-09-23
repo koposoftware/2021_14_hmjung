@@ -30,4 +30,12 @@ public class StockSummaryServiceImpl implements StockSummaryService{
 		List<StockNameVO> list = stockSummaryDAO.selectAllStockNames();
 		return list;
 	}
+
+
+	@Override
+	public StockNameVO selectStockName(String symbol) {
+		// TODO Auto-generated method stub
+		StockNameVO stockNameVO = stockSummaryDAO.selectStockName(symbol);
+		return stockNameVO;
+	}
 }

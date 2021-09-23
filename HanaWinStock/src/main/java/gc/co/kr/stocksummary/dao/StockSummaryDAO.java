@@ -11,4 +11,6 @@ public interface StockSummaryDAO {
 	
 	List<StockNameVO> selectAllStockNames();
 	
+	StockNameVO selectStockName(String symbol);
+	
 }

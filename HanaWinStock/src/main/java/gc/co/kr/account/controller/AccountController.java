@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
+
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,9 +32,11 @@ import gc.co.kr.leagueAccount.LeagueAccountService;
 import gc.co.kr.leagueAccount.LeagueAccountVO;
 import gc.co.kr.leagueAccount.LeagueFollowVO;
 import gc.co.kr.member.vo.MemberVO;
+
 import gc.co.kr.stocksummary.service.StockSummaryService;
 import gc.co.kr.stocksummary.vo.StockNameVO;
 import gc.co.kr.stocksummary.vo.StockSummaryVO;
+
 
 @Controller
 @RequestMapping("/account")
@@ -50,6 +50,9 @@ public class AccountController {
 	
 	@Autowired
 	private StockSummaryService summaryService;
+	
+	//@Autowired
+	//private RealTimeStockService realTimeservice;
 
 	ObjectMapper mapper = new ObjectMapper();
 	
@@ -172,11 +175,6 @@ public class AccountController {
 		model.addAttribute("showingLogs" , showingLogs);
 		return "gcaccount/transaction";
 	}
-	
-	
-	
-	
-	
 	
 	
 	@PostMapping("/signin")
@@ -306,10 +304,9 @@ public class AccountController {
 			}			
 			stockSummaryList = summaryService.selectCurrentStockSummary(symbols);			
 		}		
-		Map<String, String> stockNameMap = new HashMap<String, String>();
-		
-		for( StockNameVO stock : stockNameList   ) {
-			stockNameMap.put(stock.getSymbol() , stock.getLongName() );
+		Map<String, String> stockNameMap = new HashMap<String, String>();		
+		for( StockNameVO stock : stockNameList ) {
+			stockNameMap.put(stock.getSymbol() , stock.getLongName());
 		}				
 		Gson gson = new Gson();
         String serializeString = gson.toJson(stockNameMap);
@@ -322,6 +319,8 @@ public class AccountController {
 		return "gcaccount/hts";
 	}
 
+	
+	
 	
 	public String getAccountInfo(String accountType, String accountKey ){
 		HashMap <String , Object> result = new HashMap<String,Object>();			
@@ -364,6 +363,96 @@ public class AccountController {
 		return result;
 	}
 	
+	
+	public Map<String , AccountStockVO> getAllstockForEach(String accountKey){
+		List<AccountStockVO> list = service.getAllAccountStockVO( accountKey );
+		Map<String , AccountStockVO> map = new HashMap<String , AccountStockVO>();
+		for(AccountStockVO stock : list) {
+			String currentSymbol = stock.getSymbol();
+			map.put(currentSymbol , stock);			
+		}		
+		return map;
+	}
+	
+	public Map<String , List<AccountStockLog> > getAllLogsForEach(String accountKey , List<String> symbols  ){
+		Map<String , List<AccountStockLog> > map =  new HashMap<String , List<AccountStockLog>>();		
+		for(String stock :  symbols) {
+			List<AccountStockLog> list = new ArrayList<AccountStockLog>();
+			map.put(stock, list);
+		}		
+		List<AccountStockLog> list = service.getAllAccountStockLogs(accountKey);
+		for( AccountStockLog log : list  ) {
+			String symbol = log.getSymbol();		
+			List<AccountStockLog> loglist =  map.get(symbol );
+			loglist.add(log);			
+			map.put(symbol, loglist);			
+		}												
+		return map;
+	}
+		
+
+	@GetMapping("/portfolio")
+	public String getPortfolio(Model model, HttpSession session) {		
+		String accountType = (String) session.getAttribute("accountType");
+		String accountKey = (String) session.getAttribute("accountKey");
+		System.out.println(accountType);
+		System.out.println(accountKey);
+		String view = "gcaccount/leagueportfolio";
+		if(accountType != null && accountType.equals("accountVO")) {
+			AccountVO accountVO = service.selectByAccNum(accountKey);			
+			model.addAttribute("leagueAccountVO" , accountVO);
+		}else if(accountType != null && accountType.equals("leagueAccountVO")) {
+			LeagueAccountVO leagueAccountVO = leagueService.selectLeagueAcc(accountKey);
+			model.addAttribute("leagueAccountVO" , leagueAccountVO);
+		}
+		//Map<String , AccountStockVO> stockMap = getAllstockForEach(accountKey);
+		List<AccountStockVO> stockMap  = service.getAllAccountStockVO( accountKey );
+		if(stockMap.size() == 0) {
+			String msg = "warning:warning:현재 보유하신 주식이 없습니다.";
+			session.setAttribute("msg", msg);
+			return "redirect:/account/hts";
+		}else {
+			model.addAttribute("stockMap" , stockMap);
+			
+			Gson gson3 = new Gson();
+	        String stockMapString = gson3.toJson(stockMap);
+			model.addAttribute("stockMapString" , stockMapString);							
+			
+			
+			//List<String> symbolList = new ArrayList<String>(stockMap.keySet());
+			List<String> symbolList = new ArrayList<String>();
+			for(AccountStockVO stock : stockMap) {
+				symbolList.add(stock.getSymbol());
+			}
+			
+			
+			Map<String , List<AccountStockLog>> logMap = getAllLogsForEach(accountKey, symbolList);
+			System.out.println("logMap size : " + logMap.size());				
+			model.addAttribute("logMap" , logMap);
+			
+			
+			List<StockSummaryVO> stockSummaryList = summaryService.selectCurrentStockSummary(symbolList);
+			Map<String ,StockSummaryVO > temp = new HashMap<String , StockSummaryVO>();
+			for(StockSummaryVO summary: stockSummaryList ){
+		        temp.put(summary.getSymbol(), summary);
+	        }
+			Gson gson2 = new Gson();
+	        String stockSummaryListString = gson2.toJson(temp);
+			model.addAttribute("stockSummaryList" , stockSummaryListString);	
+
+			
+			List<StockNameVO> stockNameList =  summaryService.selectAllStockNames();
+			Map<String, String> stockNameMap = new HashMap<String, String>();		
+			for( StockNameVO stock : stockNameList) {
+				stockNameMap.put(stock.getSymbol() , stock.getLongName());
+			}				
+			Gson gson = new Gson();
+	        String serializeString = gson.toJson(stockNameMap);
+	        model.addAttribute("stockNameMap" , serializeString);	        	     
+			return view;
+			
+		}								
+	}		
 	
 	
 	

@@ -171,6 +171,9 @@ body {
 		<jsp:include page="/resources/dash/include/sidebar.jsp" />
 	</aside>
 	<!-- Content Wrapper. Contains page content -->
+
+
+
 	<div class="content-wrapper">
 		<div class="container-full">
 
@@ -199,22 +202,22 @@ body {
 
 						<div class="row">
 							<c:if test="${empty leagueAccountVO }">
-							
-										<div class="box-footer mt-10">
-											<form action="${ pageContext.request.contextPath }/account/createLeagueAcc" method="post">
-												<button type="submit" id="start_league" class="waves-effect waves-light btn btn-danger btn-lg">새로 시작하기</button>
-											</form>
-										</div>								
+
+								<div class="box-footer mt-10">
+									<form action="${ pageContext.request.contextPath }/account/createLeagueAcc" method="post">
+										<button type="submit" id="start_league" class="waves-effect waves-light btn btn-danger btn-lg">새로 시작하기</button>
+									</form>
+								</div>
 							</c:if>
 							<c:if test="${not empty leagueAccountVO }">
 								<div class="col-md-12">
 									<div class="box box-widget widget-user">
 										<div class="box-body box-profile">
 											<h3 class="widget-user-username text-black">${userVO.id }</h3>
-											<%-- <h6 class="widget-user-desc text-white">${userVO.userType }</h6> --%>										
-											<img class="rounded img-fluid mx-auto d-block max-w-150" src="${ pageContext.request.contextPath }/resources/images/tier/${leagueAccountVO.tier}.png">										
+											<%-- <h6 class="widget-user-desc text-white">${userVO.userType }</h6> --%>
+											<img class="rounded img-fluid mx-auto d-block max-w-150" src="${ pageContext.request.contextPath }/resources/images/tier/${leagueAccountVO.tier}.png">
 										</div>
-										
+
 										<div class="box-footer">
 											<div class="row mb-15">
 												<div class="col-sm-4 text-center">
@@ -230,15 +233,15 @@ body {
 														<h5 class="description-header">${leagueAccountVO.followPrice }</h5>
 														<span class="description-text">구독 가격</span>
 													</div>
-													
+
 												</div>
 												<!-- /.col -->
 												<div class="col-sm-4 text-center">
 													<div class="description-block">
 														<h5 class="description-header">잔액</h5>
-														<span class="description-text"><fmt:formatNumber value = "${leagueAccountVO.balance}" type = "currency" currencySymbol="$"/></span>
+														<span class="description-text"><fmt:formatNumber value="${leagueAccountVO.balance}" type="currency" currencySymbol="$" /></span>
 													</div>
-												
+
 												</div>
 												<!-- /.col -->
 											</div>
@@ -253,28 +256,26 @@ body {
 												</h5>
 												<h5 class="p-15 mb-0">
 													<strong>주식 보유 개수:</strong> ${totalStockCounts }개
-													
+
 												</h5>
 												<h5 class="p-15 mb-0">
 													<strong>구독 정보:</strong> ${fn:length(leagueFollowList) } 명
-													
+
 												</h5>
 											</div>
 											<div class="row mb-30">
 												<div class="clearfix">
 													<button type="submit" id="refresh_league" class="waves-effect waves-light btn btn-danger mb-5">초기화</button>
 													<button type="submit" id="start_league" class="waves-effect waves-light btn btn-success mb-5" data-bs-toggle="modal" data-bs-target="#modal-center2">계좌 선택</button>
-
 												</div>
 											</div>
-
 										</div>
 									</div>
 								</div>
 							</c:if>
 						</div>
 					</div>
-					
+
 					<div class="col-md-8">
 						<div class="content-header">
 							<div class="d-flex align-items-center">
@@ -297,13 +298,13 @@ body {
 						</div>
 						<div class="row">
 							<c:if test="${fn:length(list) eq 0}">
-							<div class="box-footer mt-10">
-									
-										<button type="submit" id="start_account" class="waves-effect waves-light btn btn-danger btn-lg">생성 하러 가기</button>
-									
-								</div>	
+								<div class="box-footer mt-10">
+
+									<button type="submit" id="start_account" class="waves-effect waves-light btn btn-danger btn-lg">생성 하러 가기</button>
+
+								</div>
 							</c:if>
-						
+
 							<div class="container-fixed stacked-cards stacked-cards-slide">
 								<ul>
 									<c:forEach items="${ list }" var="accountVO" varStatus="loop">
@@ -317,7 +318,9 @@ body {
 
 															<br>
 															<p class="price" style="font-size: xxx-large;">
-																<sup>$</sup><fmt:formatNumber value = "${accountVO.balance}" type = "number" /><span>&nbsp;</span> <input value="${accountVO.balance }" id="balance_${loop.count }" hidden="true">
+																<sup>$</sup>
+																<fmt:formatNumber value="${accountVO.balance}" type="number" />
+																<span>&nbsp;</span> <input value="${accountVO.balance }" id="balance_${loop.count }" hidden="true">
 															</p>
 															<hr>
 															<p>
@@ -342,7 +345,9 @@ body {
 
 															<br>
 															<p class="price" style="font-size: xxx-large;">
-																<sup>$</sup><fmt:formatNumber value = "${accountVO.balance}" type = "number" /><span>&nbsp;</span> <input value="${accountVO.balance }" id="balance_${loop.count }" hidden="true">
+																<sup>$</sup>
+																<fmt:formatNumber value="${accountVO.balance}" type="number" />
+																<span>&nbsp;</span> <input value="${accountVO.balance }" id="balance_${loop.count }" hidden="true">
 															</p>
 															<hr>
 															<p>
@@ -365,7 +370,9 @@ body {
 															</h5>
 															<br>
 															<p class="price" style="font-size: xxx-large;">
-																<sup>$</sup><fmt:formatNumber value = "${accountVO.balance}" type = "number" /><span>&nbsp;</span> <input value="${accountVO.balance }" id="balance_${loop.count }" hidden="true">
+																<sup>$</sup>
+																<fmt:formatNumber value="${accountVO.balance}" type="number" />
+																<span>&nbsp;</span> <input value="${accountVO.balance }" id="balance_${loop.count }" hidden="true">
 															</p>
 															<hr>
 															<p>
@@ -374,7 +381,8 @@ body {
 															<p>
 																<strong>생성 날짜:&nbsp;</strong><span id="regDate_${loop.count }">${accountVO.regDate }</span>
 															</p>
-															<br><br>
+															<br>
+															<br>
 															<button id="listindex_${loop.count }" type="button" style="background-color: transparent; border-color: white;" class="btn btn-primary goto-htc" data-bs-toggle="modal" data-bs-target="#modal-center">계좌 선택</button>
 														</div>
 													</div>

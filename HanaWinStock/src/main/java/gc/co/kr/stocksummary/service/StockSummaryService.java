@@ -11,6 +11,8 @@ public interface StockSummaryService {
 		
 	List<StockSummaryVO> selectCurrentStockSummary(List<String> symbols);
 	
+	StockNameVO selectStockName(String symbol);
+	
 	List<StockNameVO> selectAllStockNames();
 	
 	

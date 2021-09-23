@@ -3,6 +3,7 @@ package gc.co.kr.realtimestock.service;
 import java.util.List;
 import java.util.Map;
 
+import gc.co.kr.realtimestock.vo.DailyStockVO;
 import gc.co.kr.realtimestock.vo.RealTimeStockVO;
 
 public interface RealTimeStockService {
@@ -18,4 +19,10 @@ public interface RealTimeStockService {
 	List<RealTimeStockVO> getRealTimeStockData(Map<String,Object> params);
 	
 	RealTimeStockVO getRealTimeStockDataLine(Map<String,Object> params);
+	
+	List<DailyStockVO> getDailyStocksByRange(Map<String, Object> params);
+	
+	List<DailyStockVO> getDailyStockByRange(Map<String, Object> params);
+	
+	
 }

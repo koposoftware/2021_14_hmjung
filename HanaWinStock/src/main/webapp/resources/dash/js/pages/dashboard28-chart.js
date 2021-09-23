@@ -162,10 +162,6 @@ sbSeries.dataFields.valueYShow = undefined;
 chart.scrollbarX = scrollbarX;
 
 // Add range selector
-var selector = new am4plugins_rangeSelector.DateAxisRangeSelector();
-selector.container = document.getElementById("controls");
-selector.axis = dateAxis;
-
 }); // end am4core.ready()
 
 

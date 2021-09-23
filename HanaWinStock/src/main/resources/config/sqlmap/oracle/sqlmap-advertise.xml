@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="advertise.AdvertiseDAO">
+ 	<resultMap type="advertiseMemberRequestVO" id="advertiseMemberRequestMap">
+ 		<result column="first_name" property="firstName"></result>
+ 		<result column="last_name" property="lastName"></result>
+ 		<result column="advertise_symbol" property="advertiseSymbol"></result>
+ 		<result column="company_reg_number" property="companyRegNumber"></result>
+ 		<result column="file_path" property="filePath"></result>
+ 		<result column="client_alarm" property="clientAlarm"></result>
+ 	</resultMap>
+ 	
+ 	<resultMap type="adRequestVO" id="adRequestMap">
+ 		<result column="file_path"  property="filePath"></result>
+ 		<result column="start_date"  property="startDate"></result>
+ 		<result column="end_date"  property="endDate"></result>
+ 		<result column="advertise_symbol"  property="advertiseSymbol"></result> 		
+ 	</resultMap>
+ 	
+ 	<insert id="createRequest" parameterType="advertiseMemberRequestVO">
+ 		insert into gc_advertise_member_requet(id ,first_name , last_name , email , phone, advertise_symbol , company_reg_number , file_path , budget  , note , status , client_alarm)
+ 		values(#{id} , #{firstName} , #{lastName} , #{email} , #{phone} , #{advertiseSymbol} , #{companyRegNumber} , #{filePath} , #{budget} ,#{note} , #{status} , #{clientAlarm} )
+ 	</insert>
+ 	
+ 	<select id="selectAllAdvertiseMemberRequestVO" resultMap="advertiseMemberRequestMap">
+ 		select * from gc_advertise_member_requet
+ 	</select>
+ 	
+ 
+ 	<select id="selectAdvertiseMemberRequestVO" parameterType="int" resultMap="advertiseMemberRequestMap">
+ 		select * from gc_advertise_member_requet where no = #{no}
+ 	</select>
+ 	
+ 	<update id="updateRequestStatus" parameterType="advertiseMemberRequestVO">
+		update gc_advertise_member_requet set status = #{status} where no = #{no} 	
+ 	</update>
+ 	
+ 	<select id="getApprovedSymbols" parameterType="string" resultMap="advertiseMemberRequestMap">
+ 		select * from gc_advertise_member_requet where id = #{id} and status = 'APPROVE'
+ 	</select>
+ 	
+ 	<insert id="createVideoRequest" parameterType="adRequestVO">
+ 		insert into gc_advertise_request(id , start_date , end_date , file_path , frequency , advertise_Symbol, note  , status)
+		values (#{id} , to_date(#{startDate} , 'mm/dd/yyyy') , to_date(#{endDate} , 'mm/dd/yyyy') , #{filePath} , #{frequency} ,   #{advertiseSymbol} , #{note}  , #{status})
+ 	</insert>
+ 	
+ 	<select id="selectAllRequestVO" resultMap="adRequestMap">
+ 		select * from gc_advertise_request
+ 	</select>
+ 	
+ 	
+ 	<select id="selectOneRequestVO" resultMap="adRequestMap" parameterType="int">
+ 		select * from gc_advertise_request where no = #{no}
+ 	</select>
+ 	
+	<update id="updateVideoRequestVOStatus" parameterType="adRequestVO">
+		update gc_advertise_request set status = #{status} where no = #{no}
+	</update>
+	
+	<select id="getAllapprovedAds" resultMap="adRequestMap" parameterType="float">
+	select * from gc_advertise_request a inner join (
+	select advertise_symbol , max(no) as maxno from(
+	select * from gc_advertise_request where status = 'APPROVE' and frequency = #{frequency} and 
+	sysdate between start_date and end_date) group by advertise_symbol) b
+	on a.no = b.maxno		
+	</select>
+	
+		 
+ </mapper>

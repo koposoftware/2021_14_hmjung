@@ -38,7 +38,9 @@
 		<id column="avg_price" property="avg_price"/>
 	</resultMap>
 	
-	
+	<resultMap type="dailyStockVO" id="dailyStockMap">
+		<result column="unix_time" property="unixTime"></result>
+	</resultMap>
 	
 	
 	
@@ -86,8 +88,16 @@
 		SELECT * from gc_realtime_stock where unix_time between #{startTime} and #{endTime}  and symbol = #{symbol}		
 	</select>
 	
+	<select id="getDailyStocksByRange" parameterType="hashMap" resultMap="dailyStockMap">
+		select * from gc_daily_stock where unix_time > #{startTime} and symbol in
+		<foreach collection="symbolArray" item="arr" open="(" close=")" separator=",">
+		 	#{arr}
+		</foreach>	
+	</select>
 	
+	<select id="getDailyStockByRange" parameterType="hashMap" resultMap="dailyStockMap">
+		select * from gc_daily_stock where unix_time > #{startTime} and symbol = #{symbol}		
+	</select>
 	
-	
-	
+				
 </mapper>

@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import gc.co.kr.realtimestock.vo.DailyStockVO;
 import gc.co.kr.realtimestock.vo.RealTimeStockVO;
 
 @Repository
@@ -60,8 +61,18 @@ public class RealTimeStockDAOImpl implements RealTimeStockDAO{
 		RealTimeStockVO result =  resultList.get(resultList.size() - 1);		
 		return result;
 	}
+
+	@Override
+	public List<DailyStockVO> getDailyStocksByRange(Map<String, Object> params) {
+		List<DailyStockVO> list = sqlSessionTemplate.selectList("realtimestock.RealTimeStockDAO.getDailyStocksByRange" , params);
+		return list;
+	}
 	
-	
+	@Override
+	public List<DailyStockVO> getDailyStockByRange(Map<String, Object> params) {
+		List<DailyStockVO> list = sqlSessionTemplate.selectList("realtimestock.RealTimeStockDAO.getDailyStockByRange" , params);
+		return list;
+	}
 	
 	
 }

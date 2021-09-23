@@ -24,10 +24,10 @@ public interface AccountService {
 	@Transactional
 	void transact(Map<String, Object> params);
 	
-	
 	List<AccountStockVO> getAllAccountStockVO(String key);
 		
 	List<AccountStockLog> getAllAccountStockLogs(String key);
+	
 	List<AccountStockLog> getAllAccountStockLogsType(Map<String, String> params );
 	
 }

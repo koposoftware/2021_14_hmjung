@@ -8,6 +8,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import gc.co.kr.account.vo.AccountVO;
 import gc.co.kr.leagueAccount.LeagueAccountVO;
+import gc.co.kr.member.vo.MemberVO;
 
 public class AccountInterceptor extends HandlerInterceptorAdapter{
 	
@@ -16,19 +17,41 @@ public class AccountInterceptor extends HandlerInterceptorAdapter{
 		System.out.println("계좌 인터셉터 처리...");
 		// 로그인여부 판단.
 		HttpSession session = request.getSession();
+		
 		AccountVO accountVO = (AccountVO)session.getAttribute("accountVO");
 		
-		if(accountVO == null) {
+		if(accountVO == null) {			
 			System.out.println("일반 계좌 확인 안됨");
 			LeagueAccountVO  leagueAccountVO = (LeagueAccountVO)session.getAttribute("leagueAccountVO");
 			if(leagueAccountVO == null) {
-				System.out.println("리그 계좌 확인 안됨");
-				String uri = request.getRequestURI();
-				uri = uri.substring(request.getContextPath().length());
-				System.out.println(uri);
-				session.setAttribute("dest2", uri);
-				response.sendRedirect(request.getContextPath() +  "/account/signin");
-				return false;
+				MemberVO userVO = (MemberVO)session.getAttribute("userVO");
+				if(userVO.getUserType() == 2) {
+					leagueAccountVO  = new LeagueAccountVO();
+					leagueAccountVO.setId(userVO.getId());
+					leagueAccountVO.setBalance(0);
+					leagueAccountVO.setTier("advertiser");
+					leagueAccountVO.setFollowPrice(0);
+					session.setAttribute("leagueAccountVO", leagueAccountVO);
+					session.setAttribute("accountType" , "leagueAccountVO");
+					session.setAttribute("accountKey" , userVO.getId() );
+				}else if(userVO.getUserType() == 3) {
+					leagueAccountVO  = new LeagueAccountVO();
+					leagueAccountVO.setId(userVO.getId());
+					leagueAccountVO.setBalance(0);
+					leagueAccountVO.setTier("admin");
+					leagueAccountVO.setFollowPrice(0);
+					session.setAttribute("leagueAccountVO", leagueAccountVO);
+					session.setAttribute("accountType" , "leagueAccountVO");
+					session.setAttribute("accountKey" , userVO.getId() );
+				}else {
+					System.out.println("리그 계좌 확인 안됨");
+					String uri = request.getRequestURI();
+					uri = uri.substring(request.getContextPath().length());
+					System.out.println(uri);
+					session.setAttribute("dest2", uri);
+					response.sendRedirect(request.getContextPath() +  "/account/signin");
+					return false;
+				}							
 			}
 		}				
 		System.out.println("계좌 확인 됨");

@@ -5,6 +5,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:tx="http://www.springframework.org/schema/tx"
     xmlns:websocket="http://www.springframework.org/schema/websocket"
+    xmlns:task="http://www.springframework.org/schema/task"
     xsi:schemaLocation="http://www.springframework.org/schema/beans   
     http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/context   
@@ -14,9 +15,15 @@
     http://www.springframework.org/schema/tx
     http://www.springframework.org/schema/tx/spring-tx.xsd
 	http://www.springframework.org/schema/websocket
-	http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd">
+	http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
+	http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
 	<context:component-scan base-package="gc.co.kr" />
+	<task:scheduler id="jobScheduler" pool-size="10"/>
+	<task:annotation-driven scheduler="jobScheduler"/>	
+	
+	
 	<tx:annotation-driven/>
     <mvc:annotation-driven />
 	<mvc:default-servlet-handler />
@@ -51,7 +58,8 @@
     </bean>
 	
     <websocket:handlers allowed-origins="*">
-        <websocket:mapping path="/account/hts/*" handler="chatting"/>
+       <!--  <websocket:mapping path="/account/hts/*" handler="chatting"/> -->
+        <websocket:mapping path="/account/*" handler="chatting"/>
 <!--         <websocket:mapping path="/account/hts/*" handler="chatting2"/> -->
     </websocket:handlers> 
      <bean id="chatting" class="gc.co.kr.chating.handler.SocketHandler"/>
@@ -91,10 +99,7 @@
     	<property name="maxUploadSize" value="100000000"/>  <!-- 10MB-->
     	<property name="maxInMemorySize" value="100000000"/> <!-- 10MB-->
 	</bean>
-	
-	
-	
-	
+
 	 <mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>

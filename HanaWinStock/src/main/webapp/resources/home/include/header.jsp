@@ -59,6 +59,7 @@ transform:scale(0.75);
 						<ul class="list-group">
 							<li><h4 class="menu-title">계좌</h4></li>
 							<li><a href="${pageContext.request.contextPath}/account/contract"><i class="ti-arrow-circle-right me-10"></i>계좌 생성</a></li>
+							<li><a href="${pageContext.request.contextPath}/account/signin"><i class="ti-arrow-circle-right me-10"></i>계좌 선텍</a></li>
 							<li><a href="${pageContext.request.contextPath}/account/hts"><i class="ti-arrow-circle-right me-10"></i>웹트레이딩</a></li>
 							<li><a href="${pageContext.request.contextPath}/account/log"><i class="ti-arrow-circle-right me-10"></i>계좌 조회</a></li>
 							<li><a href="${ pageContext.request.contextPath }/account/transaction/1"><i class="ti-arrow-circle-right me-10"></i>내 트랜잭션</a></li>
@@ -69,7 +70,8 @@ transform:scale(0.75);
 					<div class="col-lg-3 col-12">
 						<ul class="list-group">
 							<li><h4 class="menu-title">검색</h4></li>
-							<li><a href="${ pageContext.request.contextPath }/stockinfo/search"><i class="ti-arrow-circle-right me-10"></i>주식 정보</a></li>						
+							<li><a href="${ pageContext.request.contextPath }/stockinfo/search"><i class="ti-arrow-circle-right me-10"></i>주식 검색</a></li>
+							<li><a href="${ pageContext.request.contextPath }/account/search"><i class="ti-arrow-circle-right me-10"></i>계좌 검색</a></li>						
 						</ul>
 					</div>																				
 					<div class="col-md-3 col-12">

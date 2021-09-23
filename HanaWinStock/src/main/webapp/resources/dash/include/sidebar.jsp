@@ -29,6 +29,7 @@
 				    <li><a href="${ pageContext.request.contextPath }/account/channel"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>내 채널</a></li>
 					<li><a href="${ pageContext.request.contextPath }/account/transaction/1"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>내 트랜잭션</a></li>
 					<li><a href="${ pageContext.request.contextPath }/account/portfolio"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>내 포트폴리오</a></li>
+					
 				  </ul>
 				</li>
 				<c:if test="${userVO.userType ne 1  }">
@@ -75,13 +76,14 @@
 				<li class="treeview">
 				  <a href="#">
 					<i data-feather="dollar-sign"></i>
-					<span>주식</span>
+					<span>검색</span>
 					<span class="pull-right-container">
 					  <i class="fa fa-angle-right pull-right"></i>
 					</span>
 				  </a>
 				  <ul class="treeview-menu">
-					<li><a href="${ pageContext.request.contextPath }/stockinfo/search"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>종목 상세 정보</a></li>
+					<li><a href="${ pageContext.request.contextPath }/stockinfo/search"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>주식 검색</a></li>
+					<li><a href="${ pageContext.request.contextPath }/account/search"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>계좌 검색</a></li>					
 				  </ul>
 				</li>
 				

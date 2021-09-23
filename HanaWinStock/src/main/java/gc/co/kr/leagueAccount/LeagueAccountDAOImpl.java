@@ -28,7 +28,7 @@ public class LeagueAccountDAOImpl implements LeagueAccountDAO{
 	@Override
 	public List<LeagueFollowVO> selectFollowers(String userID) {
 		System.out.println("selecting followers : " + userID);
-		List<LeagueFollowVO>  leagueFollowUserVO =  sqlSessionTemplate.selectOne("account.AccountDAO.selectFollowers" , userID); 		
+		List<LeagueFollowVO>  leagueFollowUserVO =  sqlSessionTemplate.selectList("account.AccountDAO.selectFollowers" , userID); 		
 		return leagueFollowUserVO;
 	}
 
@@ -46,5 +46,23 @@ public class LeagueAccountDAOImpl implements LeagueAccountDAO{
 		session.update("account.AccountDAO.transactAccountLeague", params);
 		session.update("account.AccountDAO.transactAccountStock", params);
 		session.insert("account.AccountDAO.transactAccountStockLog" , params);
+	}
+
+	@Override
+	public List<LeagueFollowVO> selectmyfollow(String followerId) {
+		// TODO Auto-generated method stub
+		List<LeagueFollowVO> list = sqlSessionTemplate.selectList("account.AccountDAO.selectmyfollow" , followerId);
+		return list;
+	}
+
+	@Override
+	public void subscribeUser(LeagueFollowVO leagueFollowVO) {		
+		session.insert( "account.AccountDAO.subscribeUser",  leagueFollowVO);
+	}
+
+	@Override
+	public void unSubscribeUser(LeagueFollowVO leagueFollowVO) {
+		
+		session.delete( "account.AccountDAO.unSubscribeUser",  leagueFollowVO);
 	}
 }

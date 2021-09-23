@@ -92,20 +92,16 @@ public class StockInfoController {
 		
 		List<StockSummaryVO> stockSummaryList = summaryService.selectCurrentStockSummary(symbolList);		
 		System.out.println(stockSummaryList.size());
-		
-		
+				
 		StockSummaryVO stockSummary = stockSummaryList.get(0);
 		System.out.println(stockSummary);
 		
-		model.addAttribute("stockSummary" , stockSummary );
-		
+		model.addAttribute("stockSummary" , stockSummary );	
 	  	StockNameVO stockNameVO =   summaryService.selectStockName(symbol);
 	  	model.addAttribute("stockNameVO" , stockNameVO);
-	  	
-	  	
+	  	  	
 	  	RealTimeStockVO realTimeStockVO = service.getRecentOneRealTime(symbol);
 	  	model.addAttribute("realTimeStockVO"  , realTimeStockVO );
-	  	
 	  	
 		return view;
 	}

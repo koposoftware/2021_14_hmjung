@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -103,35 +104,7 @@ public class AccountController {
 	}
 	
 	
-	@GetMapping("/signin")
-	public String showAllAccounts(Model model, HttpSession session) {
-		System.out.println("전체 계좌 조회");
-		MemberVO userVO  =  (MemberVO)session.getAttribute("userVO");
-		String userID = userVO.getId();
-		List<AccountVO> list =  service.selectAllAccounts(userID);		
-		model.addAttribute("list", list);
-		List<LeagueFollowVO> leagueFollowVOlist = leagueService.selectFollowers(userID);
-		LeagueAccountVO leagueAccountVO = leagueService.selectLeagueAcc(userID);
-		
-		model.addAttribute("leagueFollowList", leagueFollowVOlist );		
-		model.addAttribute("leagueAccountVO", leagueAccountVO);				
-		String userAccountInfo = getAccountInfo("leagueAccountVO", userVO.getId());		
-		model.addAttribute("leagueAccountInfo" , userAccountInfo);	
-		
-		List<AccountStockVO> stockList = service.getAllAccountStockVO( userVO.getId() );		
-		int stockCount = 0;
-		
-		for(AccountStockVO stock : stockList) {
-			stockCount = stockCount + stock.getTotalCounts();			
-		}
-		
-		model.addAttribute("totalStockCounts" , stockCount);
-		 
-		
-		
-		
-		return "gcaccount/viewaccounts";
-	}	
+
 	
 
 	
@@ -199,7 +172,8 @@ public class AccountController {
 			
 			
 			String dest = (String) session.getAttribute("dest2");
-			if (dest != null) {
+			System.out.println(dest);
+			if (dest != null &&!dest.equals("/account/signOut" ) ) {
 				session.removeAttribute("dest");
 				view = "redirect:" + dest;
 			} else {
@@ -235,7 +209,8 @@ public class AccountController {
 				session.setAttribute("accountType" , "leagueAccountVO");
 				session.setAttribute("accountKey" , userVO.getId() );
 				String dest = (String) session.getAttribute("dest2");
-				if(dest != null) {
+				System.out.println(dest);
+				if(dest != null && !dest.equals("/account/signOut" ) ) {
 					view = "redirect:" + dest;
 					session.removeAttribute("dest");
 				}else {
@@ -455,10 +430,275 @@ public class AccountController {
 	}		
 	
 	@GetMapping("/channel")
-	public String getMyChannel() {
+	public String getMyChannel(HttpSession session , HttpServletRequest request) {
 		String view = "gcaccount/channel";
+		String accountType = (String) session.getAttribute("accountType");
+		if (! accountType.equals( "leagueAccountVO" )) {
+			System.out.println("not logged in as league");
+			String msg = "warning:error:이 기능을 사용하기 위해서는 리그 계좌로 로그인 해야 합ㄴ디ㅏ.";
+			session.setAttribute("msg", msg);
+			String referer = request.getHeader("Referer");
+			if(  referer != null ) {
+				return "redirect:"+ referer;
+			}else {
+				return "redirect:/";
+			}									
+		}			
 		return view;		
 	}
+	
+	@GetMapping("/search")
+	public String searchChannel(HttpSession session , HttpServletRequest request) {
+		String accountType = (String) session.getAttribute("accountType");
+		if (! accountType.equals( "leagueAccountVO" )) {
+			System.out.println("not logged in as league");
+			String msg = "warning:error:이 기능을 사용하기 위해서는 리그 계좌로 로그인 해야 합ㄴ디ㅏ.";
+			session.setAttribute("msg", msg);
+			String referer = request.getHeader("Referer");
+			if(  referer != null ) {
+				return "redirect:"+ referer;
+			}else {
+				return "redirect:/";
+			}									
+		}
+		
+		String view = "gcaccount/search";
+		return view;
+	}
+
+	@PostMapping("/search")
+	public String postsearchChannel(HttpServletRequest request , Model model , HttpSession session) {
+		String accountType = (String) session.getAttribute("accountType");
+		if (! accountType.equals( "leagueAccountVO" )) {
+			System.out.println("not logged in as league");
+			String msg = "warning:error:이 기능을 사용하기 위해서는 리그 계좌로 로그인 해야 합ㄴ디ㅏ.";
+			session.setAttribute("msg", msg);
+			String referer = request.getHeader("Referer");
+			if(  referer != null ) {
+				return "redirect:"+ referer;
+			}else {
+				return "redirect:/";
+			}									
+		}
+		
+		
+		
+		String view= "";
+		String viewId = request.getParameter("viewId");
+		System.out.println("viewId : " +   viewId);
+		LeagueAccountVO viewLeagueVO = leagueService.selectLeagueAcc(viewId );
+		if(viewLeagueVO == null) {
+			System.out.println("no league accoutn ");
+			String msg = "warning:error:입력하신 리그 계좌는 존재 하지 않습니다.";
+			model.addAttribute("msg" , msg);
+			view = "gcaccount/search";			
+		}else {
+			view = "redirect:/account/viewother/account/" + viewId;			
+		}	
+		return view;
+	}
+	
+	@GetMapping("/viewother/account/{viewId}")
+	public String viewotheraccount(@PathVariable("viewId") String viewId , HttpSession session , HttpServletRequest request , Model model) {
+		String view = "gcaccount/otheraccount";
+		
+		
+		String accountType = (String) session.getAttribute("accountType");
+		if (! accountType.equals( "leagueAccountVO" )) {
+			System.out.println("not logged in as league");
+			String msg = "warning:error:이 기능을 사용하기 위해서는 리그 계좌로 로그인 해야 합ㄴ디ㅏ.";
+			session.setAttribute("msg", msg);
+			String referer = request.getHeader("Referer");
+			if(  referer != null ) {
+				return "redirect:"+ referer;
+			}else {
+				return "redirect:/";
+			}									
+		}
+		
+		model.addAttribute("viewId" , viewId); 		
+		
+		System.out.println(viewId);
+        MemberVO userVO = (MemberVO) session.getAttribute("userVO");
+        LeagueAccountVO otherleagueAccountVO = leagueService.selectLeagueAcc(viewId);
+		model.addAttribute("otherleagueAccountVO", otherleagueAccountVO);		
+        
+		
+		List<LeagueFollowVO> list = leagueService.selectFollowers( viewId );					
+		model.addAttribute("otherleagueFollowList", list );
+				
+		List<LeagueAccountVO> followerAccountList = new ArrayList<LeagueAccountVO>();
+		if(list  != null && list.size() > 0 ) {
+			for(LeagueFollowVO follower : list) {
+				String followerId = follower.getFollowerId();
+				LeagueAccountVO leagueUser = leagueService.selectLeagueAcc(followerId);
+				System.out.println(leagueUser);
+				followerAccountList.add(leagueUser);
+			}						
+		}
+		model.addAttribute("followerAccountList" , followerAccountList);
+		System.out.println(followerAccountList.size());		
+		
+		
+								
+		
+		List<AccountStockVO> otherstockList = service.getAllAccountStockVO( viewId );		
+		int otherstockCount = 0;
+		for(AccountStockVO stock : otherstockList) {
+			otherstockCount = otherstockCount + stock.getTotalCounts();			
+		}		
+		model.addAttribute("othertotalStockCounts" , otherstockCount);	
+		
+		
+		
+		String subscribed = "false";
+		if(list != null && list.size() > 0 ) {
+			for(LeagueFollowVO leagueFollowVO : list) {
+				if(leagueFollowVO.getFollowerId().equals(userVO.getId())) {
+					subscribed = "true";
+					break;
+				}
+			}		
+
+		}
+		model.addAttribute("subscribed" , subscribed);							
+		return view;		
+	}
+	
+	@GetMapping("/signin")
+	public String showAllAccounts(Model model, HttpSession session) {
+		System.out.println("전체 계좌 조회");
+		MemberVO userVO  =  (MemberVO)session.getAttribute("userVO");
+		String userID = userVO.getId();
+		List<AccountVO> list =  service.selectAllAccounts(userID);		
+		model.addAttribute("list", list);
+		List<LeagueFollowVO> leagueFollowVOlist = leagueService.selectFollowers(userID);
+		LeagueAccountVO leagueAccountVO = leagueService.selectLeagueAcc(userID);
+		
+		model.addAttribute("leagueFollowList", leagueFollowVOlist );		
+		model.addAttribute("leagueAccountVO", leagueAccountVO);				
+		String userAccountInfo = getAccountInfo("leagueAccountVO", userVO.getId());		
+		model.addAttribute("leagueAccountInfo" , userAccountInfo);	
+		
+		List<AccountStockVO> stockList = service.getAllAccountStockVO( userVO.getId() );		
+		int stockCount = 0;
+		
+		for(AccountStockVO stock : stockList) {
+			stockCount = stockCount + stock.getTotalCounts();			
+		}
+		
+		model.addAttribute("totalStockCounts" , stockCount);		
+		return "gcaccount/viewaccounts";
+	}
+	
+	
+	@PostMapping("/subscribe")
+	public String subsribePost(Model model, HttpSession session , HttpServletRequest request) {
+				
+		String password = (String) request.getParameter("password");		
+		String viewId = (String) request.getParameter("viewId");
+		String view = "redirect:/account/viewother/account/" + viewId;
+		System.out.println("pwd : "  +   password);
+		
+		LeagueAccountVO followedUserVO = leagueService.selectLeagueAcc(viewId);
+		
+		MemberVO userVO = (MemberVO) session.getAttribute("userVO");
+		String msg = "";
+		if(password == null ||  !password.equals(userVO.getPassword())  ) {
+			System.out.println("password error");
+			msg = "warning:error:패스워드가 일치하지 않습니다";
+			session.setAttribute("msg", msg);
+									
+		}else {
+			
+			List<LeagueFollowVO> list = leagueService.selectFollowers( viewId );
+			Boolean valid = false;
+			if( list == null ||  list.size() ==  0 ) {
+				valid = true;
+			}
+			if(!valid) {
+				valid = true;
+				for(LeagueFollowVO follower : list) {
+					if(follower.getFollowerId().equals(userVO.getId()) ) {
+						valid = false;
+						break;
+					}
+				}				
+			}
+			if(!valid) {
+				System.out.println("already subscriber");
+				msg = "warning:error:이미 구독자 이십니다.";
+				session.setAttribute("msg", msg);
+				
+			}else {
+				LeagueFollowVO leagueFollowVO = new LeagueFollowVO();			
+				leagueFollowVO.setFollowPrice(followedUserVO.getFollowPrice());
+				leagueFollowVO.setFollowedId(viewId);
+				leagueFollowVO.setFollowerId(userVO.getId());						
+				leagueService.subscribeUser(leagueFollowVO);
+				msg = "success:success:구독 신청이 완료 되었습니다.";
+				session.setAttribute("msg", msg);
+			}																		
+		}
+		return view;
+	}
+	
+	
+	
+	@PostMapping("/unsubscribe")
+	public String unsubscribePost(Model model , HttpSession session , HttpServletRequest request) {		
+		String password = (String) request.getParameter("password");
+		String viewId = (String) request.getParameter("viewId");		
+		String view = "redirect:/account/viewother/account/" + viewId;
+		MemberVO userVO = (MemberVO) session.getAttribute("userVO");
+		String msg = "";
+		if(password == null ||  !password.equals(userVO.getPassword())  ) {
+			System.out.println("password error");
+			msg = "warning:error:패스워드가 일치하지 않습니다";
+			session.setAttribute("msg", msg);
+									
+		}else {			
+			List<LeagueFollowVO> list = leagueService.selectFollowers( viewId );
+			Boolean valid = true;
+			if( list == null ||  list.size() ==  0 ) {
+				valid = false;
+			}
+			if(valid) {
+				valid = false;
+				for(LeagueFollowVO follower : list) {
+					if(follower.getFollowerId().equals(userVO.getId()) ) {
+						valid = true;
+						break;
+					}
+				}							
+			}
+			if(!valid) {
+				System.out.println("already subscriber");
+				msg = "warning:error:구독이 안되어 있습니다.";
+				session.setAttribute("msg", msg);
+			}else {
+				LeagueFollowVO leagueFollowVO = new LeagueFollowVO();				
+				leagueFollowVO.setFollowedId(viewId);
+				leagueFollowVO.setFollowerId(userVO.getId());				
+				leagueService.unSubscribeUser(leagueFollowVO);
+				msg = "success:success:구독이 취소 되었습니다.";
+				session.setAttribute("msg", msg);
+			}													
+		}				
+		return view;
+	}
+	
+	
+	@RequestMapping("/viewother/portfolio/{viewId}")
+	public String viewotherportfolio(@PathVariable("viewId") String viewId , HttpSession session , HttpServletRequest request , Model model) {
+		String view = "";						
+		
+		
+		
+		return view;
+	}
+	
+	
 	
 	
 	

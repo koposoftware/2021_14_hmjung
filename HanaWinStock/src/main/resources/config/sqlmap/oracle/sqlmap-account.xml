@@ -42,7 +42,11 @@
 	</select>
 	
 	<select id="selectFollowers" resultMap="leagueFollowMap" parameterType="string">
-		select no , follower_id , followed_id , follow_date , follow_price from gc_league_follow where followed_id = #{id}
+		select * from gc_league_follow where followed_id = #{id}
+	</select>
+		
+	<select id="selectmyfollow" resultMap="leagueFollowMap" parameterType="string">
+		select * from gc_league_follow where follower_id = #{id}
 	</select>
 		
 	
@@ -118,6 +122,17 @@
 	
 	<select id="getAllAccountStockLogsType" parameterType="hashMap" resultMap= "accountStockLogMap">
 		select * from gc_account_stock_log where gca_number = #{key} and action= #{type}
-	</select>	
+	</select>
+	
+	<insert id="subscribeUser" parameterType="leagueFollowVO">
+		insert into gc_league_follow ( follower_id , followed_id , follow_price  )
+		values( #{followerId} ,   #{followedId } ,  #{followPrice}  )	
+	</insert>
+	
+	<delete id="unSubscribeUser" parameterType="leagueFollowVO">
+		delete from gc_league_follow where follower_id = #{followerId} and  followed_id  =  #{followedId}	
+	</delete>
+	
+		
 			
 </mapper>

@@ -37,4 +37,22 @@ public class LeagueAccountServiceImpl implements LeagueAccountService{
 		leagueAccountDAO.transactLeagueStock(params);
 		
 	}
+
+	@Override
+	public List<LeagueFollowVO> selectmyfollow(String followerId) {
+		// TODO Auto-generated method stub
+		List<LeagueFollowVO> list = leagueAccountDAO.selectmyfollow( followerId );		
+		return list;
+	}
+
+	@Override
+	public void subscribeUser(LeagueFollowVO leagueFollowVO) {		
+		leagueAccountDAO.subscribeUser(leagueFollowVO);
+	}
+
+	@Override
+	public void unSubscribeUser(LeagueFollowVO leagueFollowVO) {
+		// TODO Auto-generated method stub
+		leagueAccountDAO.unSubscribeUser(leagueFollowVO);
+	}
 }

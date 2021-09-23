@@ -263,8 +263,7 @@ public class AdvertiseController {
 	
 	
 	@PostMapping("/adcheck/each/{no}")
-	public String checkRequestadcheckEachPost(@PathVariable("no") int no , AdRequestVO adRequestVO , HttpSession session ) {
-		
+	public String checkRequestadcheckEachPost(@PathVariable("no") int no , AdRequestVO adRequestVO , HttpSession session ) {		
 		adRequestVO.setNo(no);
 		int row = service.updateVideoRequestVOStatus(adRequestVO);
 		String msg;

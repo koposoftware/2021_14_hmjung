@@ -17,5 +17,11 @@ public interface LeagueAccountService {
 	@Transactional
 	void transactLeague(Map<String , Object> params);
 	
+	List<LeagueFollowVO> selectmyfollow( String followerId );
+	
+	void subscribeUser(LeagueFollowVO leagueFollowVO);
+	
+	void unSubscribeUser(LeagueFollowVO leagueFollowVO);
+	
 	
 }

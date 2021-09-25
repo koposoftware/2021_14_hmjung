@@ -23,6 +23,8 @@
 <script src="https://www.amcharts.com/lib/4/core.js"></script>
 <script src="https://www.amcharts.com/lib/4/charts.js"></script>
 <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+
 <script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/Web-Ticker-master/jquery.webticker.min.js"></script>
 
 
@@ -192,9 +194,6 @@
 		  "YellowGreen",
 		]);		
 
-
-
-	
 	
 	function getDonutData(attr){
 		console.log("get data")
@@ -405,14 +404,32 @@
 			<div class="content-header">
 				<div class="d-flex align-items-center">
 					<div class="me-auto">
+						<c:if test="${viewId eq userVO.id }">
 						<h4 class="page-title">개인 포트폴리오</h4>
+						</c:if>
+						
+						<c:if test="${viewId ne userVO.id }">
+						<h4 class="page-title">${viewId }의 포트폴리오</h4>
+						</c:if>
+						
 						<div class="d-inline-block align-items-center">
 							<nav>
 								<ol class="breadcrumb">
 									<li class="breadcrumb-item"><a href="#">
 											<i class="mdi mdi-home-outline"></i>
 										</a></li>
-									<li class="breadcrumb-item" aria-current="page">포트폴리오</li>
+										
+										<c:if test="${viewId eq userVO.id }">
+											<li class="breadcrumb-item" aria-current="page">포트폴리오</li>
+										</c:if>
+										
+										<c:if test="${viewId ne userVO.id }">
+											<li class="breadcrumb-item" aria-current="page">${viewId }</li>
+										</c:if>
+										
+										
+										
+									
 									<li class="breadcrumb-item active" aria-current="page">주식 정보 및 로그 정보</li>
 								</ol>
 							</nav>
@@ -512,7 +529,7 @@
 														<td>																														
 														<button type="button" onclick="transact('${accountStockVO.symbol }')"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-right">확인</button>						
 														</td>
-														<td><a href="#">
+														<td><a href="${pageContext.request.contextPath}/stockinfo/stock/${accountStockVO.symbol}">
 																<span class="sparklines">
 																	<button id="chart_${accountStockVO.symbol}" class="waves-effect waves-light btn btn-secondary btn-sm">
 																		<i class="mdi mdi-arrow-right"></i>
@@ -618,20 +635,6 @@
 			</div>
 		</div>
 	</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/dash/js/includeUtil/sidebar.js"></script>
 	<!-- Vendor JS -->
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/vendors.min.js"></script>

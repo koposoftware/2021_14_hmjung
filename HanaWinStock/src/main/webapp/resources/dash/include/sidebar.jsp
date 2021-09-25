@@ -90,18 +90,38 @@
 				
 				
 				
-				<li class="treeview">
+				<li>
 				  <a href="#">
 					<i data-feather="users"></i>
-					<span>Members</span>
+					<span>구독</span>
 					<span class="pull-right-container">
-					  <i class="fa fa-angle-right pull-right"></i>
+					 
 					</span>
 				  </a>
-				  <ul class="treeview-menu">
-					<li><a href="members.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Members Grid</a></li>
-					<li><a href="members_list.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Members List</a></li>
-					<li><a href="member_profile.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Member Profile</a></li>
+				  <ul id="subscribed" >
+				  	<c:if test="${not empty followerLeagueList}">
+				  		<c:forEach items="${ followerLeagueList}" var="follower" varStatus="loop">
+				  		<c:if test="${loop.index < 5}" >
+				  		<li style="list-style-type: none;">
+				  		
+				  		<a href="members.html" class="avatar avatar-small">
+				  		  <img src="${ pageContext.request.contextPath }/resources/images/tier/${follower.tier }.png" alt="...">
+				  		 ${follower.id }				  		 	
+				  		 		<c:if test="${follower.loggedIn eq 'true'}">
+				  		 			<small style="color:green; font-size: xx-small;">로그인중</small>
+				  		 		</c:if>
+				  		 		<c:if test="${follower.loggedIn ne 'true'}">
+				  		 		<small style="color:red; font-size: xx-small;">로그아웃됨</small>
+				  		 		</c:if>
+				  		 	
+				  		 
+				  		 </a>
+				  		 
+				  		 </li>
+				  		 </c:if>				  			
+				  		</c:forEach>
+				  	</c:if>
+					
 				  </ul>
 				</li>
 				<li class="treeview">

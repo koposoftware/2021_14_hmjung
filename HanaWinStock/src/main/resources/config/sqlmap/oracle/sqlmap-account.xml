@@ -14,6 +14,7 @@
 	<resultMap type="leagueAccountVO" id="leagueAccountMap">
 		<result column="reg_date" property="regDate"></result>
 		<result column="follow_price" property="followPrice"></result>
+		<result column="logged_in" property="loggedIn"></result>
 	</resultMap>
 
 	<resultMap type="leagueFollowVO" id="leagueFollowMap">
@@ -38,8 +39,17 @@
 	</resultMap>			
 	
 	<select id="selectLeagueAcc" resultMap="leagueAccountMap" parameterType="string">
-		select id , balance , reg_date , tier , follow_price from gc_league where id = #{id}
+		select id , balance , reg_date , tier , follow_price, logged_in from gc_league where id = #{id}
 	</select>
+	
+	<update id="leagueAcclogin" parameterType="string">
+	 	update gc_league set logged_in = 'true' where id = #{id}
+	</update>
+	
+	<update id="leagueAcclogout" parameterType="string">
+	 	update gc_league set logged_in = 'false' where id = #{id}
+	</update>
+	
 	
 	<select id="selectFollowers" resultMap="leagueFollowMap" parameterType="string">
 		select * from gc_league_follow where followed_id = #{id}
@@ -133,6 +143,12 @@
 		delete from gc_league_follow where follower_id = #{followerId} and  followed_id  =  #{followedId}	
 	</delete>
 	
-		
+	<select id="getSessionFollowers" resultMap="leagueAccountMap" parameterType="java.util.List">
+		select * from gc_league where id in
+		<foreach collection="list" item="arr" open="(" close=")" separator=",">
+		 #{arr}
+		</foreach>			 	
+	</select>
+	
 			
 </mapper>

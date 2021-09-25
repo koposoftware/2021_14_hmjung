@@ -33,7 +33,8 @@ import gc.co.kr.leagueAccount.LeagueAccountService;
 import gc.co.kr.leagueAccount.LeagueAccountVO;
 import gc.co.kr.leagueAccount.LeagueFollowVO;
 import gc.co.kr.member.vo.MemberVO;
-
+import gc.co.kr.message.MessageService;
+import gc.co.kr.message.MessageVO;
 import gc.co.kr.stocksummary.service.StockSummaryService;
 import gc.co.kr.stocksummary.vo.StockNameVO;
 import gc.co.kr.stocksummary.vo.StockSummaryVO;
@@ -51,6 +52,9 @@ public class AccountController {
 	
 	@Autowired
 	private StockSummaryService summaryService;
+	
+	@Autowired
+	private MessageService messageService;
 	
 	//@Autowired
 	//private RealTimeStockService realTimeservice;
@@ -103,7 +107,79 @@ public class AccountController {
 		return view;
 	}
 	
-	
+	@RequestMapping("/viewother/transaction/{viewId}/{page}")
+	public String viewothertransaction(@PathVariable("viewId") String viewId , HttpSession session , HttpServletRequest request , Model model , @PathVariable("page") int page) {
+		String view = "gcaccount/transaction";
+		String accountType = (String) session.getAttribute("accountType");
+		String msg = "";
+		String referer = request.getHeader("Referer");
+		if (! accountType.equals( "leagueAccountVO" )) {
+			System.out.println("not logged in as league");
+			msg = "warning:error:이 기능을 사용하기 위해서는 리그 계좌로 로그인 해야 합니다.";
+			session.setAttribute("msg", msg);
+			
+			if(  referer != null ) {
+				return "redirect:"+ referer;
+			}else {
+				return "redirect:/";
+			}									
+		}
+		MemberVO userVO = (MemberVO) session.getAttribute("userVO");
+		List<LeagueFollowVO> list = leagueService.selectFollowers( viewId );
+		Boolean valid = false;
+		if(list  != null && list.size() > 0 ) {
+			for(LeagueFollowVO follower : list) {
+				String followerId = follower.getFollowerId();
+				if( followerId.equals(userVO.getId()  ) ) {
+					valid = true;
+					break;
+				};
+			}						
+		}
+		
+		if(!valid) {
+			msg = "warning:error:구독이 안된 계좌 입니다.";
+			session.setAttribute("msg", msg);
+			if(  referer != null ) {
+				return "redirect:"+ referer;
+			}else {
+				return "redirect:/";
+			}												
+		}
+		String type=  (String)request.getParameter("type");
+		List<AccountStockLog> logList;
+		if(type == null ) {
+			logList = service.getAllAccountStockLogs(viewId);
+		}else{
+			Map<String,String> params = new HashMap<String, String>();
+			params.put("key" , viewId);
+			params.put("type" , type);
+			logList = service.getAllAccountStockLogsType(params);
+		}
+		
+		int each = 10;		
+		float pagefloat =  ((float)logList.size()) /  ((float)each);		
+		int pageCounts = (int) Math.ceil( pagefloat  );		
+		System.out.println(pageCounts);
+				
+		List<AccountStockLog> showingLogs  = new ArrayList<AccountStockLog>();
+		System.out.println("log size : " +  logList.size());
+		int cnt = (page-1) * each;
+		for(int i = 0 ; i <  each ; i++ ) {
+			System.out.println(cnt);
+			if(cnt > logList.size() - 1) {
+				break;
+			}
+			showingLogs.add( logList.get(cnt) );
+			cnt++;
+		}
+		model.addAttribute("currentPage" , page);			
+		model.addAttribute("pageCounts" , pageCounts);		
+		model.addAttribute("showingLogs" , showingLogs);
+		
+		model.addAttribute("viewId" , viewId);
+		return view;		
+	}
 
 	
 
@@ -146,6 +222,10 @@ public class AccountController {
 		model.addAttribute("currentPage" , page);			
 		model.addAttribute("pageCounts" , pageCounts);		
 		model.addAttribute("showingLogs" , showingLogs);
+		
+		
+		model.addAttribute("viewId" , accountKey);
+		
 		return "gcaccount/transaction";
 	}
 	
@@ -168,7 +248,10 @@ public class AccountController {
 		}else {
 			session.setAttribute("accountVO", accountVO);
 			session.setAttribute("accountType" , "accountVO");
-			session.setAttribute("accountKey" , accountVO.getGcaNumber());
+			session.setAttribute("accountKey" , accountVO.getGcaNumber());			
+			
+			
+			leagueService.leagueAcclogout(userVO.getId());
 			
 			
 			String dest = (String) session.getAttribute("dest2");
@@ -205,7 +288,8 @@ public class AccountController {
 				model.addAttribute("msg" , msg);
 				System.out.println( msg);
 			}else {	
-				session.setAttribute("leagueAccountVO", leagueAccountVO);
+				session.setAttribute("leagueAccountVO", leagueAccountVO);				
+				 leagueService.leagueAcclogin(userVO.getId());				
 				session.setAttribute("accountType" , "leagueAccountVO");
 				session.setAttribute("accountKey" , userVO.getId() );
 				String dest = (String) session.getAttribute("dest2");
@@ -216,7 +300,18 @@ public class AccountController {
 				}else {
 					view = "redirect:/";					
 				}
-				System.out.println("성공");				
+				System.out.println("성공");
+				
+				List<LeagueFollowVO> followerList = leagueService.selectFollowers(userVO.getId());				
+				List<String> users = new ArrayList<String>();
+				for(LeagueFollowVO follower: followerList) {
+					users.add(follower.getFollowerId());
+				}
+				System.out.println("my users : " + users.size());
+				List<LeagueAccountVO> followerLeagueList =  leagueService.getSessionFollowers(users);
+				System.out.println("my followerLeagueList: " + followerLeagueList.size());		
+				
+				session.setAttribute("followerLeagueList" , followerLeagueList);								
 			}
 		}		
 		System.out.println("post viewleagueaccounts : " + view);
@@ -227,9 +322,15 @@ public class AccountController {
 	@GetMapping("/signOut")
 	public String accountSignOut(HttpServletRequest request  , HttpSession session) {
 		
+		MemberVO userVO = (MemberVO) session.getAttribute("userVO");
+		leagueService.leagueAcclogout(userVO.getId());
+		
 		session.removeAttribute("accountVO");
 		session.removeAttribute("leagueAccountVO");
+		session.removeAttribute("followerLeagueList");
 		String referer = request.getHeader("Referer");
+		
+		
 	    return "redirect:"+ referer;	
 	}
 	
@@ -262,7 +363,11 @@ public class AccountController {
 	
 	@GetMapping("/signout")
 	public String accountSignout(HttpSession session) {
+		
+		MemberVO userVO = (MemberVO) session.getAttribute("userVO");
+		leagueService.leagueAcclogout(userVO.getId());		
 		session.removeAttribute("accountVO");
+		session.removeAttribute("followerLeagueList");
 		return "redirect:/account/signin";
 	}
 		
@@ -364,7 +469,97 @@ public class AccountController {
 		}												
 		return map;
 	}
+
+	
+	
+	@RequestMapping("/viewother/portfolio/{viewId}")
+	public String viewotherportfolio(@PathVariable("viewId") String viewId , HttpSession session , HttpServletRequest request , Model model) {
+		String view = "gcaccount/leagueportfolio";						
+		String accountType = (String) session.getAttribute("accountType");
+		String msg = "";
+		String referer = request.getHeader("Referer");
+		if (! accountType.equals( "leagueAccountVO" )) {
+			System.out.println("not logged in as league");
+			msg = "warning:error:이 기능을 사용하기 위해서는 리그 계좌로 로그인 해야 합니다.";
+			session.setAttribute("msg", msg);
+			
+			if(  referer != null ) {
+				return "redirect:"+ referer;
+			}else {
+				return "redirect:/";
+			}									
+		}
+		MemberVO userVO = (MemberVO) session.getAttribute("userVO");
+		List<LeagueFollowVO> list = leagueService.selectFollowers( viewId );
+		Boolean valid = false;
+		if(list  != null && list.size() > 0 ) {
+			for(LeagueFollowVO follower : list) {
+				String followerId = follower.getFollowerId();
+				if( followerId.equals(userVO.getId()  ) ) {
+					valid = true;
+					break;
+				};
+			}						
+		}
 		
+		if(!valid) {
+			msg = "warning:error:구독이 안된 계좌 입니다.";
+			session.setAttribute("msg", msg);
+			if(  referer != null ) {
+				return "redirect:"+ referer;
+			}else {
+				return "redirect:/";
+			}										
+		}
+		
+		LeagueAccountVO leagueAccountVO = leagueService.selectLeagueAcc(viewId);
+		model.addAttribute("leagueAccountVO" , leagueAccountVO);
+		List<AccountStockVO> stockMap  = service.getAllAccountStockVO( viewId );
+		if(stockMap.size() == 0) {
+			msg = "warning:warning: "+  viewId + "가 보유한 주식이 없습니다.";
+			session.setAttribute("msg", msg);
+			return "redirect:"+ referer;
+		}else {
+			model.addAttribute("stockMap" , stockMap);
+			
+			Gson gson3 = new Gson();
+	        String stockMapString = gson3.toJson(stockMap);
+			model.addAttribute("stockMapString" , stockMapString);							
+				
+			//List<String> symbolList = new ArrayList<String>(stockMap.keySet());
+			List<String> symbolList = new ArrayList<String>();
+			for(AccountStockVO stock : stockMap) {
+				symbolList.add(stock.getSymbol());
+			}		
+			Map<String , List<AccountStockLog>> logMap = getAllLogsForEach(viewId, symbolList);
+			System.out.println("logMap size : " + logMap.size());				
+			model.addAttribute("logMap" , logMap);
+		
+			List<StockSummaryVO> stockSummaryList = summaryService.selectCurrentStockSummary(symbolList);
+			Map<String ,StockSummaryVO > temp = new HashMap<String , StockSummaryVO>();
+			for(StockSummaryVO summary: stockSummaryList ){
+		        temp.put(summary.getSymbol(), summary);
+	        }
+			Gson gson2 = new Gson();
+	        String stockSummaryListString = gson2.toJson(temp);
+			model.addAttribute("stockSummaryList" , stockSummaryListString);	
+
+			
+			List<StockNameVO> stockNameList =  summaryService.selectAllStockNames();
+			Map<String, String> stockNameMap = new HashMap<String, String>();		
+			for( StockNameVO stock : stockNameList) {
+				stockNameMap.put(stock.getSymbol() , stock.getLongName());
+			}				
+			Gson gson = new Gson();
+	        String serializeString = gson.toJson(stockNameMap);
+	        model.addAttribute("stockNameMap" , serializeString);
+	        
+	        model.addAttribute("viewId" , viewId);
+	        
+			return view;		
+		}								
+	}
+	
 
 	@GetMapping("/portfolio")
 	public String getPortfolio(Model model, HttpSession session) {		
@@ -423,29 +618,15 @@ public class AccountController {
 			}				
 			Gson gson = new Gson();
 	        String serializeString = gson.toJson(stockNameMap);
-	        model.addAttribute("stockNameMap" , serializeString);	        	     
+	        model.addAttribute("stockNameMap" , serializeString);
+	        
+	        model.addAttribute("viewId" , accountKey);
 			return view;
 			
 		}								
 	}		
 	
-	@GetMapping("/channel")
-	public String getMyChannel(HttpSession session , HttpServletRequest request) {
-		String view = "gcaccount/channel";
-		String accountType = (String) session.getAttribute("accountType");
-		if (! accountType.equals( "leagueAccountVO" )) {
-			System.out.println("not logged in as league");
-			String msg = "warning:error:이 기능을 사용하기 위해서는 리그 계좌로 로그인 해야 합ㄴ디ㅏ.";
-			session.setAttribute("msg", msg);
-			String referer = request.getHeader("Referer");
-			if(  referer != null ) {
-				return "redirect:"+ referer;
-			}else {
-				return "redirect:/";
-			}									
-		}			
-		return view;		
-	}
+
 	
 	@GetMapping("/search")
 	public String searchChannel(HttpSession session , HttpServletRequest request) {
@@ -497,11 +678,80 @@ public class AccountController {
 		}	
 		return view;
 	}
+
+	
+	@GetMapping("/channel")
+	public String getMyChannel(HttpSession session , HttpServletRequest request, Model model) {
+		
+		MemberVO userVO  =  (MemberVO)session.getAttribute("userVO");	
+		String accountType = (String) session.getAttribute("accountType");
+		if (! accountType.equals( "leagueAccountVO" )) {
+			System.out.println("not logged in as league");
+			String msg = "warning:error:이 기능을 사용하기 위해서는 리그 계좌로 로그인 해야 합ㄴ디ㅏ.";
+			session.setAttribute("msg", msg);
+			String referer = request.getHeader("Referer");
+			if(  referer != null ) {
+				return "redirect:"+ referer;
+			}else {
+				return "redirect:/";
+			}									
+		}
+		
+		
+		String view = "gcaccount/channel";
+		if (! accountType.equals( "leagueAccountVO" )) {
+			System.out.println("not logged in as league");
+			String msg = "warning:error:이 기능을 사용하기 위해서는 리그 계좌로 로그인 해야 합ㄴ디ㅏ.";
+			session.setAttribute("msg", msg);
+			String referer = request.getHeader("Referer");
+			if(  referer != null ) {
+				return "redirect:"+ referer;
+			}else {
+				return "redirect:/";
+			}									
+		}
+		LeagueAccountVO leagueAccountVO = leagueService.selectLeagueAcc(userVO.getId());
+		
+		
+		model.addAttribute("leagueAccountVO", leagueAccountVO);
+		
+		
+		List<LeagueFollowVO> list = leagueService.selectFollowers( userVO.getId() );					
+		model.addAttribute("leagueFollowList", list );
+		List<LeagueAccountVO> followerAccountList = new ArrayList<LeagueAccountVO>();
+		if(list  != null && list.size() > 0 ) {
+			for(LeagueFollowVO follower : list) {
+				String followerId = follower.getFollowerId();
+				LeagueAccountVO leagueUser = leagueService.selectLeagueAcc(followerId);
+				System.out.println(leagueUser);
+				followerAccountList.add(leagueUser);
+			}						
+		}
+		model.addAttribute("followerAccountList" , followerAccountList);
+		
+		System.out.println(followerAccountList.size());	
+		
+		
+		
+		List<AccountStockVO> otherstockList = service.getAllAccountStockVO( userVO.getId() );		
+		int stockCount = 0;
+		for(AccountStockVO stock : otherstockList) {
+			stockCount = stockCount + stock.getTotalCounts();			
+		}		
+		model.addAttribute("totalstockCounts" , stockCount);	
+		
+		
+		
+		List<MessageVO> messageList = messageService.getUncheckedMessages(userVO.getId());
+		model.addAttribute("messageList", messageList);
+		
+		
+		return view;		
+	}
 	
 	@GetMapping("/viewother/account/{viewId}")
 	public String viewotheraccount(@PathVariable("viewId") String viewId , HttpSession session , HttpServletRequest request , Model model) {
 		String view = "gcaccount/otheraccount";
-		
 		
 		String accountType = (String) session.getAttribute("accountType");
 		if (! accountType.equals( "leagueAccountVO" )) {
@@ -521,8 +771,7 @@ public class AccountController {
 		System.out.println(viewId);
         MemberVO userVO = (MemberVO) session.getAttribute("userVO");
         LeagueAccountVO otherleagueAccountVO = leagueService.selectLeagueAcc(viewId);
-		model.addAttribute("otherleagueAccountVO", otherleagueAccountVO);		
-        
+		model.addAttribute("otherleagueAccountVO", otherleagueAccountVO);		        
 		
 		List<LeagueFollowVO> list = leagueService.selectFollowers( viewId );					
 		model.addAttribute("otherleagueFollowList", list );
@@ -565,10 +814,16 @@ public class AccountController {
 		return view;		
 	}
 	
+	
+	
 	@GetMapping("/signin")
 	public String showAllAccounts(Model model, HttpSession session) {
+				
+		
 		System.out.println("전체 계좌 조회");
-		MemberVO userVO  =  (MemberVO)session.getAttribute("userVO");
+		MemberVO userVO  =  (MemberVO)session.getAttribute("userVO");		
+		
+		
 		String userID = userVO.getId();
 		List<AccountVO> list =  service.selectAllAccounts(userID);		
 		model.addAttribute("list", list);
@@ -578,15 +833,12 @@ public class AccountController {
 		model.addAttribute("leagueFollowList", leagueFollowVOlist );		
 		model.addAttribute("leagueAccountVO", leagueAccountVO);				
 		String userAccountInfo = getAccountInfo("leagueAccountVO", userVO.getId());		
-		model.addAttribute("leagueAccountInfo" , userAccountInfo);	
-		
+		model.addAttribute("leagueAccountInfo" , userAccountInfo);			
 		List<AccountStockVO> stockList = service.getAllAccountStockVO( userVO.getId() );		
-		int stockCount = 0;
-		
+		int stockCount = 0;		
 		for(AccountStockVO stock : stockList) {
 			stockCount = stockCount + stock.getTotalCounts();			
-		}
-		
+		}		
 		model.addAttribute("totalStockCounts" , stockCount);		
 		return "gcaccount/viewaccounts";
 	}
@@ -689,14 +941,7 @@ public class AccountController {
 	}
 	
 	
-	@RequestMapping("/viewother/portfolio/{viewId}")
-	public String viewotherportfolio(@PathVariable("viewId") String viewId , HttpSession session , HttpServletRequest request , Model model) {
-		String view = "";						
-		
-		
-		
-		return view;
-	}
+
 	
 	
 	

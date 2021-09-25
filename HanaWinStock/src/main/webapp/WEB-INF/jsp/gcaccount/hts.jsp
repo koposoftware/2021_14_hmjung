@@ -150,7 +150,9 @@
     	              }else{
     	            	  var newmsg ='<div class="direct-chat-msg mb-30">'+
     	            	  '<div class="clearfix mb-15">' +
+    	            	  	'<a href="'+  "${pageContext.request.contextPath}" +  "/account/viewother/account/" +   d.userName  + '" >'+
 							'<span class="direct-chat-name">'+   d.userName+ '</span>' + 
+							'</a>' +
 						  '</div>' +
  						'<img class="direct-chat-img avatar" src="${ pageContext.request.contextPath }/resources/images/tier/'+d.tier+'.png" alt="message user image">'+
  						' <div class="direct-chat-text">' +
@@ -161,7 +163,7 @@
     	              }    	                 
     	           }else if( d.type == "ad" ){
  	            	  console.log(d.msg)
- 	            	  if(!$("#ad-video").exists()  ){
+ 	            	  if(!$("#ad-video").length ){
  	            		 video_url ="${pageContext.request.contextPath}"  +  d.msg.split("main\\webapp")[1]
  	 	            	  console.log(video_url)
  	 	            	  test = video_url
@@ -219,9 +221,9 @@
  
  
 //-----------------------------------------------------------------
-		xtime = ~~(Date. now() / 1000) - 1631215740  
-		
-		
+		xtime = ~~(Date. now() / 1000) - 1631215740                   //1631215740  
+		                                 
+		//1631969794
 		maximumTicCounts = 500
 		allSymbols  = []
 		chartDict = {};
@@ -281,7 +283,7 @@
 		
 					
 	
-		function start2(box){
+		function start(box){
 			$('#modal-center-dates').modal('show');						
 			clicked_box = box;				
 		}
@@ -366,7 +368,11 @@
 			$("#box-" + box + " .shareOutstanding").html(result.shareOutstanding);
 			$("#box-" + box + " .epsForward").html(result.epsForward);			
 		}
-
+		
+		
+		 
+		
+		
 
 		
 		

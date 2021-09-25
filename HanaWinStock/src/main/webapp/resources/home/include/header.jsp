@@ -17,7 +17,7 @@ transform:scale(0.75);
 
 </script>
 
-<nav hidden class="nav-white nav-transparent">
+<nav  class="nav-white nav-transparent">
 	<div class="nav-header" style="max-height:62px;"> <a href="${ pageContext.request.contextPath }/" style="margin-top:0px; padding-top:0px; padding-bottom:20px;" class="brand"> <img id="headLogo" src="${ pageContext.request.contextPath }/resources/images/gc_transparent2.png" alt="" /></a>						
 		<button class="toggle-bar">
 			<span class="ti-menu"></span>
@@ -43,18 +43,7 @@ transform:scale(0.75);
 		<li class="megamenu"><a href="#">페이지</a>
 			<div class="megamenu-content">
 				<div class="row">
-					<div class="col-lg-3 col-12">
-						<ul class="list-group">
-							<li><h4 class="menu-title">User Pages</h4></li>
-							<li><a href="${pageContext.request.contextPath}/signin"><i class="ti-arrow-circle-right me-10"></i>로그인</a></li>
-							<li><a href="${pageContext.request.contextPath}/signout"><i class="ti-arrow-circle-right me-10"></i>로그아웃</a></li>
-							<li><a href="${pageContext.request.contextPath}/signcontract"><i class="ti-arrow-circle-right me-10"></i>회원가입</a></li>
-							<li><a href="testimonial.html"><i class="ti-arrow-circle-right me-10"></i>회원 정보 수정</a></li>
-							<li><a href="about.html"><i class="ti-arrow-circle-right me-10"></i>About</a></li>
-							<li><a href="404.html"><i class="ti-arrow-circle-right me-10"></i>404</a></li>
-							<li><a href="500.html"><i class="ti-arrow-circle-right me-10"></i>500</a></li>
-						</ul>
-					</div>
+					
 					<div class="col-lg-3 col-12">
 						<ul class="list-group">
 							<li><h4 class="menu-title">계좌</h4></li>

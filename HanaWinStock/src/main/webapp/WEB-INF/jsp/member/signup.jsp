@@ -11,7 +11,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="icon" href="${ pageContext.request.contextPath }/resources/images/favicon.ico">
-<title>GreenCamel</title>
+<title>하나윈스톡</title>
 <!-- Vendors Style-->
 <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/vendors_css.css">
 
@@ -204,8 +204,8 @@
 						<div class="col-lg-5 col-md-5 col-12" style="width: 60%;">
 							<div class="bg-white rounded10 shadow-lg">
 								<div class="content-top-agile p-20 pb-0">
-									<h2 class="text-primary">회원가입</h2>
-									<p class="mb-0">Register a new membership</p>
+									<h2 class="text-black-50">회원가입</h2>
+									<p class="mb-0">새로 가입 하기</p>
 								</div>
 								<div class="p-40">
 									
@@ -234,7 +234,7 @@
 												<input class="form-control ps-15 bg-transparent" type="text" id="str_email01" name="str_email01" placeholder="이메일"> &nbsp;<strong>@</strong>&nbsp; 
 												<input class="form-control ps-15 bg-transparent" type="text" name="str_email02" id="str_email02" style="width: 9%; font: bold;" disabled value="naver.com"> <span>&nbsp;</span>
 												<div class="btn-group">
-													<button  class="btn btn-rounded btn-warning dropdown-toggle no-caret" type="button" data-bs-toggle="dropdown">이메일 선택</button>
+													<button  class="waves-effect waves-light btn btn-xs" type="button" data-bs-toggle="dropdown"><i class="si-arrow-down si"></i></button>
 													<div class="dropdown-menu">
 														<a class="dropdown-item" href="#">직접 입력</a> 
 														<a class="dropdown-item" href="#">hanmail.net</a> 
@@ -245,8 +245,8 @@
 														<a class="dropdown-item" href="#">naver.com</a>
 													</div>
 												</div>
-												<button type="button" class="tst1 btn btn-info">번호 발급</button>
-												<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-center">인증</button>
+												<button type="button" class="waves-effect waves-light btn btn-secondary btn-sm tst1 ">번호 발급</button>
+												<button type="button" class="waves-effect waves-light btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-center">인증</button>
 												<form:input id="hiddenEmail" path="email" hidden="true" />
 												<form:errors path="email" class="error" />
 											</div>
@@ -283,7 +283,7 @@
 											</div>
 											<!-- /.col -->
 											<div class="col-12 text-center">
-												<button type="submit" class="btn btn-info margin-top-10">회원가입</button>
+												<button type="submit" class="waves-effect waves-light btn btn-secondary btn-sm"><strong>회원가입</strong></button>
 											</div>
 											<!-- /.col -->
 										</div>
@@ -296,12 +296,12 @@
 								</div>
 							</div>
 
-							<div class="text-center">
+							<!-- <div class="text-center">
 								<p class="mt-20 text-white">- Register With -</p>
 								<p class="gap-items-2 mb-20">
 									<a class="btn btn-social-icon btn-round btn-facebook" href="#"><i class="fa fa-facebook"></i></a> <a class="btn btn-social-icon btn-round btn-twitter" href="#"><i class="fa fa-twitter"></i></a> <a class="btn btn-social-icon btn-round btn-instagram" href="#"><i class="fa fa-instagram"></i></a>
 								</p>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>

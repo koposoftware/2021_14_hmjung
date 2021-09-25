@@ -65,4 +65,21 @@ public class LeagueAccountDAOImpl implements LeagueAccountDAO{
 		
 		session.delete( "account.AccountDAO.unSubscribeUser",  leagueFollowVO);
 	}
+
+	@Override
+	public void leagueAcclogin(String id) {
+		session.update("account.AccountDAO.leagueAcclogin" , id);		
+	}
+
+	@Override
+	public void leagueAcclogout(String id) {
+		session.update("account.AccountDAO.leagueAcclogout" , id);		
+	}
+
+	@Override
+	public List<LeagueAccountVO> getSessionFollowers(List<String> users) {
+		// TODO Auto-generated method stub
+		List<LeagueAccountVO> list = session.selectList("account.AccountDAO.getSessionFollowers" , users);
+		return list;
+	}
 }

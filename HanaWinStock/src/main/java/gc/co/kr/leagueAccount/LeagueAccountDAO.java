@@ -18,4 +18,8 @@ public interface LeagueAccountDAO {
 	
 	void unSubscribeUser(LeagueFollowVO leagueFollowVO);
 	
+	void leagueAcclogin(String id);
+	void leagueAcclogout(String id);
+	
+	List<LeagueAccountVO> getSessionFollowers(List<String> users);
 }

@@ -55,4 +55,23 @@ public class LeagueAccountServiceImpl implements LeagueAccountService{
 		// TODO Auto-generated method stub
 		leagueAccountDAO.unSubscribeUser(leagueFollowVO);
 	}
+
+	@Override
+	public void leagueAcclogin(String id) {
+		// TODO Auto-generated method stub
+		leagueAccountDAO.leagueAcclogin(id);
+	}
+
+	@Override
+	public void leagueAcclogout(String id) {
+		leagueAccountDAO.leagueAcclogout(id);
+		
+	}
+
+	@Override
+	public List<LeagueAccountVO> getSessionFollowers(List<String> users) {
+		// TODO Auto-generated method stub
+		List<LeagueAccountVO> list =  leagueAccountDAO.getSessionFollowers(users);
+		return list;
+	}
 }

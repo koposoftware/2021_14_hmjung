@@ -12,7 +12,7 @@
     <meta name="author" content="">
     <link rel="icon" href="${ pageContext.request.contextPath }/resources/images/favicon.ico">
 
-    <title>GreenCamel</title>
+    <title>하나윈스톡</title>
     
 	<!-- Vendors Style-->
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/vendors_css.css">

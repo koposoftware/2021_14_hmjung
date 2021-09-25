@@ -9,5 +9,13 @@
   		<insert id="sendmessage" parameterType="messageVO">
   			insert into gc_message( fromId, content, toId, checked) values(#{fromId} , #{content} ,  #{toId} , #{checked} )
   		</insert>
-  
+  		
+  		<select id="getUncheckedMessages" parameterType="string" resultType="messageVO">
+  			select * from gc_message where toId = #{id} and checked = 'false'
+  		</select>
+  		
+  		<update id="checkMessage" parameterType="int">
+  			update gc_message set checked = 'true' where no = #{no}
+  		</update>
+  		
   </mapper>

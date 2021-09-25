@@ -25,8 +25,19 @@
 
 
 <script>
+
+tiermap = {		
+		"BRONZE" : "브론즈",
+		"SILVER" : "실버",
+		"GOLD" : "골드",
+		"CHALLENGER" : "챌린저"			
+	}
+	mytier = tiermap['${otherleagueAccountVO.tier}']
+	fromId = '${userVO.id}'
+	toId = '${viewId }'
 	$(document).ready(function() {	
-		let fu
+		$("#my-tier").text(mytier)
+		
 		fullMsg  = '${msg}'
 		// 자바스크립트 여기
 		if (fullMsg != null && fullMsg != "") {
@@ -39,8 +50,40 @@
 			
 		})
 		
-
+		$("#view-transaction").click(function(){
+			location.href = "${pageContext.request.contextPath}/account/viewother/transaction/" + '${viewId}' + "/1"			
+		})
+		
+		$('#msg-send').click(function(){
+			msg = $("#msg-content").val()
+			sendMsg( msg , toId , fromId)
+			$("#msg-content").val("")
+		})		
 	})
+	
+
+		
+
+	function sendMsg( content , toId , fromId){
+		$.ajax({type : 'get',
+      		url : "${pageContext.request.contextPath }/ajax/message/sendMessage.json",
+      		data : {content : content,
+      				toId : toId,
+      				fromId : fromId
+      		},
+      		contentType : "application/x-www-form-urlencoded;charset=ISO-8859-15",
+      		datatype : 'json',
+      		success : function(result) {	      			
+      			console.log(result)
+      			myAlarm("success:success:메시지를 전송 했습니다.")
+      		},
+      		error : function() {
+      			console.log("error")
+      			}
+			})
+			
+		}
+	
 </script>
 
 </head>
@@ -63,7 +106,7 @@
 					<div class="content-header">
 							<div class="d-flex align-items-center">
 								<div class="me-auto">
-									<h4 class="page-title">리그</h4>
+									<h4 class="page-title">투자 대회</h4>
 									<div class="d-inline-block align-items-center">
 										<nav>
 											<ol class="breadcrumb">
@@ -71,41 +114,38 @@
 														<i class="mdi mdi-home-outline"></i>
 													</a></li>
 												<li class="breadcrumb-item" aria-current="page">검색</li>
-												<li class="breadcrumb-item active" aria-current="page">리그 계좌</li>
+												<li class="breadcrumb-item active" aria-current="page">대회 계좌</li>
 											</ol>
 										</nav>
 									</div>
 								</div>
 							</div>
 						</div>
-
 					<div class="col-md-4">
-
-
 						<div class="row">
-
 							<div class="col-md-12">
 								<div class="box box-widget widget-user">
 									<div class="box-body box-profile">
 										<h3 class="widget-user-username text-black">${viewId }</h3>
 										<%-- <h6 class="widget-user-desc text-white">${userVO.userType }</h6> --%>
 										<img class="rounded img-fluid mx-auto d-block max-w-150" src="${ pageContext.request.contextPath }/resources/images/tier/${otherleagueAccountVO.tier}.png">
+										<h4 class="text-center"><strong id="my-tier"></strong></h4>
 									</div>
 
 									<div class="box-footer">
 										<div class="row mb-15">
 											<div class="col-sm-4 text-center">
 												<div class="description-block">
-													<h5 class="description-header">${fn:length(otherleagueFollowList)}</h5>
-													<span class="description-text">구독자 수</span>
+													<h5 class="description-header">구독자 수</h5>
+													<span class="description-text">${fn:length(otherleagueFollowList)}</span>명
 												</div>
 
 											</div>
 											<!-- /.col -->
 											<div class="col-sm-4 be-1 bs-1 text-center">
 												<div class="description-block">
-													<h5 class="description-header">${otherleagueAccountVO.followPrice }</h5>
-													<span class="description-text">구독 가격</span>
+													<h5 class="description-header">구독 가격</h5>
+													<span class="description-text"><fmt:formatNumber value="${otherleagueAccountVO.followPrice }" type="currency" currencySymbol="$" /></span>
 												</div>
 
 											</div>
@@ -120,21 +160,20 @@
 										</div>
 										<!-- /.row -->
 										<div class="row mb-30 bt-1">
-											<h4 class="title w-p100 mt-10 mb-0 p-20 text-primary">리그 정보</h4>
+											<!-- <h4 class="title w-p100 mt-10 mb-0 p-20 text-primary">리그 정보</h4> -->
+										
 											<h5 class="p-15 mb-0">
-												<strong>현재 티어:</strong> ${otherleagueAccountVO.tier }
-											</h5>
-											<h5 class="p-15 mb-0">
-												<strong>시작 날짜:</strong> ${otherleagueAccountVO.regDate }
+												<strong>시작 날짜:</strong>											
+													<fmt:parseDate value="${otherleagueAccountVO.regDate}" var="parsedDate" pattern="yyyy-MM-dd HH:mm:ss"/><fmt:formatDate pattern="yyyy-MM-dd" value="${parsedDate}" />
 											</h5>
 											<h5 class="p-15 mb-0">
 												<strong>주식 보유 개수:</strong> ${othertotalStockCounts }개
 
 											</h5>
-											<h5 class="p-15 mb-0">
+									<%-- 		<h5 class="p-15 mb-0">
 												<strong>구독 정보:</strong> ${fn:length(otherleagueFollowList) } 명
 
-											</h5>
+											</h5> --%>
 										</div>
 										<div class="row mb-30">
 											<div class="clearfix">
@@ -173,12 +212,12 @@
 											<div class="form-group row">
 
 												<div class="col-sm-10">
-													<textarea class="form-control" placeholder="메시지 보내기"></textarea>
+													<textarea id="msg-content" class="form-control" placeholder="메시지 보내기"></textarea>
 												</div>
 											</div>
 											<div class="form-group row">
 												<div style="float: right;">
-													<button type="submit" class="btn btn-primary">전송</button>
+													<button type="button" id="msg-send" class="btn btn-primary">전송</button>
 												</div>
 											</div>
 										</div>
@@ -213,7 +252,7 @@
 															<a href="${ pageContext.request.contextPath }/account/viewother/account/${follower.id }">
 																<strong>${follower.id }</strong>
 															</a>
-															<small class="sidetitle">${follower.regDate }</small>
+															
 														</p>
 														<p class="mb-0"></p>
 													</td>

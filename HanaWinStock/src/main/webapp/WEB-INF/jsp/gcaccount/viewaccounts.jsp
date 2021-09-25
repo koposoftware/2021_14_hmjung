@@ -120,6 +120,8 @@ body {
 
 
 <script>
+
+
 	leagueAccountInfo = JSON.parse('${leagueAccountInfo}')
 
 	$(document).ready(function() {
@@ -150,13 +152,9 @@ body {
 	$('#start_account').click(function(){
 		location.href = "${pageContext.request.contextPath}/account/contract"
 	})
-		
-		
+				
 	})
-	
-	
-	
-	
+		
 </script>
 
 </head>
@@ -184,15 +182,15 @@ body {
 						<div class="content-header">
 							<div class="d-flex align-items-center">
 								<div class="me-auto">
-									<h4 class="page-title">리그 계좌</h4>
+									<h4 class="page-title">대회 계좌</h4>
 									<div class="d-inline-block align-items-center">
 										<nav>
 											<ol class="breadcrumb">
 												<li class="breadcrumb-item"><a href="#">
 														<i class="mdi mdi-home-outline"></i>
 													</a></li>
-												<li class="breadcrumb-item" aria-current="page">리그 계좌</li>
-												<li class="breadcrumb-item active" aria-current="page">리그 계좌</li>
+												
+												<li class="breadcrumb-item active" aria-current="page">계좌 선택</li>
 											</ol>
 										</nav>
 									</div>
@@ -222,16 +220,16 @@ body {
 											<div class="row mb-15">
 												<div class="col-sm-4 text-center">
 													<div class="description-block">
-														<h5 class="description-header">${fn:length(leagueFollowList)}</h5>
-														<span class="description-text">구독자 수</span>
+														<h5 class="description-header">구독자 수</h5>
+														<span class="description-text">${fn:length(leagueFollowList)}</span>명
 													</div>
 
 												</div>
 												<!-- /.col -->
 												<div class="col-sm-4 be-1 bs-1 text-center">
 													<div class="description-block">
-														<h5 class="description-header">${leagueAccountVO.followPrice }</h5>
-														<span class="description-text">구독 가격</span>
+														<h5 class="description-header">구독 가격</h5>
+														<span class="description-text"><fmt:formatNumber value="${leagueAccountVO.followPrice }" type="currency" currencySymbol="$" /></span>
 													</div>
 
 												</div>
@@ -241,7 +239,6 @@ body {
 														<h5 class="description-header">잔액</h5>
 														<span class="description-text"><fmt:formatNumber value="${leagueAccountVO.balance}" type="currency" currencySymbol="$" /></span>
 													</div>
-
 												</div>
 												<!-- /.col -->
 											</div>
@@ -252,7 +249,7 @@ body {
 													<strong>현재 티어:</strong> ${leagueAccountVO.tier }
 												</h5>
 												<h5 class="p-15 mb-0">
-													<strong>시작 날짜:</strong> ${leagueAccountVO.regDate }
+													<strong>시작 날짜:</strong><fmt:parseDate value="${leagueAccountVO.regDate }" var="parsedDate" pattern="yyyy-MM-dd HH:mm:ss"/><fmt:formatDate pattern="yyyy-MM-dd" value="${parsedDate}" />
 												</h5>
 												<h5 class="p-15 mb-0">
 													<strong>주식 보유 개수:</strong> ${totalStockCounts }개
@@ -265,7 +262,6 @@ body {
 											</div>
 											<div class="row mb-30">
 												<div class="clearfix">
-													<button type="submit" id="refresh_league" class="waves-effect waves-light btn btn-danger mb-5">초기화</button>
 													<button type="submit" id="start_league" class="waves-effect waves-light btn btn-success mb-5" data-bs-toggle="modal" data-bs-target="#modal-center2">계좌 선택</button>
 												</div>
 											</div>
@@ -287,7 +283,7 @@ body {
 												<li class="breadcrumb-item"><a href="#">
 														<i class="mdi mdi-home-outline"></i>
 													</a></li>
-												<li class="breadcrumb-item" aria-current="page">보유 계좌</li>
+												
 												<li class="breadcrumb-item active" aria-current="page">계좌 선택</li>
 											</ol>
 										</nav>
@@ -328,7 +324,11 @@ body {
 															</p>
 
 															<p>
-																<strong>생성 날짜:&nbsp;</strong><span id="regDate_${loop.count }">${accountVO.regDate }</span>
+																<strong>생성 날짜:&nbsp;</strong><span id="regDate_${loop.count }">
+																<fmt:parseDate value="${accountVO.regDate }" var="parsedDate" pattern="yyyy-MM-dd"/>
+																<fmt:formatDate pattern="yyyy-MM-dd" value="${parsedDate}" />																
+																</span>
+																
 															</p>
 															<br> <br>
 															<button id="listindex_${loop.count }" type="button" style="background-color: transparent; border-color: white;" class="btn btn-primary goto-htc" data-bs-toggle="modal" data-bs-target="#modal-center">계좌 선택</button>

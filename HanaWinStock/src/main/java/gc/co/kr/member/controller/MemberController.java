@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import gc.co.kr.leagueAccount.LeagueAccountService;
 import gc.co.kr.member.service.MemberService;
 import gc.co.kr.member.vo.MemberVO;
 
@@ -20,7 +21,10 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService service;
-		
+	
+	@Autowired
+	private LeagueAccountService leagueService;
+	
 	@GetMapping("/signin")
 	public String loginForm() {
 		return "member/signin";
@@ -40,8 +44,10 @@ public class MemberController {
 		} else {
 			
 			model.addAttribute("userVO", userVO);
-			msg = "success:로그인 완료:환영합니다. " + userVO.getName() + "님";			
-			session.setAttribute("msg", msg);
+			/*
+			 * msg = "success:로그인 완료:환영합니다. " + userVO.getName() + "님";
+			 * session.setAttribute("msg", msg);
+			 */
 			// 이제 로그인 후에 그냥 가면 안되고 직전 페이지로 가게함.
 			String dest = (String) session.getAttribute("dest");
 			if (dest != null) {
@@ -55,7 +61,9 @@ public class MemberController {
 	}
 	
 	@GetMapping("/signout")
-	public String login(SessionStatus sessionStatus, HttpSession session) {		
+	public String login(SessionStatus sessionStatus, HttpSession session) {
+		MemberVO userVO = (MemberVO) session.getAttribute("userVO");
+		leagueService.leagueAcclogout(userVO.getId());
 		sessionStatus.setComplete();
 		session.invalidate();
 		return "redirect:/";

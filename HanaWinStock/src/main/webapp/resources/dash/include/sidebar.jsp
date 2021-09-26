@@ -64,7 +64,7 @@
 				  <ul class="treeview-menu">
 					<li><a href="${ pageContext.request.contextPath }/account/advertise/checkvalid"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>광고주 인증 검증</a></li>
 					<li><a href="${ pageContext.request.contextPath }/account/advertise/requestadcheck"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>광고 요청 검증</a></li>
-					<li><a href="ico_details.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>Details</a></li>
+					<li><a href="${ pageContext.request.contextPath }/artificial/createModel"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>AI 학습</a></li>
 					<li><a href="ico_listing.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>ICO Listing</a></li>
 					<li><a href="ico_filter.html"><i class="icon-Commit"><span class="path1"></span><span class="path2"></span></i>ICO Listing - Filters</a></li>
 				  </ul>
@@ -102,9 +102,9 @@
 				  	<c:if test="${not empty followerLeagueList}">
 				  		<c:forEach items="${ followerLeagueList}" var="follower" varStatus="loop">
 				  		<c:if test="${loop.index < 5}" >
-				  		<li style="list-style-type: none;">
+				  		<li class="subscribedPerson" style="list-style-type: none;">
 				  		
-				  		<a href="members.html" class="avatar avatar-small">
+				  		<a href="#" class="avatar avatar-small" onclick="openForm('${follower.id}' ,'${userVO.id }' )">
 				  		  <img src="${ pageContext.request.contextPath }/resources/images/tier/${follower.tier }.png" alt="...">
 				  		 ${follower.id }				  		 	
 				  		 		<c:if test="${follower.loggedIn eq 'true'}">
@@ -112,9 +112,7 @@
 				  		 		</c:if>
 				  		 		<c:if test="${follower.loggedIn ne 'true'}">
 				  		 		<small style="color:red; font-size: xx-small;">로그아웃됨</small>
-				  		 		</c:if>
-				  		 	
-				  		 
+				  		 		</c:if>  		 
 				  		 </a>
 				  		 
 				  		 </li>

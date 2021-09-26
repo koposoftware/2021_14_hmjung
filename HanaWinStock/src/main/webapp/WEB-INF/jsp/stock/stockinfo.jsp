@@ -7,61 +7,243 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="${ pageContext.request.contextPath }/resources/images/favicon.ico">
-    <title>하나윈스톡</title>
-	<!-- Vendors Style-->
-	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/vendors_css.css">
-	  
-	<!-- Style-->  
-	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/style.css">
-	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/skin_color.css">	
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
-	<script src="https://www.amcharts.com/lib/4/core.js"></script>
-	<script src="https://www.amcharts.com/lib/4/charts.js"></script>
-	<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
-	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/Web-Ticker-master/jquery.webticker.min.js"></script>
-	
-	
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard26-chart.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-		
-	<script>
-	
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+<link rel="icon" href="${ pageContext.request.contextPath }/resources/images/favicon.ico">
+<title>하나윈스톡</title>
+<!-- Vendors Style-->
+<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/vendors_css.css">
+
+<!-- Style-->
+<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/style.css">
+<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/skin_color.css">
+<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/mycss/myloading.css">
+
+
+
+<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/Web-Ticker-master/jquery.webticker.min.js"></script>
+
+
+<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard26-chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+<script>
+final_testing  = null;
 	
  	stockSummary = '${stockSummary}'
 	data = JSON.parse('${list}')
 	symbol = '${symbol}' 	
 	dailyData = { '${symbol}'  : data  }
-	
+	init_ai = false
+	testing = null
+
 	
 	
 	
 	$(document).ready(function() {	
+		$(".loading").hide()
+		
+		$("#check-number-btn").hide()
+		
+		chart = am4core.create("chartdiv", am4charts.XYChart);
+		
+		
 		let fullMsg = '${msg}'
 		// 자바스크립트 여기
 		if (fullMsg != null && fullMsg != "") {
 			myAlarm(fullMsg)
-		}		
+		}			
+						
+		
+		$('#ai-predicit').click(function(){
+			if(init_ai == false){				
+				$("#days_predict").focus()
+			}
+		})
+		
 		getinitdataLine(symbol)
+
+
+		
+		$("#predict-btn").click(function(){
+			$('#will-delete').remove()
+			days_predict = $("#days_predict").val()
+			sending_data = {
+				"symbol" : symbol,
+				"days_predict" : days_predict
+			}
+			console.log(sending_data)
+			//$(".loading").show()		
+			$(".loading").show()
+			$.ajax({type : 'get',
+	      		url : "http://192.168.35.39:8000/predictStock",
+	      		data : sending_data,
+	      		contentType : "application/x-www-form-urlencoded;charset=ISO-8859-15",
+	      		datatype : 'json',
+	      		success : function(result) {	      			
+	      			console.log("one real time success")
+	      			$(".loading").hide()
+	      			console.log(result)
+	      			testing = result
+	      			//$(".loading").hide()
+	      			if(result["result"] == "success"){
+	      				myAlarm("success:success:AI 추론 완료");	
+	      			}
+	      				      			
+	      			newdata= []
+	      			pastdays = parseInt(result["lb"])
+	      			cnt = pastdays	      			
+	      			for(let i = 0 ; i < pastdays ; i++  ){
+	      				var date = new Date();
+	      				date.setDate(date.getDate() - cnt);
+	      				if(i == (pastdays-1) ){
+	      					newdata.push({
+		      					"date" : date ,
+		      					"value" : result["real_begin_values"][i],
+		      					"value3" : result["real_begin_values"][i]
+		      				})	
+	      				}else{
+	      					newdata.push({
+		      					"date" : date ,
+		      					"value" : result["real_begin_values"][i]
+		      				})	
+	      				}	      					      				
+	      				cnt--;
+	      			}	      			
+	      			pnt = 0
+	      			for(i in  result["predict_values"]){
+	      				var date = new Date();
+	      				date.setDate(date.getDate() + pnt);
+	      				newdata.push({
+	      					"date" : date ,
+	      					"value3" : result["predict_values"][i]
+	      				})
+	      				pnt++
+	      			}
+	      			final_testing = newdata
+	      			if(init_ai == false){
+	      				init_ai_chart(newdata)
+	      				$("#check-number-btn").show()
+	      			}else{
+	      				chart.data = newdata
+	      			}
+	      			
+	      			$('#number-results').empty()
+	      			numdata = result["predict_values"]
+	      			for(let i in numdata){
+	      				day = parseInt(i) +1
+	      				console.log(i)
+	      				str = "<tr>" +
+	      				     "<td>" +  day+ "일 후</td>"+
+	      				     "<td> $" + toFixed(numdata[i],2) + "</td> </tr>" 			
+	      			    $('#number-results').append(str)			     
+	      			}	
+	      			
+	      			
+	      			$("#real-values").removeClass('active');
+	      			$("#ai-prediction").addClass('active');
+	      			
+	      			$("#navpills-1").removeClass('active');
+	      			$("#navpills-2").addClass('active');	      				      				      			
+	      			init_ai = true
+	      		},
+	      		error : function() {
+	      			console.log("error")
+	      			}
+				})	
+			})
+			
+			
+			/**
+			 * ---------------------------------------
+			 * This demo was created using amCharts 4.
+			 *
+			 * For more information visit:
+			 * https://www.amcharts.com/
+			 *
+			 * Documentation is available at:
+			 * https://www.amcharts.com/docs/v4/
+			 * ---------------------------------------
+			 */
 			
 	})
-	</script>	
+		function init_ai_chart(data){
+			am4core.useTheme(am4themes_animated);	
+			// Create chart instance
+			// Add data
+			chart.data = data;
+			chart.language.locale = am4lang_ko_KR;
+			// Create axes
+			var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+			dateAxis.renderer.grid.template.location = 0;
+	
+			var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+	
+			// Create series
+			function createSeries(field, name) {
+			  var series = chart.series.push(new am4charts.LineSeries());
+			  series.dataFields.valueY = field;
+			  series.dataFields.dateX = "date";
+			  series.name = name;
+			  series.tooltipText = "{dateX}: [b]{valueY}[/]";
+			  series.strokeWidth = 2;
+			  
+			 /*  var bullet = series.bullets.push(new am4charts.CircleBullet());
+			  bullet.circle.stroke = am4core.color("#fff");
+			  bullet.circle.strokeWidth = 2; */
+			  
+			  return series;
+			}
+	
+			var series1 = createSeries("value", "실제 주가");
+			var series3 = createSeries("value3", "예측 주가");
+			var series4 = createSeries("void", "모두 보기");
+			
+			
+			series3.stroke = am4core.color("#ff0000"); 
+		
+			
+			
+			series4.events.on("hidden", function() {
+			  series1.hide();
+			  series3.hide();
+			});
+	
+			series4.events.on("shown", function() {
+			series1.show();
+			series3.show();
+		});
 
-   
-      			
-      			
+		chart.legend = new am4charts.Legend();
+		chart.cursor = new am4charts.XYCursor();
+	}
+	
+	
+	function toFixed(num, fixed) {
+	    fixed = fixed || 0;
+	    fixed = Math.pow(10, fixed);
+	    return Math.floor(num * fixed) / fixed;
+	}
+	
+</script>
+
+
+
+
 </head>
 <body class="hold-transition light-skin sidebar-mini theme-primary fixed">
 	<div class="wrapper">
 		<div id="loader"></div>
 		<header class="main-header">
 			<jsp:include page="/resources/dash/include/header.jsp" />
-		</header>	
+		</header>
 	</div>
 	<aside class="main-sidebar">
 		<jsp:include page="/resources/dash/include/sidebar.jsp" />
@@ -71,23 +253,43 @@
 		<div class="container-full">
 			<!-- Main content -->
 			<section class="content">
+			<div class="loading">Loading&#8230;</div>
 				<div class="row">
-
 					<div class="col-md-9">
 						<div class="box">
+							<ul class="nav nav-fill nav-pills margin-bottom margin-top-10">
+								<li class="nav-item bt-2"><a href="#navpills-1" id="real-values" class="nav-link active no-radius" data-bs-toggle="tab" aria-expanded="false">현재 주가</a></li>
+								<li class="nav-item bt-2" id="ai-predict"><a id="ai-prediction" href="#navpills-2" class="nav-link no-radius" data-bs-toggle="tab" aria-expanded="false">AI 주가 예측</a></li>
+							</ul>
+
 							<div class="box-header with-border">
 								<h4 class="box-title" id="chartTitle">${symbol }</h4>
 								<br>
 								<h4 class="box-title" id="longTitle">${stockNameVO.longName }</h4>
 							</div>
-							<div class="box-body">
-								<div class="chart" id="chartParent">
-									<div id="chartdivnew-${symbol }" class="h-450"></div>
+							<div class="tab-content">
+								<div id="navpills-1" class="tab-pane active">
+									<div class="box-body">
+										<div class="chart" id="chartParent">
+											<div id="chartdivnew-${symbol }" class="h-450"></div>
+										</div>
+									</div>
 								</div>
+								<div id="navpills-2" class="tab-pane">
+								<div class="box-body">
+									<h4 class="text-success" id="will-delete">예측 일수 작성 후 시작 버튼을 눌러주세요</h4>
+									<div id="chartdiv" class="h-450">	
+									</div>
+									<button type="button" id="check-number-btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-right">예측 주가 수치 확인</button>
+								</div>
+								</div>
+
 							</div>
-							<!-- /.box-body -->
+
 						</div>
 					</div>
+
+
 					<div class="col-md-3">
 						<div class="row">
 							<div class="box bg-danger pull-up">
@@ -111,7 +313,6 @@
 										<li class="be-1 border-dark">
 											<div>평균 거래량</div> <small class="fs-18"><fmt:formatNumber type="number" value="${stockSummary.averageDailyVolume3Month}" /></small>
 										</li>
-
 										<li class="be-1 border-dark">
 											<div>bid size</div> <small class="fs-18"><fmt:formatNumber type="number" value="${stockSummary.bidSize}" /></small>
 										</li>
@@ -125,9 +326,23 @@
 						</div>
 						<div class="row">
 							<div class="box">
+								<div class="box-header with-border">
+									<h4 class="box-title">AI 예측</h4>
+								</div>
+								<div class="box-body">
+									<form class="dash-form">
+										<div class="input-group mb-10">
+											<span class="input-group-addon">예측 일수</span> <input id="days_predict" type="number" class="form-control" placeholder="예측 일수를 입력 하세요">
+										</div>
+
+										<button type="button" class="btn w-p100 btn-success mt-20" id="predict-btn">예측 시작</button>
+									</form>
+								</div>
 
 
-								<table class="table table-bordered no-margin">
+
+
+								<%-- <table class="table table-bordered no-margin">
 									<tbody>
 										<tr>
 											<td>산업</td>
@@ -144,7 +359,7 @@
 												</a></td>
 										</tr>
 									</tbody>
-								</table>
+								</table> --%>
 
 							</div>
 
@@ -402,17 +617,70 @@
 
 				</div>
 
+
+
+
 			</section>
-	</div>
+		</div>
 	</div>
 	<footer class="main-footer">
 		<jsp:include page="/resources/dash/include/footer.jsp" />
-		 &copy; 2021 <a href="https://www.multipurposethemes.com/">Multipurpose Themes</a>. All Rights Reserved.
-	</footer>	
-	 <aside class="control-sidebar">
-	  	<jsp:include page="/resources/dash/include/control-sidebar.jsp" />  
-	 </aside>
+		&copy; 2021
+		<a href="https://www.multipurposethemes.com/">Multipurpose Themes</a>
+		. All Rights Reserved.
+	</footer>
+	<aside class="control-sidebar">
+		<jsp:include page="/resources/dash/include/control-sidebar.jsp" />
+	</aside>
 	<div class="control-sidebar-bg"></div>
+	
+	
+	<div class="modal modal-right fade" id="modal-right" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+						<div class="box">
+									<div class="box-header with-border">
+										<h4 class="box-title">AI 추론 수치 결과</h4>
+										<ul class="box-controls pull-right">
+											<li><a class="box-btn-close" href="#"></a></li>
+											<li><a class="box-btn-slide" href="#"></a></li>
+											<li><a class="box-btn-fullscreen" href="#"></a></li>
+										</ul>
+									</div>
+									<div class="box-body">
+										<div class="table-responsive">
+											<table class="table table-bordered table-striped no-margin">
+												<thead>
+													<tr>
+														<th>일수</th>
+														<th>예측 주가</th>
+													</tr>
+												</thead>
+												<tbody id="number-results">
+																										
+																									
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<!-- /.box-body -->
+								</div>							
+						</div>
+
+
+				</div>
+				<div class="modal-footer modal-footer-uniform">
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">나가기</button>
+					
+				</div>
+			</div>
+		</div>	
+
+	
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/dash/js/includeUtil/sidebar.js"></script>
 	<!-- Vendor JS -->
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/vendors.min.js"></script>
@@ -433,8 +701,8 @@
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/jquery-toast-plugin-master/src/jquery.toast.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/notification.js"></script>
 
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/raphael/raphael.min.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/morris.js/morris.min.js"></script>
 
-
-
-</body>          
+</body>
 </html>

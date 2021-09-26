@@ -21,7 +21,27 @@
 <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/style.css">
 <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/skin_color.css">
 <script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
+
+<style>
+.chatDirect{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 300px;
+  border: 1px solid gray;
+  background-color:white;
+}
+</style>
+
+<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/dash/js/includeUtil/sidebar.js"></script>
 <script>
+
+
+
+    myid = '${userVO.id}'
+    openDirect('${userVO.id}')
+
+
 	tiermap = {		
 		"BRONZE" : "브론즈",
 		"SILVER" : "실버",
@@ -89,6 +109,8 @@
 </script>
 
 </head>
+
+
 <body class="hold-transition light-skin sidebar-mini theme-primary fixed">
 	<div class="wrapper">
 		<div id="loader"></div>
@@ -233,10 +255,14 @@
 
 				</div>
 				
+			
 				
+									
 			</section>
 		</div>
 	</div>
+
+	
 	<footer class="main-footer">
 		<jsp:include page="/resources/dash/include/footer.jsp" />
 		&copy; 2021
@@ -247,7 +273,7 @@
 		<jsp:include page="/resources/dash/include/control-sidebar.jsp" />
 	</aside>
 	<div class="control-sidebar-bg"></div>
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/dash/js/includeUtil/sidebar.js"></script>
+	
 	<!-- Vendor JS -->
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/vendors.min.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/chat-popup.js"></script>

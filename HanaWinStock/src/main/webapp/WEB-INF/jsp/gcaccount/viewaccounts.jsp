@@ -146,15 +146,22 @@ body {
 			$("#form-gcaNumber").val(current_gcaNumber)
 			$("#form-regDate").val(current_regDate)
 			console.log($("#form-regDate").val())
-		})
-		
-		
+		})				
 	$('#start_account').click(function(){
 		location.href = "${pageContext.request.contextPath}/account/contract"
-	})
-				
+		})				
 	})
 		
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </script>
 
 </head>

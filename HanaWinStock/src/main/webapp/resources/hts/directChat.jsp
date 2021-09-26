@@ -36,11 +36,11 @@
 				<input type="text" name="message" id="chat" placeholder="Type Message ..." class="form-control">
 				<div class="input-group-addon">
 					<div class="align-self-end gap-items">
-						<span class="publisher-btn file-group"> <i class="fa fa-paperclip file-browser"></i> <input type="file">
+					<!-- 	<span class="publisher-btn file-group"> <i class="fa fa-paperclip file-browser"></i> <input type="file">
 						</span>
 						<a class="publisher-btn" href="#">
 							<i class="fa fa-smile-o"></i>
-						</a>
+						</a> -->
 						<a id="send-msg" class="publisher-btn">
 							<i class="fa fa-paper-plane"></i>
 						</a>

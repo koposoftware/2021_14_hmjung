@@ -31,7 +31,7 @@ function getinitdataLine(symbol){
 	series.dataFields.openValueY = "open";
 	series.dataFields.lowValueY = "low";
 	series.dataFields.highValueY = "high";
-	series.tooltipText = "Open:${openValueY.value}\nLow:${lowValueY.value}\nHigh:${highValueY.value}\nClose:${valueY.value}";
+	series.tooltipText = "시가:${openValueY.value}\n저가:${lowValueY.value}\n고가:${highValueY.value}\n종가:${valueY.value}";
 	series.strokeWidth = 2;
 
 	chart.cursor = new am4charts.XYCursor();

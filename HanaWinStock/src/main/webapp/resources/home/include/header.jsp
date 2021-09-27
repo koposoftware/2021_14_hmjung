@@ -80,7 +80,8 @@ transform:scale(0.75);
 							<li><h4 class="menu-title">관리자</h4></li>
 							<li><a href="${ pageContext.request.contextPath }/account/advertise/checkvalid"><i class="ti-arrow-circle-right me-10"></i>광고주 검증</a></li>
 							<li><a href="${ pageContext.request.contextPath }/account/advertise/requestadcheck"><i class="ti-arrow-circle-right me-10"></i>광고 요청 검증</a></li>	
-							<li><a href="${ pageContext.request.contextPath }/artificial/createModel"><i class="ti-arrow-circle-right me-10"></i>AI 학습</a></li>						
+							<li><a href="${ pageContext.request.contextPath }/artificial/createModel"><i class="ti-arrow-circle-right me-10"></i>AI 학습</a></li>	
+							<li><a href="${ pageContext.request.contextPath }/artificial/manageModel"><i class="ti-arrow-circle-right me-10"></i>AI 보드</a></li>						
 						</ul>
 					</div>
 				</div>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="aimodels.AiModelsDAO">
+  	
+  	<resultMap type="aiModelsUsageVO" id="aiModelsUsageMap">
+  		<result column="predicting_days" property="predictingDays"></result>
+  	</resultMap>
+  	
+  	<resultMap type="aiModelsVO" id="aiModelsMap">
+  		<result column="start_unix_time" property="startUnixTime"></result>
+  		<result column="end_unix_time" property="endUnixTime"></result>
+  		<result column="model_name" property="modelName"></result>
+  		<result column="last_loss" property="lastLoss"></result>
+  		<result column="last_val_loss" property="lastValLoss"></result>
+  		<result column="train_ratio" property="trainRatio"></result>
+  		<result column="train_epoch" property="trainEpoch"></result>
+  		<result column="layer_node" property="layerNode"></result>
+  		<result column="training_optimizer" property="trainingOptimizer"></result>
+  		<result column="training_loss_func" property="trainingLossFunc"></result>  		
+  	</resultMap>
+  	
+  	
+  	<resultMap type="HashMap" id="usageValues">
+  		<id column="symbol" property="symbol"></id>
+  		<id column="path" property="path"></id>
+  		<id column="regularmarketchangepercent" property="regularmarketchangepercent"></id>
+  		<id column="usecounts" property="usecounts"></id>
+  		<id column="avgPDays" property="avgPDays"></id>
+  		<id column="sector" property="sector"></id> 
+  	</resultMap>
+  	
+  	
+  	<select id="selectTodayUsage" resultMap="usageValues">
+  		select g.* , f.sector from gc_stock f inner join(
+		select x.* , y.usecounts , y.avgpdays from(
+		select path , d.symbol , trunc(regularmarketchangepercent * 100,3) as regularmarketchangepercent  from gc_stock d inner join(
+		select regularmarketchangepercent, a.symbol  from gc_summary_stock a inner join(
+		select symbol , max(unix_time) as unix_time from gc_summary_stock group by symbol) b
+		on a.symbol = b.symbol and a.unix_time = b.unix_time) e
+		on d.symbol = e.symbol) x
+		left join(
+		select symbol , count(*) as useCounts , avg(predicting_days) as avgPDays from(
+		select * from gc_ai_models_usage where
+		time > sysdate - 1 ) group by symbol) y
+		on x.symbol = y.symbol) g
+		on f.symbol = g.symbol
+  	</select>
+  	
+  	
+  	<select id="getAiModelsListEachSymbol" resultMap="aiModelsMap" parameterType="string">
+  		select * from gc_ai_models where symbol = #{symbol} order by end_unix_time desc 		
+  	</select>
+  	
+  	
+  	<delete id="deleteModel" parameterType="int">
+  		delete gc_ai_models where no = #{no}
+  	</delete>
+  	
+  	
+  	<update id="allflagsdown" parameterType="string">
+  		update gc_ai_models set flag = 'false' where symbol = #{symbol}
+  	</update>
+  	
+  	
+  	<update id="flagup" parameterType="hashmap">
+  		update gc_ai_models set flag = 'true' where symbol = #{symbol} and model_name = #{modelName}
+  	</update>
+  	
+  	
+  
+  </mapper>

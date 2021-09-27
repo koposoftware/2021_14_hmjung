@@ -18,5 +18,8 @@
 		<typeAlias type="gc.co.kr.advertise.vo.AdRequestVO" alias="adRequestVO" />
 		<typeAlias type="gc.co.kr.realtimestock.vo.DailyStockVO" alias="dailyStockVO" />					
 		
+		<typeAlias type="gc.co.kr.ai.vo.AiModelsVO" alias="aiModelsVO" />
+		<typeAlias type="gc.co.kr.ai.vo.AiModelsUsageVO" alias="aiModelsUsageVO" />
+		
 	</typeAliases>
 </configuration>

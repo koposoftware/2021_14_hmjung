@@ -302,7 +302,7 @@ public class AccountController {
 				}
 				System.out.println("성공");
 				
-				List<LeagueFollowVO> followerList = leagueService.selectFollowers(userVO.getId());				
+				List<LeagueFollowVO> followerList = leagueService.selectmyfollow(userVO.getId());				
 				List<String> users = new ArrayList<String>();
 				for(LeagueFollowVO follower: followerList) {
 					users.add(follower.getFollowerId());
@@ -890,6 +890,18 @@ public class AccountController {
 				leagueService.subscribeUser(leagueFollowVO);
 				msg = "success:success:구독 신청이 완료 되었습니다.";
 				session.setAttribute("msg", msg);
+				
+				
+				List<LeagueFollowVO> followerList = leagueService.selectmyfollow(userVO.getId());				
+				List<String> users = new ArrayList<String>();
+				for(LeagueFollowVO follower: followerList) {
+					users.add(follower.getFollowerId());
+				}
+				System.out.println("my users : " + users.size());
+				List<LeagueAccountVO> followerLeagueList =  leagueService.getSessionFollowers(users);
+				System.out.println("my followerLeagueList: " + followerLeagueList.size());		
+				
+				session.setAttribute("followerLeagueList" , followerLeagueList);
 			}																		
 		}
 		return view;

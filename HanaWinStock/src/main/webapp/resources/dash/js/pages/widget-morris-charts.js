@@ -1,48 +1,96 @@
-//[widget morris charts Javascript]
+/**
+ * ---------------------------------------
+ * This demo was created using amCharts 4.
+ *
+ * For more information visit:
+ * https://www.amcharts.com/
+ *
+ * Documentation is available at:
+ * https://www.amcharts.com/docs/v4/
+ * ---------------------------------------
+ */
 
-//Project:	Crypto Admin - Responsive Admin Template
-//Primary use:   Used only for the morris charts
+am4core.useTheme(am4themes_animated);
 
+// Create chart instance
+var chart = am4core.create("chartdiv", am4charts.XYChart);
 
-$(function () {
-    "use strict";
+// Add data
+chart.data = [{
+  "date": new Date(2018, 0, 1),
+  "value": 450,
+  "value2": 362,
+  "value3": 699
+}, {
+  "date": new Date(2018, 0, 2),
+  "value": 269,
+  "value2": 450,
+  "value3": 841
+}, {
+  "date": new Date(2018, 0, 3),
+  "value": 700,
+  "value2": 358,
+  "value3": 699
+}, {
+  "date": new Date(2018, 0, 4),
+  "value": 490,
+  "value2": 367,
+  "value3": 500
+}, {
+  "date": new Date(2018, 0, 5),
+  "value": 500,
+  "value2": 485,
+  "value3": 369
+}, {
+  "date": new Date(2018, 0, 6),
+  "value": 550,
+  "value2": 354,
+  "value3": 250
+}, {
+  "date": new Date(2018, 0, 7),
+  "value": 420,
+  "value2": 350,
+  "value3": 600
+}];
 
+// Create axes
+var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+dateAxis.renderer.grid.template.location = 0;
 
-// LINE CHART
-        var line = new Morris.Line({
-          element: 'line-chart',
-          resize: true,
-          data: [
-            {y: '2016 Q1', data1: 2566},
-            {y: '2016 Q2', data1: 2678},
-            {y: '2016 Q3', data1: 4812},
-            {y: '2016 Q4', data1: 3867},
-            {y: '2017 Q1', data1: 6910},
-            {y: '2017 Q2', data1: 5770},
-            {y: '2017 Q3', data1: 4920},
-            {y: '2017 Q4', data1: 15173},
-            {y: '2018 Q1', data1: 11687},
-            {y: '2018 Q2', data1: 8632},
-			{y: '2019 Q1', data2: 2566},
-            {y: '2020 Q2', data2: 2678},
-            {y: '2021 Q3', data2: 4812},
-            {y: '2022 Q4', data2: 3867},
-            {y: '2023 Q1', data2: 6910},
-            {y: '2024 Q2', data2: 5770},
-            {y: '2025 Q3', data2: 4920},
-            {y: '2026 Q4', data2: 15173},
-            {y: '2027 Q1', data2: 11687},
-            {y: '2028 Q2', data2: 8632}
-          ],
-          xkey: 'y',
-          ykeys: ['data1' , 'data2'],
-          labels: ['실제 값' , '예측 값'],
-          gridLineColor: '#eef0f2', 
-          lineColors: ['#3e8ef7' , '#ffa800'],
-          lineWidth: 1,
-          hideHover: 'auto'
-        });
- // donut chart
- 
-	
-  });
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+// Create series
+function createSeries(field, name) {
+  var series = chart.series.push(new am4charts.LineSeries());
+  series.dataFields.valueY = field;
+  series.dataFields.dateX = "date";
+  series.name = name;
+  series.tooltipText = "{dateX}: [b]{valueY}[/]";
+  series.strokeWidth = 2;
+  
+  var bullet = series.bullets.push(new am4charts.CircleBullet());
+  bullet.circle.stroke = am4core.color("#fff");
+  bullet.circle.strokeWidth = 2;
+  
+  return series;
+}
+
+var series1 = createSeries("value", "Series #1");
+var series2 = createSeries("value2", "Series #2");
+var series3 = createSeries("value3", "Series #3");
+var series4 = createSeries("void", "Toggle All");
+
+series4.events.on("hidden", function() {
+  series1.hide();
+  series2.hide();
+  series3.hide();
+});
+
+series4.events.on("shown", function() {
+  series1.show();
+  series2.show();
+  series3.show();
+});
+
+chart.legend = new am4charts.Legend();
+chart.cursor = new am4charts.XYCursor();

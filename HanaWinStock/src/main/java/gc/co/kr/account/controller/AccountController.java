@@ -305,9 +305,8 @@ public class AccountController {
 				List<LeagueFollowVO> followerList = leagueService.selectmyfollow(userVO.getId());				
 				List<String> users = new ArrayList<String>();
 				for(LeagueFollowVO follower: followerList) {
-					users.add(follower.getFollowerId());
+					users.add(follower.getFollowedId());
 				}
-				System.out.println("my users : " + users.size());
 				List<LeagueAccountVO> followerLeagueList =  leagueService.getSessionFollowers(users);
 				System.out.println("my followerLeagueList: " + followerLeagueList.size());		
 				

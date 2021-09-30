@@ -289,7 +289,7 @@ public class AccountController {
 				System.out.println( msg);
 			}else {	
 				session.setAttribute("leagueAccountVO", leagueAccountVO);				
-				 leagueService.leagueAcclogin(userVO.getId());				
+				leagueService.leagueAcclogin(userVO.getId());				
 				session.setAttribute("accountType" , "leagueAccountVO");
 				session.setAttribute("accountKey" , userVO.getId() );
 				String dest = (String) session.getAttribute("dest2");

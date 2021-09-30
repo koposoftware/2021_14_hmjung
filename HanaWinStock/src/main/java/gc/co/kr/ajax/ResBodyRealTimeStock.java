@@ -129,18 +129,24 @@ public class ResBodyRealTimeStock {
 		params.put("symbol", symbol);
 		List<RealTimeStockVO> realTimeData  = service.getRealTimeStockData(params);
 		List<Float> priceList = realTimeData.stream().map(RealTimeStockVO::getMarketPrice).collect(Collectors.toList());		
-		float firstPrice = priceList.get(0);
-		float lastPrice = priceList.get(priceList.size() - 1);
-		float maxPrice = Collections.max(priceList, Collections.reverseOrder());
-		float minPrice = Collections.min(priceList, Collections.reverseOrder());				
-		RealTimeStockVO realtimeStockVO = realTimeData.get(realTimeData.size() - 1);				
-		ObjectMapper oMapper = new ObjectMapper();		
-		result = oMapper.convertValue(realtimeStockVO, Map.class);				
-		result.put("firstPrice", firstPrice);
-		result.put("lastPrice" , lastPrice);
-		result.put("maxPrice", maxPrice);
-		result.put("minPrice", minPrice);				
-		return result;
+		if (priceList.size() > 0 ) {
+			float firstPrice = priceList.get(0);
+			float lastPrice = priceList.get(priceList.size() - 1);
+			float maxPrice = Collections.max(priceList, Collections.reverseOrder());
+			float minPrice = Collections.min(priceList, Collections.reverseOrder());				
+			RealTimeStockVO realtimeStockVO = realTimeData.get(realTimeData.size() - 1);				
+			ObjectMapper oMapper = new ObjectMapper();		
+			result = oMapper.convertValue(realtimeStockVO, Map.class);				
+			result.put("firstPrice", firstPrice);
+			result.put("lastPrice" , lastPrice);
+			result.put("maxPrice", maxPrice);
+			result.put("minPrice", minPrice);				
+			return result;
+		}else {
+			System.out.println("size 0 - returning 0");
+			return null;
+		}
+		
 	}
 	
 	

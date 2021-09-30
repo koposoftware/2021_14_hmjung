@@ -20,9 +20,25 @@
 <!-- Style-->
 <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/style.css">
 <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/skin_color.css">
+
+
+<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/vendors_css.css">
+<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/style.css">
+<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/skin_color.css">
+
 <script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/dash/js/includeUtil/sidebar.js"></script>
 
 <style>
+.chatDirect {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	width: 300px;
+	border: 1px solid gray;
+	background-color: white;
+}
+
 .enlarged-btn {
 	height: 350px;
 	width: 100%;
@@ -36,12 +52,48 @@
 .remove-chat {
 	float: right;
 }
+
 #video {
-   text-align: center;
-   //rest of rules here
+	text-align: center;
+	//
+	rest
+	of
+	rules
+	here
 }
 
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
 
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f1f1f1;
+	min-width: 200px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 2;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+/* Change color of dropdown links on hover */
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+	display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
 </style>
 
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script> -->
@@ -49,12 +101,15 @@
 <script>
 //-----------------------------------------------------------------
 									
+		myid = '${userVO.id}'
+	    openDirect('${userVO.id}')
+									
 		userAccountInfo = JSON.parse('${userAccountInfo}')
 			
 			
 		function chatServer(box){
-			enterChatServer(box_info[box]['symbol'])			
-			$('#box-' + box).appendTo('row-chat-col')
+			enterChatServer(box_info[box]['symbol'])
+		
 		}
 
 
@@ -77,7 +132,7 @@
  		 }
  		 
  		 
- 		 
+
  		 function openchatbox(symbol){
  			console.log("opening chat box")
  			$("#video-area").empty()
@@ -86,11 +141,11 @@
 			
 			$('.left-col').each(function(){
 				$(this).removeClass('col-xs-12');
-				$(this).addClass('col-md-5');				
+				$(this).addClass('col-md-3');				
 			})
 			$('.right-col').each(function(){
 				$(this).removeClass('col-md-12')
-				$(this).addClass('col-md-7')				
+				$(this).addClass('col-md-9')				
 			})			
 			$('.full-chat-box').show()
 			$('.full-chat-box .box-title').text( stockNameMap[symbol] )		
@@ -101,11 +156,11 @@
  			$('#close-chat').hide()
  			$('#direct-chat').empty()
  			$('.left-col').each(function(){
- 				$(this).removeClass('col-md-5');
+ 				$(this).removeClass('col-md-3');
  				$(this).addClass('col-xs-12');
  			})
  			$('.right-col').each(function(){
- 				$(this).removeClass('col-md-7')
+ 				$(this).removeClass('col-md-9')
  				$(this).addClass('col-md-12')
  			})
  			$('.full-chat-box').hide()
@@ -358,10 +413,16 @@
 			  }
 			});
 		  	
-			$("#box-" + box + " .marketChangePercent").html(result.marketChangePercent);
+			$("#box-" + box + " .marketChangePercent").html(result.marketChangePercent.toFixed(3));
 			$("#box-" + box + " .marketVolume").html(result.marketVolume);
-			$("#box-" + box + " .bid").html(result.bid + "/" + result.bidSize );
-			$("#box-" + box + " .ask").html(result.ask + "/" + result.askSize );
+			$("#box-" + box + " .bid").html(result.bid);			
+			$("#box-" + box + " .bidSize").html(result.bidSize);
+			
+			$("#box-" + box + " .ask").html(result.ask);			
+			$("#box-" + box + " .askSize").html(result.askSize);
+			
+			
+			
 			$("#box-" + box + " .dividendsYield").html(result.dividendsYield);
 			$("#box-" + box + " .floatingShares").html(result.floatingShares);
 			$("#box-" + box + " .shortRatio").html(result.shortRatio);
@@ -582,18 +643,18 @@
 					let chartId = "chart_" +  symbol																																			
 					let chartDiv = document.createElement("div");									
 					chartDiv.id = chartId
-					chartDiv.classList.add("col-xl-8");
+					chartDiv.classList.add("col-xl-9");
 					chartDiv.classList.add("col-12");
 					let chartBody = document.querySelector(".box-" + box + "-body .chart .chart-row" );					
-					chartBody.appendChild(chartDiv);
+					chartBody.prepend(chartDiv);
 					
 					$("#box-" + box  +" .hide-toggle" ).show()
 					
 
 					box_info[box]['symbol'] =  symbol;
-					options = {
+					options = {						
 							chart : {
-								height : 550,
+								height : 400,
 								type : 'candlestick',
 							},
 							series : [ {
@@ -607,7 +668,7 @@
 								  type: 'category',
 								  labels: {
 								    formatter: function(val) {
-								      return dayjs(val).format('MMM DD HH:mm')          
+								      return dayjs(val).format('HH:mm')          
 								    }
 								  }
 							},
@@ -671,14 +732,14 @@
 					let chartId = "linechart_" +  symbol
 					let chartDiv = document.createElement("div");									
 					chartDiv.id = chartId
-					chartDiv.classList.add("col-xl-8");
+					chartDiv.classList.add("col-xl-9");
 					chartDiv.classList.add("col-12");
 					
-					chartDiv.classList.add("h-550");
+					chartDiv.classList.add("h-400");
 					
 					
 					let chartBody = document.querySelector(".box-" + box + "-body .chart .chart-row" );		
-					chartBody.appendChild(chartDiv);	
+					chartBody.prepend(chartDiv);	
 					
 					$("#box-" + box  +" .hide-toggle" ).show()
 					
@@ -922,7 +983,31 @@
 
 	
 		
-	
+		function beginTrading(){
+			if(userAccountInfo["stockList"].length == 0){
+				newSymbol = "AAPL"
+			}else{
+				newSymbol = userAccountInfo["stockList"][0]["symbol"]
+			}
+			clicked_box = "one"
+				$(".box-" + clicked_box + "-header").show();
+			
+			console.log( "newSymbol : " +   newSymbol)
+			$('#modal-' +clicked_box ).removeClass('enlarged-btn');
+			$('#remove-chart-'+clicked_box).show()
+			if(box_info[clicked_box]["type"] == "candlestick" ){
+				getinitdata(  clicked_box , newSymbol  );	
+			}else if(box_info[clicked_box]["type"] == "line" ){								
+				getinitdataLine(clicked_box , newSymbol  )
+			}
+			allSymbols.push(newSymbol)
+			printLongName(newSymbol , clicked_box)
+			
+			$("#box-one").appendTo("#row-one-col")
+			$("#box-one").show()
+			add_logo_box(newSymbol)
+			
+		}	
 
 		$(document).ready(function() {			
 
@@ -940,7 +1025,7 @@
 					})
 					
 					removechatbox()
-				
+					updateCurrentUserInfo()
 					
 			
 					$("#box-one").hide()
@@ -955,8 +1040,7 @@
 					if (fullMsg != null && fullMsg != "") {
 						myAlarm(fullMsg)
 					}
-					
-					
+
 					let chartbox = document.querySelector("#chartbox")					
 					$('#add-symbol').click(function(){
 						if(! Object.keys(stockNameMap ).includes($("#symbol-code").val()) ){
@@ -1005,19 +1089,22 @@
 								allSymbols.push(newSymbol)
 								printLongName(newSymbol , clicked_box)
 								
+								add_logo_box(newSymbol)
+								
+								
+								
 							} 
 						})
-					$(".attr").hover(
-				            function() {
-				                $(".attr").css("color","red");
-				            },
-				            function() {
-				                $(".attr").css("color","black");
-				            }
-				        );
+						
+						
+			
 
 					$(".remove-chart").click(function(){
 						rbox = this.id.split("-")[2]
+						
+						rlogo_id =  box_info[rbox]["symbol"] + "_logoBox"
+						console.log("rlogo_id : " +  rlogo_id)
+						$("#" + rlogo_id).remove()
 						
 						clearInterval(interval[rbox]["func"])
 						
@@ -1047,6 +1134,10 @@
 						$("#box-" + rbox + " .hide-toggle").hide();
 						$(".box-" + rbox + "-header").hide()
 						$("#box-" + rbox + " .box-title").html("")
+						
+						
+				
+						
 					})
 						
 					
@@ -1110,8 +1201,7 @@
 					
 					
 							
-					
-				
+
 					
 					
 					
@@ -1140,7 +1230,21 @@
 					
 				})
 				
+				$("#t-shape").click(function(){
+					box_counts = 3;
+					$('#box-one').appendTo('#row-one-col');
+					$('#box-one').show();
+					
+					$('#box-two').appendTo('#lc-one');
+					$('#box-two').show();
+					
+					$('#box-three').appendTo('#lc-two');
+					$('#box-three').show()
+					
+					
+				})
 				
+		
 				
 				
 							
@@ -1195,35 +1299,35 @@
 				$(".btn-buy").click(function(){
 					box =  $(this).parents(".chart" ).attr("id").split("-")[1]
 					symbol = box_info[box]["symbol"]
-					action  = "B"
+					action  = "B"									
 					
-					userPrice = $("#chart-" + box + " .buyPrice").val()
-					userCounts = $('#chart-' + box + " .buyCount").val()
-					wholeTransact(symbol , action , userCounts, userPrice, box)
-					$("#chart-" + box + " .buyPrice").val("")
-					$('#chart-' + box + " .buyCount").val("")
+					userCounts = $('#chart-' + box + " .actionCount").val()
+					wholeTransact(symbol , action , userCounts, box)
+					
+					$('#chart-' + box + " .actionCount").val("")
 					
 				})
 				
 				$(".btn-sell").click(function(){
 					box =  $(this).parents(".chart" ).attr("id").split("-")[1]
+					
 					symbol = box_info[box]["symbol"]
-					action  = "S"
-					userPrice = $("#chart-" + box + " .sellPrice").val()
-					userCounts = $('#chart-' + box + " .sellCount").val()
-					wholeTransact(symbol , action , userCounts, userPrice, box)
-					$("#chart-" + box + " .sellPrice").val("")
-					$('#chart-' + box + " .sellCount").val("")
+					console.log("selling symbol :" + symbol  )
+					action  = "S"					
+					userCounts = $('#chart-' + box + " .actionCount").val()
+					wholeTransact(symbol , action , userCounts, box)
+					
+					$('#chart-' + box + " .actionCount").val("")
 				})
 	
 			
-
+				beginTrading()
 
 			})
 	
 					//----------------------------sell buy-------------------------------------
 	
-		function wholeTransact(symbol , action , counts , price , box){
+		function wholeTransact(symbol , action , counts , box){
 			if(userAccountInfo["accountType"] == 'leagueAccountVO'){
 				key = userAccountInfo["account"]["id"]
 				console.log("key : "  +  key)
@@ -1241,7 +1345,8 @@
 	      		dataType: 'text',
 	      		success : function(result) {
 	      			userAccountInfo = JSON.parse(result)
-	      			valid = validPrice(symbol ,box  , action , price  , counts )
+	      			valid = validPrice(symbol ,box  , action   , counts )
+	      			realPrice = realdata[box]["marketPrice"]
 	      			console.log("update success")
 	      			if(valid){
 	      				$.ajax({type : 'post',
@@ -1251,10 +1356,9 @@
 				      			symbol : symbol,
 				      			action : action,
 				      			counts : counts,
-				      			price : price,
+				      			price : realPrice,
 				      			preBalance : userAccountInfo["account"]["balance"],
-				      			gcaNumber : key
-				      		
+				      			gcaNumber : key				      		
 				      		},
 				      		contentType : "application/x-www-form-urlencoded;charset=ISO-8859-15",
 				      		datatype : 'json',
@@ -1274,10 +1378,15 @@
 				      		      		success : function(result) {
 				      		      			userAccountInfo = JSON.parse(result)
 				      		      			console.log("update success")
+					      		      		updateCurrentUserInfo()
 				      		      		},
 				      		      		error : function() {
 				      		      			console.log("update fail")
 				      		      		}
+				      		      		
+				      		      		// 여기서
+				      		      		
+				      		      		
 				      		      	})	
 				      			}else{
 				      				myAlarm("warning:error:주문이 체결중 문제가 발생 했습니다.")
@@ -1377,28 +1486,15 @@
 		}
 		
 		
-		function validPrice(symbol ,box  , action , userPrice  , counts ){
-			realPrice = realdata[box]["marketPrice"]	
-			userPrice = parseFloat(userPrice)
-			counts = parseInt(counts)			
-			console.log(realPrice)
-			console.log(userPrice)
-			console.log(counts )
-			if(action == "B"){
-				if(realPrice > userPrice){
-					myAlarm("warning:error:제시 금액 보다 현재가가 높습니다.")
-					return false;
-				}
-				if(userAccountInfo["account"]["balance"]  <   userPrice * counts){
+		function validPrice(symbol ,box  , action   , counts ){
+			realPrice = realdata[box]["marketPrice"]				
+			if(action == "B"){				
+				if(userAccountInfo["account"]["balance"]  <   realPrice * counts){
 					console.log(userAccountInfo["account"]["balance"])
 					myAlarm("warning:error:계좌에 돈이 총분하지 않습니다.}.")
 					return false;
 				}
-			}else if(action == "S"){
-				if(realPrice < userPrice){
-					myAlarm("warning:error:제시 금액 보다 현재가가 낮습니다.")
-					return false;
-				}
+			}else if(action == "S"){			
 				exist = false;
 				for(i in userAccountInfo["stockList"]){
 					if(userAccountInfo["stockList"][i]['symbol'] == symbol  ){
@@ -1417,287 +1513,328 @@
 			}							
 			return true;
 		}
+		
+		
+		function updateCurrentUserInfo(){
+			$("#userCurrentBalance").text(  parseInt(userAccountInfo["account"]["balance"] ) )
+			
+			margin = userAccountInfo["account"]["balance"].toFixed(3) - 100000000 
+			if( margin < 0 ){
+				$("#userCurrentRatio").removeClass("text-success")
+				$("#userCurrentRatio").addClass("text-danger")
+				$("#userCurrentRatio").text(  "-$" +    String(Math.abs(margin.toFixed(3) ) ) )
+			}else{
+				$("#userCurrentRatio").removeClass("text-danger")		
+				$("#userCurrentRatio").addClass("text-success")
+				$("#userCurrentRatio").text(   margin.toFixed(3)  )
+			}
+			$("#portfolio tbody").empty()
+			for(let i in userAccountInfo["stockList"]){
+				console.log("table update")
+				div = '<tr>'+ 
+					  '<td>'+i+'</td>' +
+					  '<td>'+userAccountInfo["stockList"][i]["symbol"]+'</td>' +
+					  '<td>'+userAccountInfo["stockList"][i]["totalCounts"]+'</td>' +
+					  '<td>$'+userAccountInfo["stockList"][i]["spentTotal"].toFixed(3)+'</td>' +
+					  '<td>$'+userAccountInfo["stockList"][i]["earnedTotal"].toFixed(3)+'</td>' + 
+					  '</tr>'											
+				$("#portfolio tbody").append(div)
+			}
+	
+		}
+
+		
+		function add_logo_box(symbol){
+			div = '<div class="col-md-2 realestate sponsored" id="'+  symbol + "_logoBox"    +  '">' + 
+			     '<div class="box box-body bg-hexagons-white pull-up">' + 
+			      '<div class="media align-items-center p-0">' +
+			      '<div class="col-md-3">'+
+			      '<img alt="" class="avatar" src="${ pageContext.request.contextPath }/resources/images/stocklogos/'+  symbol+ '.png">'  +
+			      '</div>' + 
+			      '<div class="col-md-3">' + 
+			       '<h3 class="no-margin text-bold">'+symbol+ '</h3>' +
+			       '</div></div></div></div>'			       
+			$("#logo-area").append(div)
+			       
+		}
+		
+		
+		
+
+		
 </script>
 
 </head>
-<body class="hold-transition light-skin sidebar-mini theme-primary fixed">
+<body class="theme-success" style="background-color: white;">
+	<header class="header-light">
+		<jsp:include page="/resources/home/include/header.jsp" />
+	</header>
 
-
-	<div class="wrapper">
-		<div id="loader"></div>
-		<header class="main-header">
-			<jsp:include page="/resources/dash/include/header.jsp" />
-		</header>
-	</div>
-	<aside class="main-sidebar">
+	<aside>
 		<jsp:include page="/resources/dash/include/sidebar.jsp" />
-	</aside> 
-	<!-- Content Wrapper. Contains page content -->
-	<div class="content-wrapper">
-		<div class="container-full">
-			<!-- Main content -->
-			<!-- 	<iframe src="http://localhost:3000/55228794-6d25-49f9-a82d-802dc6dc9b8c" allow="camera;microphone" ></iframe> -->
+	</aside>
+	<section class="content" style="background-color: #f5f5f5;">
+		<div class="row">
+			<div class="col-md-1">
+				<div class="dropdown">
+					<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">레이아웃</button>
+					<div class="dropdown-menu dropdown-grid">
+						<a id="one" class="dropdown-item" href="#">
+							<span class="icon ti-layout-width-full"></span> <span class="title"></span>
+						</a>
+						<a id="two-vertical" class="dropdown-item" href="#">
+							<span class="icon ti-layout-column2"></span> <span class="title"></span>
+						</a>
+						<a id="three-vertical" class="dropdown-item" href="#">
+							<span class="icon ti-layout-column3"></span> <span class="title"></span>
+						</a>
+						<a id="two-horizontal" class="dropdown-item" href="#">
+							<span class="icon ti-layout-column2 fa-rotate-90"></span> <span class="title"></span>
+						</a>
+						<a id="three-horizontal" class="dropdown-item" href="#">
+							<span class="icon ti-layout-column3 fa-rotate-90"></span> <span class="title"></span>
+						</a>
+						<a id="t-shape" class="dropdown-item" href="#">
+							<span class="icon"> <img style="width: 30px;" src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/64/000000/external-layout-alignment-and-tools-kiranshastry-lineal-kiranshastry-2.png" />
+							</span>
+						</a>
+
+
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-9">
+				<div class="row" id="logo-area"></div>
 
 
 
-			<section class="content">
+
+
+
+
+
+			</div>
+			<div class="col-md-2">
 				<div class="row">
-					<div class="col-12">
-						<div class="box">
-							<div class="box-body tickers-block">
-								<ul id="webticker-1">
-									<c:forEach items="${ stockSummaryList }" var="stock" varStatus="loop">
-										<li>
-											<div class="coin-name">${ stock.symbol}</div>
-											<div>
-												<span class="text-danger">공매도 :</span> ${stock.shortRatio }
-											</div>
-											<div>
-												<span class="text-success">이윤차액 :</span> ${stock.profitMargins }
-											</div>
-										</li>
-									</c:forEach>
-								</ul>
-							</div>
-						</div>
-					</div>
+					<h3>
+						<span class="text-warning">잔액: $<span id="userCurrentBalance"></span></span>
+					</h3>
 				</div>
-				<div class="row">
-					<div class="col-md-3 left-col">
-						<!-- <button id="modal-two" type="button" class="enlarged-btn waves-effect waves-light btn btn-light mb-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('two')">
- -->
-						<button class="waves-effect waves-light btn btn-light mb-5" id="trigger-chat" type="button" data-bs-toggle="modal" data-bs-target="#modal-center-chat">채팅</button>
-						<button class="btn btn-danger btn-flat mb-5 btn-xs remove-chat" id="close-chat" onclick="removechatbox()">
-							<i class="fa fa-remove"></i>
-						</button>
-					</div>
+				<h5>
+					<span> 순 이익: </span> <span id="userCurrentRatio"></span>
+				</h5>
+			</div>
 
 
-					<div class="col-md-12 right-col">
-
-						<div class="col-md-1">
-							<div class="dropdown">
-								<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">레이아웃</button>
-								<div class="dropdown-menu dropdown-grid">
-									<a id="one" class="dropdown-item" href="#">
-										<span class="icon ti-layout-width-full"></span> <span class="title"></span>
-									</a>
-									<a id="two-vertical" class="dropdown-item" href="#">
-										<span class="icon ti-layout-column2"></span> <span class="title"></span>
-									</a>
-									<a id="three-vertical" class="dropdown-item" href="#">
-										<span class="icon ti-layout-column3"></span> <span class="title"></span>
-									</a>
-									<a id="two-horizontal" class="dropdown-item" href="#">
-										<span class="icon ti-layout-column2 fa-rotate-90"></span> <span class="title"></span>
-									</a>
-									<a id="three-horizontal" class="dropdown-item" href="#">
-										<span class="icon ti-layout-column3 fa-rotate-90"></span> <span class="title"></span>
-									</a>
-								</div>
-							</div>
-						</div>
-
-					</div>
-				</div>
-				<div class="row" id="full-content">
-					<div class="col-md-3 left-col">
-						<jsp:include page="/resources/hts/directChat.jsp" />
-					</div>
-					<div class="col-md-12 right-col">
-						<div id="chart-area">
-							<div class="row" id="row-chat">
-								<div class="col" id="row-chat-col"></div>
-							</div>
-							<div class="row" id="row-one">
-								<div class="col" id="row-one-col"></div>
-							</div>
-							<div class="row" id="row-two">
-								<div class="col" id="row-two-col"></div>
-							</div>
-							<div class="row" id="row-three">
-								<div class="col" id="row-three-col"></div>
-							</div>
-							<div class="row" id="row-final">
-								<div class="col-md-4" id="sc-one"></div>
-								<div class="col-md-4" id="sc-two"></div>
-								<div class="col-md-4" id="sc-three"></div>
-								<div class="col-md-6" id="lc-one"></div>
-								<div class="col-md-6" id="lc-two"></div>
-							</div>
-						</div>
-					</div>
-				</div>
 
 
-				<div hidden="true" id="e_chart_2" class="" style="height: 285px;"></div>
-				<div id="chartdivs">
-				<div class="box" id="box-one">
-					<div class="box-header with-border box-one-header">
-						<div class="btn-group">
-							<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">그래프 종류</button>
-							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item line-one" onclick="graphType('one' ,'line')" href="#">라인</a>
-								<a class="dropdown-item candle-one" onclick="graphType('one' ,'candlestick')" href="#">양초</a>
-							</div>
-						</div>
-						<div class="btn-group">
-							<button class="waves-effect waves-light btn btn-light mb-5  dropdown-toggle" type="button" data-bs-toggle="dropdown">틱</button>
-							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item tic-one" onclick="tic('one' , 10  )" href="#">10초</a>
-								<a class="dropdown-item tic-one" onclick="tic('one' , 30  )" href="#">30초</a>
-								<a class="dropdown-item tic-one" onclick="tic('one' , 60  )" href="#">60초</a>
-								<a class="dropdown-item tic-one" onclick="tic('one' , 300  )" href="#">5분</a>
-								<a class="dropdown-item tic-one" onclick="tic('one' , 1800  )" href="#">30분</a>
-								<a class="dropdown-item tic-one" onclick="tic('one' , 3600  )" href="#">1시간</a>
-								<a class="dropdown-item tic-one" onclick="tic('one' , 10800  )" href="#">3시간</a>
-								<a class="dropdown-item tic-one" onclick="tic('one' , 86400  )" href="#">하루</a>
-							</div>
-						</div>
-						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-one" onclick="start('one')">날짜 설정</button>
-						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="chatServer('one')">종목 채팅방 입장</button>
-					</div>
-					<h4 class="box-title ms-10"></h4>
-					<div class="box-body box-one-body">
-						<div class="chart" id="chart-one">
-							<button id="modal-one" type="button" class="enlarged-btn waves-effect waves-light btn btn-light mb-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('one')">
-								종목<i class="mdi mdi-plus-box"></i>
-							</button>
-							<div class="hide-toggle">
-								<button class="btn btn-danger btn-flat mb-5 btn-xs remove-chart" id="remove-chart-one">
-									<i class="fa fa-remove"></i>
-								</button>
-								<div class="row chart-row">
-									<div class="col-xl-4 col-12 currentInfoBox">
-										<jsp:include page="/resources/hts/liveinfo.jsp" />
-									</div>
-								</div>
-								<div class="row quick-buy">
-									<div class="box">
-										<jsp:include page="/resources/hts/quickbuysell.jsp" />
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="box" id="box-two">
-					<div class="box-header with-border box-two-header">
-						<div class="btn-group">
-							<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">그래프 종류</button>
-							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item line-two" onclick="graphType('two' ,'line')" href="#">라인</a>
-								<a class="dropdown-item candle-two" onclick="graphType('two' ,'candlestick')" href="#">양초</a>
-							</div>
-						</div>
-						<div class="btn-group">
-							<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">틱</button>
-							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item tic-two" onclick="tic('two' , 10  )" href="#">10초</a>
-								<a class="dropdown-item tic-two" onclick="tic('two' , 30  )" href="#">30초</a>
-								<a class="dropdown-item tic-two" onclick="tic('two' , 60  )" href="#">60초</a>
-								<a class="dropdown-item tic-two" onclick="tic('two' , 300  )" href="#">5분</a>
-								<a class="dropdown-item tic-two" onclick="tic('two' , 1800  )" href="#">30분</a>
-								<a class="dropdown-item tic-two" onclick="tic('two' , 3600  )" href="#">1시간</a>
-								<a class="dropdown-item tic-two" onclick="tic('two' , 10800  )" href="#">3시간</a>
-								<a class="dropdown-item tic-two" onclick="tic('two' , 86400  )" href="#">하루</a>
-							</div>
-						</div>
-						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-two" onclick="start('two')">날짜 설정</button>
-						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="chatServer('two')">종목 채팅방 입장</button>
-					</div>
-					<h4 class="box-title ms-10"></h4>
-					<div class="box-body box-two-body">
-						<div class="chart" id="chart-two">
-							<button id="modal-two" type="button" class="enlarged-btn waves-effect waves-light btn btn-light mb-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('two')">
-								종목<i class="mdi mdi-plus-box"></i>
-							</button>
-							<div class="hide-toggle">
-								<button class="btn btn-danger btn-flat mb-5 btn-xs remove-chart" id="remove-chart-two">
-									<i class="fa fa-remove"></i>
-								</button>
-								<div class="row chart-row">
-									<div class="col-xl-4 col-12 currentInfoBox">
-										<jsp:include page="/resources/hts/liveinfo.jsp" />
-									</div>
-								</div>
-								<div class="row quick-buy">
-									<div class="box">
-										<jsp:include page="/resources/hts/quickbuysell.jsp" />
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="box" id="box-three">
-					<div class="box-header with-border box-three-header">
-						<div class="btn-group">
-							<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">그래프 종류</button>
-							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item line-three" onclick="graphType('three' ,'line')" href="#">라인</a>
-								<a class="dropdown-item candle-three" onclick="graphType('three' ,'candlestick')" href="#">양초</a>
-							</div>
-						</div>
-						<div class="btn-group">
-							<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">틱</button>
-							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item tic-three" onclick="tic('three' , 10  )" href="#">10초</a>
-								<a class="dropdown-item tic-three" onclick="tic('three' , 30  )" href="#">30초</a>
-								<a class="dropdown-item tic-three" onclick="tic('three' , 60  )" href="#">60초</a>
-								<a class="dropdown-item tic-three" onclick="tic('three' , 300  )" href="#">5분</a>
-								<a class="dropdown-item tic-three" onclick="tic('three' , 1800  )" href="#">30분</a>
-								<a class="dropdown-item tic-three" onclick="tic('three' , 3600  )" href="#">1시간</a>
-								<a class="dropdown-item tic-three" onclick="tic('three' , 10800  )" href="#">3시간</a>
-								<a class="dropdown-item tic-three" onclick="tic('three' , 86400  )" href="#">하루</a>
-							</div>
-						</div>
-						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="start('three')">날짜 설정</button>
-						<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="chatServer('three')">종목 채팅방 입장</button>
-					</div>
-					<h4 class="box-title ms-10"></h4>
-					<div class="box-body box-three-body">
-						<div class="chart" id="chart-three">
-							<button id="modal-three" type="button" class="enlarged-btn waves-effect waves-light btn btn-light mb-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('three')">
-								종목<i class="mdi mdi-plus-box"></i>
-							</button>
-							<div class="hide-toggle">
-								<button class="btn btn-danger btn-flat mb-5 btn-xs remove-chart" id="remove-chart-three">
-									<i class="fa fa-remove"></i>
-								</button>
-								<div class="row chart-row">
-									<div class="col-xl-4 col-12 currentInfoBox">
-										<jsp:include page="/resources/hts/liveinfo.jsp" />
-									</div>
-								</div>
-								<div class="row quick-buy">
-									<div class="box">
-										<jsp:include page="/resources/hts/quickbuysell.jsp" />
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>		
-
-			</section>
 		</div>
-	</div>
+
+		<div class="row">
+			<!-- <div class="left-col">
+						<button id="modal-two" type="button" class="enlarged-btn waves-effect waves-light btn btn-light mb-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('two')">
+						<button class="waves-effect waves-light btn btn-light mb-5" id="trigger-chat" type="button" data-bs-toggle="modal" data-bs-target="#modal-center-chat">채팅</button>						
+					</div> -->
+
+
+
+		</div>
+		<div class="row" id="full-content">
+			<div class="left-col">
+				<jsp:include page="/resources/hts/directChat.jsp" />
+			</div>
+			<div class="col-md-12 right-col">
+				<div id="chart-area">
+					<div class="row" id="row-one">
+						<div class="col" id="row-one-col"></div>
+					</div>
+					<div class="row" id="row-two">
+						<div class="col" id="row-two-col"></div>
+					</div>
+					<div class="row" id="row-three">
+						<div class="col" id="row-three-col"></div>
+					</div>
+					<div class="row" id="row-final">
+						<div class="col-md-4" id="sc-one"></div>
+						<div class="col-md-4" id="sc-two"></div>
+						<div class="col-md-4" id="sc-three"></div>
+						<div class="col-md-6" id="lc-one"></div>
+						<div class="col-md-6" id="lc-two"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="row" id="portfolio">
+				<div class="box">
+					<table class="table">
+						<thead class="bg-primary">
+							<tr>
+								<th>#</th>
+								<th>종목</th>
+								<th>주식 개수</th>
+								<th>사용 금액</th>
+								<th>이득 금액</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+
+		<div hidden="true" id="e_chart_2" class="" style="height: 285px;"></div>
+		<div id="chartdivs">
+			<div class="box" id="box-one">
+				<div class="box-header with-border box-one-header">
+					<div class="btn-group">
+						<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">그래프 종류</button>
+						<div class="dropdown-menu dropdown-menu-end">
+							<a class="dropdown-item line-one" onclick="graphType('one' ,'line')" href="#">라인</a>
+							<a class="dropdown-item candle-one" onclick="graphType('one' ,'candlestick')" href="#">양초</a>
+						</div>
+					</div>
+					<div class="btn-group">
+						<button class="waves-effect waves-light btn btn-light mb-5  dropdown-toggle" type="button" data-bs-toggle="dropdown">틱</button>
+						<div class="dropdown-menu dropdown-menu-end">
+							<a class="dropdown-item tic-one" onclick="tic('one' , 10  )" href="#">10초</a>
+							<a class="dropdown-item tic-one" onclick="tic('one' , 30  )" href="#">30초</a>
+							<a class="dropdown-item tic-one" onclick="tic('one' , 60  )" href="#">60초</a>
+							<a class="dropdown-item tic-one" onclick="tic('one' , 300  )" href="#">5분</a>
+							<a class="dropdown-item tic-one" onclick="tic('one' , 1800  )" href="#">30분</a>
+							<a class="dropdown-item tic-one" onclick="tic('one' , 3600  )" href="#">1시간</a>
+							<a class="dropdown-item tic-one" onclick="tic('one' , 10800  )" href="#">3시간</a>
+							<a class="dropdown-item tic-one" onclick="tic('one' , 86400  )" href="#">하루</a>
+						</div>
+					</div>
+					<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-one" onclick="start('one')">날짜 설정</button>
+					<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="chatServer('one')">종목 채팅방 입장</button>
+				</div>
+				<h4 class="box-title ms-10"></h4>
+				<div class="box-body box-one-body">
+					<div class="chart" id="chart-one">
+						<button id="modal-one" type="button" class="enlarged-btn waves-effect waves-light btn btn-light mb-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('one')">
+							종목<i class="mdi mdi-plus-box"></i>
+						</button>
+						<div class="hide-toggle">
+							<button class="btn btn-danger btn-flat mb-5 btn-xs remove-chart" id="remove-chart-one">
+								<i class="fa fa-remove"></i>
+							</button>
+							<div class="row chart-row">
+								<div class="col-xl-3 col-12 currentInfoBox">
+									<jsp:include page="/resources/hts/liveinfo.jsp" />
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box" id="box-two">
+				<div class="box-header with-border box-two-header">
+					<div class="btn-group">
+						<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">그래프 종류</button>
+						<div class="dropdown-menu dropdown-menu-end">
+							<a class="dropdown-item line-two" onclick="graphType('two' ,'line')" href="#">라인</a>
+							<a class="dropdown-item candle-two" onclick="graphType('two' ,'candlestick')" href="#">양초</a>
+						</div>
+					</div>
+					<div class="btn-group">
+						<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">틱</button>
+						<div class="dropdown-menu dropdown-menu-end">
+							<a class="dropdown-item tic-two" onclick="tic('two' , 10  )" href="#">10초</a>
+							<a class="dropdown-item tic-two" onclick="tic('two' , 30  )" href="#">30초</a>
+							<a class="dropdown-item tic-two" onclick="tic('two' , 60  )" href="#">60초</a>
+							<a class="dropdown-item tic-two" onclick="tic('two' , 300  )" href="#">5분</a>
+							<a class="dropdown-item tic-two" onclick="tic('two' , 1800  )" href="#">30분</a>
+							<a class="dropdown-item tic-two" onclick="tic('two' , 3600  )" href="#">1시간</a>
+							<a class="dropdown-item tic-two" onclick="tic('two' , 10800  )" href="#">3시간</a>
+							<a class="dropdown-item tic-two" onclick="tic('two' , 86400  )" href="#">하루</a>
+						</div>
+					</div>
+					<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-two" onclick="start('two')">날짜 설정</button>
+					<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="chatServer('two')">종목 채팅방 입장</button>
+				</div>
+				<h4 class="box-title ms-10"></h4>
+				<div class="box-body box-two-body">
+					<div class="chart" id="chart-two">
+						<button id="modal-two" type="button" class="enlarged-btn waves-effect waves-light btn btn-light mb-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('two')">
+							종목<i class="mdi mdi-plus-box"></i>
+						</button>
+						<div class="hide-toggle">
+							<button class="btn btn-danger btn-flat mb-5 btn-xs remove-chart" id="remove-chart-two">
+								<i class="fa fa-remove"></i>
+							</button>
+							<div class="row chart-row">
+								<div class="col-xl-3 col-12 currentInfoBox">
+									<jsp:include page="/resources/hts/liveinfo.jsp" />
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="box" id="box-three">
+				<div class="box-header with-border box-three-header">
+					<div class="btn-group">
+						<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">그래프 종류</button>
+						<div class="dropdown-menu dropdown-menu-end">
+							<a class="dropdown-item line-three" onclick="graphType('three' ,'line')" href="#">라인</a>
+							<a class="dropdown-item candle-three" onclick="graphType('three' ,'candlestick')" href="#">양초</a>
+						</div>
+					</div>
+					<div class="btn-group">
+						<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">틱</button>
+						<div class="dropdown-menu dropdown-menu-end">
+							<a class="dropdown-item tic-three" onclick="tic('three' , 10  )" href="#">10초</a>
+							<a class="dropdown-item tic-three" onclick="tic('three' , 30  )" href="#">30초</a>
+							<a class="dropdown-item tic-three" onclick="tic('three' , 60  )" href="#">60초</a>
+							<a class="dropdown-item tic-three" onclick="tic('three' , 300  )" href="#">5분</a>
+							<a class="dropdown-item tic-three" onclick="tic('three' , 1800  )" href="#">30분</a>
+							<a class="dropdown-item tic-three" onclick="tic('three' , 3600  )" href="#">1시간</a>
+							<a class="dropdown-item tic-three" onclick="tic('three' , 10800  )" href="#">3시간</a>
+							<a class="dropdown-item tic-three" onclick="tic('three' , 86400  )" href="#">하루</a>
+						</div>
+					</div>
+					<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="start('three')">날짜 설정</button>
+					<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="chatServer('three')">종목 채팅방 입장</button>
+				</div>
+				<h4 class="box-title ms-10"></h4>
+				<div class="box-body box-three-body">
+					<div class="chart" id="chart-three">
+						<button id="modal-three" type="button" class="enlarged-btn waves-effect waves-light btn btn-light mb-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('three')">
+							종목<i class="mdi mdi-plus-box"></i>
+						</button>
+						<div class="hide-toggle">
+							<button class="btn btn-danger btn-flat mb-5 btn-xs remove-chart" id="remove-chart-three">
+								<i class="fa fa-remove"></i>
+							</button>
+							<div class="row chart-row">
+								<div class="col-xl-3 col-12 currentInfoBox">
+									<jsp:include page="/resources/hts/liveinfo.jsp" />
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+
 	<!-- 
 http://localhost:8080/
 
  -->
-	<footer class="main-footer">
-		<jsp:include page="/resources/dash/include/footer.jsp" />
-		&copy; 2021
-		<a href="https://www.multipurposethemes.com/">Multipurpose Themes</a>
-		. All Rights Reserved.
+	<footer class="footer_three" style="background-color: white;">
+		<jsp:include page="/resources/home/include/footer.jsp" />
 	</footer>
 
-	<aside class="control-sidebar">
-		<jsp:include page="/resources/dash/include/control-sidebar.jsp" />
-	</aside>
 	<div class="control-sidebar-bg"></div>
 
 
@@ -1711,7 +1848,7 @@ http://localhost:8080/
 				</div>
 				<div class="modal-body">
 					<p>종목 코드 입력</p>
-					<input class="bootstrap-tagsinput bg-transparent"  type="text" id="symbol-code">
+					<input class="bootstrap-tagsinput bg-transparent" type="text" id="symbol-code">
 				</div>
 				<div class="modal-footer modal-footer-uniform">
 					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>
@@ -1742,7 +1879,7 @@ http://localhost:8080/
 			</div>
 		</div>
 	</div>
-	
+
 
 
 
@@ -1781,7 +1918,7 @@ http://localhost:8080/
 				</div>
 			</div>
 		</div>
-	</div>		
+	</div>
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/dash/js/includeUtil/sidebar.js"></script>
 	<!-- Vendor JS -->
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/vendors.min.js"></script>
@@ -1793,13 +1930,12 @@ http://localhost:8080/
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/apexcharts-bundle/irregular-data-series.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/apexcharts-bundle/dist/apexcharts.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/ohlc.js"></script>
-	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/Web-Ticker-master/jquery.webticker.min.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/echarts-master/dist/echarts-en.min.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/echarts-liquidfill-master/dist/echarts-liquidfill.min.js"></script>
 
-	
 
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/template.js"></script>
+
+	<%-- <script src="${ pageContext.request.contextPath }/resources/dash/js/template.js"></script> --%>
 	<%-- 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard-chart.js"></script> --%>
 
@@ -1840,6 +1976,15 @@ http://localhost:8080/
 	<%--  	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard28-chart.js"></script>
 
  --%>
+	<script src="${ pageContext.request.contextPath }/resources/home/js/vendors.min.js"></script>
+	<!-- Corenav Master JavaScript -->
+	<script src="${ pageContext.request.contextPath }/resources/home/corenav-master/coreNavigation-1.1.3.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/home/js/nav.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+
+	<script src="${ pageContext.request.contextPath }/resources/home/js/vendors.min.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js"></script>
 
 </body>
 

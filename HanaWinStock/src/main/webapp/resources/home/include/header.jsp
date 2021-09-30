@@ -16,28 +16,27 @@ transform:scale(0.75);
 <script>
 
 </script>
+	<c:if test="${not empty  leagueAccountVO}">	
+		<a type="button" data-bs-toggle="modal" data-bs-target="#modal-left">
+			<i class="fa fa-user-o" aria-hidden="true"></i>구독					
+		</a>
+	</c:if>
+	
+	
+<nav class="nav-white bg-white">
 
-<nav  class="nav-white bg-white">
-	<div class="nav-header" style="max-height:62px;"> <a href="${ pageContext.request.contextPath }/" style="margin-top:0px; padding-top:0px; padding-bottom:20px;" class="brand"> <img id="headLogo" src="${ pageContext.request.contextPath }/resources/images/gc_transparent2.png" alt="" /></a>						
-		<button class="toggle-bar">
-			<span class="ti-menu"></span>
-		</button>
-	</div>
-	<ul class="menu">
-	<%-- 	<li class="dropdown"><a href="#">계좌</a>
-			<ul class="dropdown-menu">
-				<li><a href="${pageContext.request.contextPath}/signin">로그인</a></li>
-				<li><a href="${pageContext.request.contextPath}/signout">로그아웃</a></li>
-				<li><a href="${pageContext.request.contextPath}/signcontract">회원가입</a></li>
-				<li><a href="index4.html">설정 변경</a></li>
-			</ul></li> --%>
-<%-- 		<li><a href="buy_sell.html">Instant Buy & Sell</a></li>
-		<li><a href="${pageContext.request.contextPath}/account/contract">모의 투자</a></li> --%>		
-		<c:if test="${not empty leagueAccountVO }">
-			<li id="sidebar-toggle" class="btn-group nav-item"><a href="#" class="waves-effect waves-light nav-link push-btn btn-primary-light" data-toggle="push-menu" role="button"> <i data-feather="align-left"></i></a></li>					
-		</c:if>
+
+	<div class="nav-header" style="max-height:62px;"> <a href="${ pageContext.request.contextPath }/" style="margin-top:0px; padding-top:0px; padding-bottom:20px;" class="brand"> 
+	<img id="headLogo" src="${ pageContext.request.contextPath }/resources/images/gc_transparent2.png" alt="" /></a>								
 		
-
+	</div>
+	
+	<ul class="menu">
+	<%-- 	<c:if test="${not empty leagueAccountVO }">
+			<li id="sidebar-toggle" class="btn-group nav-item"><a href="#" class="waves-effect waves-light nav-link push-btn btn-primary-light" data-toggle="push-menu" role="button"> <i data-feather="align-left"></i></a></li>					
+		</c:if> --%>
+		
+		
 		
 		<li class="dropdown"><a href="#">계좌 페이지</a>
 			<ul class="dropdown-menu">
@@ -77,9 +76,11 @@ transform:scale(0.75);
 			</c:if>			
 		</c:if>
 		
-
+		<c:if test="${not empty userVO }">
 		<li><a href="${pageContext.request.contextPath}/signout">로그아웃</a></li>
 		<li><a href="${pageContext.request.contextPath}/modifyinfo">회원정보 수정</a></li>
+		</c:if>
+		
 	</ul>
 	<ul class="attributes">
 	<c:if test="${ empty userVO }">
@@ -94,3 +95,4 @@ transform:scale(0.75);
 		
 	</ul>	
 </nav>
+

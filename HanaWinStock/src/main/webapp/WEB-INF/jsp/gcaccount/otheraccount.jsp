@@ -20,11 +20,33 @@
 <!-- Style-->
 <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/style.css">
 <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/skin_color.css">
+
+
+<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/vendors_css.css">	  
+<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/style.css">
+<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/skin_color.css">
+
+<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/dash/js/includeUtil/sidebar.js"></script>
 <script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
 
 
+<style>
+.chatDirect{
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 300px;
+  border: 1px solid gray;
+  background-color:white;
+}
+
+</style>
 
 <script>
+
+myid = '${userVO.id}'
+openDirect('${userVO.id}')
+
 
 tiermap = {		
 		"BRONZE" : "브론즈",
@@ -87,119 +109,113 @@ tiermap = {
 </script>
 
 </head>
-<body class="hold-transition light-skin sidebar-mini theme-primary fixed">
-	<div class="wrapper">
-		<div id="loader"></div>
-		<header class="main-header">
-			<jsp:include page="/resources/dash/include/header.jsp" />
-		</header>
-	</div>
-	<aside class="main-sidebar">
+<body class="theme-success" style="background-color:white;">
+	<header class="header-light">
+		<jsp:include page="/resources/home/include/header.jsp" />
+	</header>
+	
+	<aside>
 		<jsp:include page="/resources/dash/include/sidebar.jsp" />
 	</aside>
-	<!-- Content Wrapper. Contains page content -->
-	<div class="content-wrapper">
-		<div class="container-full">
-			<!-- Main content -->
-			<section class="content">
+		<section class="content" style="background-color:#f5f5f5;">
+			<div class="container">
 				<div class="row">
-					<div class="content-header">
-							<div class="d-flex align-items-center">
-								<div class="me-auto">
-									<h4 class="page-title">투자 대회</h4>
-									<div class="d-inline-block align-items-center">
-										<nav>
-											<ol class="breadcrumb">
-												<li class="breadcrumb-item"><a href="#">
-														<i class="mdi mdi-home-outline"></i>
-													</a></li>
-												<li class="breadcrumb-item" aria-current="page">검색</li>
-												<li class="breadcrumb-item active" aria-current="page">대회 계좌</li>
-											</ol>
-										</nav>
-									</div>
+
+				<div class="col-md-4">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box box-widget widget-user">
+								<div class="box-body box-profile">
+									<h3 class="widget-user-username text-black">${viewId }</h3>
+									<%-- <h6 class="widget-user-desc text-white">${userVO.userType }</h6> --%>
+									<img class="rounded img-fluid mx-auto d-block max-w-150" src="${ pageContext.request.contextPath }/resources/images/tier/${otherleagueAccountVO.tier}.png">
+									<h4 class="text-center">
+										<strong id="my-tier"></strong>
+									</h4>
 								</div>
-							</div>
-						</div>
-					<div class="col-md-4">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="box box-widget widget-user">
-									<div class="box-body box-profile">
-										<h3 class="widget-user-username text-black">${viewId }</h3>
-										<%-- <h6 class="widget-user-desc text-white">${userVO.userType }</h6> --%>
-										<img class="rounded img-fluid mx-auto d-block max-w-150" src="${ pageContext.request.contextPath }/resources/images/tier/${otherleagueAccountVO.tier}.png">
-										<h4 class="text-center"><strong id="my-tier"></strong></h4>
-									</div>
 
-									<div class="box-footer">
-										<div class="row mb-15">
-											<div class="col-sm-4 text-center">
-												<div class="description-block">
-													<h5 class="description-header">구독자 수</h5>
-													<span class="description-text">${fn:length(otherleagueFollowList)}</span>명
-												</div>
+								<div class="box-footer">
+									<div class="row mb-15">
+										<div class="col-sm-4 text-center">
+											<div class="description-block">
+												<h5 class="description-header">구독자 수</h5>
+												<span class="description-text">${fn:length(otherleagueFollowList)}</span>명
+											</div>
 
-											</div>
-											<!-- /.col -->
-											<div class="col-sm-4 be-1 bs-1 text-center">
-												<div class="description-block">
-													<h5 class="description-header">구독 가격</h5>
-													<span class="description-text"><fmt:formatNumber value="${otherleagueAccountVO.followPrice }" type="currency" currencySymbol="$" /></span>
-												</div>
-
-											</div>
-											<!-- /.col -->
-											<div class="col-sm-4 text-center">
-												<div class="description-block">
-													<h5 class="description-header">잔액</h5>
-													<span class="description-text"><fmt:formatNumber value="${otherleagueAccountVO.balance}" type="currency" currencySymbol="$" /></span>
-												</div>
-											</div>
-											<!-- /.col -->
 										</div>
-										<!-- /.row -->
-										<div class="row mb-30 bt-1">
-											<!-- <h4 class="title w-p100 mt-10 mb-0 p-20 text-primary">리그 정보</h4> -->
-										
-											<h5 class="p-15 mb-0">
-												<strong>시작 날짜:</strong>											
-													<fmt:parseDate value="${otherleagueAccountVO.regDate}" var="parsedDate" pattern="yyyy-MM-dd HH:mm:ss"/><fmt:formatDate pattern="yyyy-MM-dd" value="${parsedDate}" />
-											</h5>
-											<h5 class="p-15 mb-0">
-												<strong>주식 보유 개수:</strong> ${othertotalStockCounts }개
+										<!-- /.col -->
+										<div class="col-sm-4 be-1 bs-1 text-center">
+											<div class="description-block">
+												<h5 class="description-header">구독 가격</h5>
+												<span class="description-text"><fmt:formatNumber value="${otherleagueAccountVO.followPrice }" type="currency" currencySymbol="$" /></span>
+											</div>
 
-											</h5>
-									<%-- 		<h5 class="p-15 mb-0">
+										</div>
+										<!-- /.col -->
+										<div class="col-sm-4 text-center">
+											<div class="description-block">
+												<h5 class="description-header">잔액</h5>
+												<span class="description-text"><fmt:formatNumber value="${otherleagueAccountVO.balance}" type="currency" currencySymbol="$" /></span>
+											</div>
+										</div>
+										<!-- /.col -->
+									</div>
+									<!-- /.row -->
+									<div class="row mb-30 bt-1">
+										<!-- <h4 class="title w-p100 mt-10 mb-0 p-20 text-primary">리그 정보</h4> -->
+
+										<h5 class="p-15 mb-0">
+											<strong>시작 날짜:</strong>
+											<fmt:parseDate value="${otherleagueAccountVO.regDate}" var="parsedDate" pattern="yyyy-MM-dd HH:mm:ss" />
+											<fmt:formatDate pattern="yyyy-MM-dd" value="${parsedDate}" />
+										</h5>
+										<h5 class="p-15 mb-0">
+											<strong>주식 보유 개수:</strong> ${othertotalStockCounts }개
+
+										</h5>
+										<%-- 		<h5 class="p-15 mb-0">
 												<strong>구독 정보:</strong> ${fn:length(otherleagueFollowList) } 명
 
 											</h5> --%>
-										</div>
-										<div class="row mb-30">
-											<div class="clearfix">
+									</div>
+									<div class="row mb-30">
+										<div class="clearfix">
+											<div class="row">
+											<div class="col-md-4">
 												<c:if test="${viewId ne userVO.id }">
-													<c:if test="${subscribed eq 'true' }">
-														<button type="button" id="refresh_league" class="waves-effect waves-light btn btn-danger mb-5" data-bs-toggle="modal" data-bs-target="#modal-center">구독 취소</button>
-													</c:if>
-													<c:if test="${subscribed eq 'false' }">
-														<button type="button" id="start_league" class="waves-effect waves-light btn btn-success mb-5" data-bs-toggle="modal" data-bs-target="#modal-center2">구독</button>
-													</c:if>
+												<c:if test="${subscribed eq 'true' }">
+													<button type="button" id="refresh_league" class="waves-effect waves-light btn btn-danger mb-5" data-bs-toggle="modal" data-bs-target="#modal-center">구독 취소</button>
+												</c:if>
+												<c:if test="${subscribed eq 'false' }">
+													<button type="button" id="start_league" class="waves-effect waves-light btn btn-success mb-5" data-bs-toggle="modal" data-bs-target="#modal-center2">구독</button>
+												</c:if>
+											</c:if>																
+											</div>
+											<div class="col-md-4">
+												<c:if test="${subscribed eq 'true' }">
+												<button type="button" class="waves-effect waves-light btn btn-outline btn-primary mb-5" id="view-portfolio">포트폴리오</button>
 												</c:if>
 											</div>
+												<div class="col-md-4">
+												<c:if test="${subscribed eq 'true' }">
+												<button type="button" class="waves-effect waves-light btn btn-outline btn-primary mb-5" id="view-transaction">거래내역</button>
+												</c:if>
+											</div>
+																						
+											</div>						
 										</div>
 									</div>
+
+									
+									
 								</div>
 							</div>
-
 						</div>
-					</div>
 
-					<div class="col-md-7">
-						<c:if test="${subscribed eq 'true' }">
-						<button type="button" class="waves-effect waves-light btn btn-outline btn-primary btn-lg mb-20" id="view-portfolio">포트폴리오 조회</button>
-						<button type="button" class="waves-effect waves-light btn btn-outline btn-primary btn-lg mb-20" id="view-transaction">트랜잭션 조회</button>
-						</c:if>
-						
+					</div>
+				</div>
+
+				<div class="col-md-7">											
 						<c:if test="${viewId ne userVO.id }">
 							<div class="box">
 								<div class="box-header with-border">
@@ -270,18 +286,13 @@ tiermap = {
 
 					</div>
 				</div>
+				</div>
 			</section>
-		</div>
-	</div>
-	<footer class="main-footer">
-		<jsp:include page="/resources/dash/include/footer.jsp" />
-		&copy; 2021
-		<a href="https://www.multipurposethemes.com/">Multipurpose Themes</a>
-		. All Rights Reserved.
+
+<footer class="footer_three" style="background-color:white;">
+		<jsp:include page="/resources/home/include/footer.jsp" />
 	</footer>
-	<aside class="control-sidebar">
-		<jsp:include page="/resources/dash/include/control-sidebar.jsp" />
-	</aside>
+
 	<div class="control-sidebar-bg"></div>
 	
 	
@@ -387,7 +398,7 @@ tiermap = {
 	
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/dash/js/includeUtil/sidebar.js"></script>
 	<!-- Vendor JS -->
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/vendors.min.js"></script>
+<%-- 	<script src="${ pageContext.request.contextPath }/resources/dash/js/vendors.min.js"></script> --%>
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/chat-popup.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/icons/feather-icons/feather.min.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/Flot/jquery.flot.js"></script>
@@ -396,7 +407,7 @@ tiermap = {
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/Flot/jquery.flot.categories.js"></script>
 
 	<!-- Crypto Admin App -->
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/template.js"></script>
+<%-- 	<script src="${ pageContext.request.contextPath }/resources/dash/js/template.js"></script> --%>
 
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/chat-popup.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/icons/feather-icons/feather.min.js"></script>
@@ -406,7 +417,19 @@ tiermap = {
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/notification.js"></script>
 
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/datatable/datatables.min.js"></script>
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/data-table.js"></script>
+	<%-- <script src="${ pageContext.request.contextPath }/resources/dash/js/pages/data-table.js"></script> --%>
+	
+	
+ 	<script src="${ pageContext.request.contextPath }/resources/home/js/vendors.min.js"></script>	
+	<!-- Corenav Master JavaScript -->
+    <script src="${ pageContext.request.contextPath }/resources/home/corenav-master/coreNavigation-1.1.3.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/home/js/nav.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+	
+	<script src="${ pageContext.request.contextPath }/resources/home/js/vendors.min.js"></script>	
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js"></script>
+	
 	<script>
 	$(document).ready(function() {			
 		$("#example5_filter").hide()

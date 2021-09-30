@@ -393,7 +393,7 @@
             }, 1e3))
         },
         setMode: function(n) {
-            switch (n.mode) {
+          /*  switch (n.mode) {
                 case "fixed":
                     $(".core-nav").addClass("nav-core-fixed");
                     break;
@@ -405,7 +405,7 @@
                     }), $(window).on("scroll", function() {
                         $(window).scrollTop() > e ? ($(".nav-core-sticky").hasClass("on-scroll") || $.isFunction(n.onStartSticky) && n.onStartSticky(), $(".nav-core-sticky").addClass("on-scroll"), $(".stand-sticky").css("display", "block")) : ($(".nav-core-sticky").hasClass("on-scroll") && $.isFunction(n.onEndSticky) && n.onEndSticky(), $(".nav-core-sticky").removeClass("on-scroll"), $(".stand-sticky").css("display", "none"))
                     })
-            }
+            }*/
         },
         topSearch: function(n) {
             var e = $(".wrap-search-top"),

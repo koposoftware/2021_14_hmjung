@@ -25,7 +25,9 @@
 <script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
 
 
-
+<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/vendors_css.css">	  
+<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/style.css">
+<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/skin_color.css">
 
 
 <link href="${ pageContext.request.contextPath }/resources/dash/css/mycss/stackedCards.css" rel="stylesheet" />
@@ -120,11 +122,19 @@ body {
 
 
 <script>
+tiermap = {		
+		"BRONZE" : "브론즈",
+		"SILVER" : "실버",
+		"GOLD" : "골드",
+		"CHALLENGER" : "챌린저"			
+	}
+mytier = tiermap['${leagueAccountVO.tier}']
 
 
 	leagueAccountInfo = JSON.parse('${leagueAccountInfo}')
 
 	$(document).ready(function() {
+		$("#my-tier").text(mytier)
 		let fullMsg = '${msg}'
 		if (fullMsg != null && fullMsg != "") {
 			myAlarm(fullMsg)
@@ -165,45 +175,28 @@ body {
 </script>
 
 </head>
-<body class="hold-transition light-skin sidebar-mini theme-warning fixed">
-	<div class="wrapper">
-		<div id="loader"></div>
-		<header class="main-header">
-			<jsp:include page="/resources/dash/include/header.jsp" />
-		</header>
-	</div>
+<body class="theme-success" style="background-color:white;">
+	<header class="header-light">
+		<jsp:include page="/resources/home/include/header.jsp" />
+	</header>
+	
+	
+	<%-- 
 	<aside class="main-sidebar">
 		<jsp:include page="/resources/dash/include/sidebar.jsp" />
-	</aside>
+	</aside> --%>
 	<!-- Content Wrapper. Contains page content -->
 
 
 
-	<div class="content-wrapper">
-		<div class="container-full">
+<!-- 	<div class="content-wrapper" style="background-color:#f5f5f5;" >
+		<div class="container-full" style="background-color:#f5f5f5;"> -->
 
 			<!-- Main content -->
-			<section class="content">
+			<section class="py-lg-80 py-30" style="background-color:#f5f5f5;">
+				<div class="container">
 				<div class="row">
-					<div class="col-md-4">
-						<div class="content-header">
-							<div class="d-flex align-items-center">
-								<div class="me-auto">
-									<h4 class="page-title">대회 계좌</h4>
-									<div class="d-inline-block align-items-center">
-										<nav>
-											<ol class="breadcrumb">
-												<li class="breadcrumb-item"><a href="#">
-														<i class="mdi mdi-home-outline"></i>
-													</a></li>
-												
-												<li class="breadcrumb-item active" aria-current="page">계좌 선택</li>
-											</ol>
-										</nav>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div class="col-md-4">						
 
 						<div class="row">
 							<c:if test="${empty leagueAccountVO }">
@@ -216,89 +209,69 @@ body {
 							</c:if>
 							<c:if test="${not empty leagueAccountVO }">
 								<div class="col-md-12">
-									<div class="box box-widget widget-user">
-										<div class="box-body box-profile">
-											<h3 class="widget-user-username text-black">${userVO.id }</h3>
-											<%-- <h6 class="widget-user-desc text-white">${userVO.userType }</h6> --%>
-											<img class="rounded img-fluid mx-auto d-block max-w-150" src="${ pageContext.request.contextPath }/resources/images/tier/${leagueAccountVO.tier}.png">
+								<div class="box box-widget widget-user">
+									<div class="box-body box-profile">
+										<h3 class="widget-user-username text-black">${viewId }</h3>
+										<%-- <h6 class="widget-user-desc text-white">${userVO.userType }</h6> --%>
+										<img class="rounded img-fluid mx-auto d-block max-w-150" src="${ pageContext.request.contextPath }/resources/images/tier/${leagueAccountVO.tier}.png">
+										<h4 class="text-center">
+											<strong id="my-tier"></strong>
+										</h4>
+									</div>
+
+									<div class="box-footer">
+										<div class="row mb-15">
+											<div class="col-sm-4 text-center">
+												<div class="description-block">
+													<h5 class="description-header">구독자 수</h5>
+													<span class="description-text">${fn:length(leagueFollowList)}</span>명
+												</div>
+
+											</div>
+											<!-- /.col -->
+											<div class="col-sm-4 be-1 bs-1 text-center">
+												<div class="description-block">
+													<h5 class="description-header">구독 가격</h5>
+													<span class="description-text"><fmt:formatNumber value="${leagueAccountVO.followPrice }" type="currency" currencySymbol="$" /></span>
+												</div>
+
+											</div>
+											<!-- /.col -->
+											<div class="col-sm-4 text-center">
+												<div class="description-block">
+													<h5 class="description-header">잔액</h5>
+													<span class="description-text"><fmt:formatNumber value="${leagueAccountVO.balance}" type="currency" currencySymbol="$" /></span>
+												</div>
+											</div>
+											<!-- /.col -->
 										</div>
+										<!-- /.row -->
+										<div class="row mb-30 bt-1">
+											<h5 class="p-15 mb-0">
+												<strong>시작 날짜:</strong>
+												<fmt:parseDate value="${leagueAccountVO.regDate }" var="parsedDate" pattern="yyyy-MM-dd HH:mm:ss" />
+												<fmt:formatDate pattern="yyyy-MM-dd" value="${parsedDate}" />
+											</h5>
+											<h5 class="p-15 mb-0">
+												<strong>주식 보유 개수:</strong> ${totalStockCounts }개
 
-										<div class="box-footer">
-											<div class="row mb-15">
-												<div class="col-sm-4 text-center">
-													<div class="description-block">
-														<h5 class="description-header">구독자 수</h5>
-														<span class="description-text">${fn:length(leagueFollowList)}</span>명
-													</div>
+											</h5>
 
-												</div>
-												<!-- /.col -->
-												<div class="col-sm-4 be-1 bs-1 text-center">
-													<div class="description-block">
-														<h5 class="description-header">구독 가격</h5>
-														<span class="description-text"><fmt:formatNumber value="${leagueAccountVO.followPrice }" type="currency" currencySymbol="$" /></span>
-													</div>
-
-												</div>
-												<!-- /.col -->
-												<div class="col-sm-4 text-center">
-													<div class="description-block">
-														<h5 class="description-header">잔액</h5>
-														<span class="description-text"><fmt:formatNumber value="${leagueAccountVO.balance}" type="currency" currencySymbol="$" /></span>
-													</div>
-												</div>
-												<!-- /.col -->
-											</div>
-											<!-- /.row -->
-											<div class="row mb-30 bt-1">
-												<h4 class="title w-p100 mt-10 mb-0 p-20 text-primary">리그 정보</h4>
-												<h5 class="p-15 mb-0">
-													<strong>현재 티어:</strong> ${leagueAccountVO.tier }
-												</h5>
-												<h5 class="p-15 mb-0">
-													<strong>시작 날짜:</strong><fmt:parseDate value="${leagueAccountVO.regDate }" var="parsedDate" pattern="yyyy-MM-dd HH:mm:ss"/><fmt:formatDate pattern="yyyy-MM-dd" value="${parsedDate}" />
-												</h5>
-												<h5 class="p-15 mb-0">
-													<strong>주식 보유 개수:</strong> ${totalStockCounts }개
-
-												</h5>
-												<h5 class="p-15 mb-0">
-													<strong>구독 정보:</strong> ${fn:length(leagueFollowList) } 명
-
-												</h5>
-											</div>
-											<div class="row mb-30">
-												<div class="clearfix">
-													<button type="submit" id="start_league" class="waves-effect waves-light btn btn-success mb-5" data-bs-toggle="modal" data-bs-target="#modal-center2">계좌 선택</button>
-												</div>
+										</div>
+										<div class="row mb-30">
+											<div class="clearfix">
+												<button type="submit" id="start_league" class="waves-effect waves-light btn btn-success mb-5" data-bs-toggle="modal" data-bs-target="#modal-center2">계좌 선택</button>
 											</div>
 										</div>
 									</div>
 								</div>
+							</div>
 							</c:if>
 						</div>
 					</div>
 
 					<div class="col-md-8">
-						<div class="content-header">
-							<div class="d-flex align-items-center">
-								<div class="me-auto">
-									<h4 class="page-title">일반 계좌</h4>
-									<div class="d-inline-block align-items-center">
-										<nav>
-											<ol class="breadcrumb">
-												<li class="breadcrumb-item"><a href="#">
-														<i class="mdi mdi-home-outline"></i>
-													</a></li>
-												
-												<li class="breadcrumb-item active" aria-current="page">계좌 선택</li>
-											</ol>
-										</nav>
-									</div>
-								</div>
-
-							</div>
-						</div>
+						
 						<div class="row">
 							<c:if test="${fn:length(list) eq 0}">
 								<div class="box-footer mt-10">
@@ -405,22 +378,19 @@ body {
 
 				</div>
 
-
+</div>
 			</section>
-		</div>
+<!-- 		</div>
 	</div>
+ -->
 
 
-
-	<footer class="main-footer">
-		<jsp:include page="/resources/dash/include/footer.jsp" />
-		&copy; 2021
-		<a href="https://www.multipurposethemes.com/">Multipurpose Themes</a>
-		. All Rights Reserved.
-	</footer>
-	<aside class="control-sidebar">
+	<footer class="footer_three" style="background-color:white;">
+		<jsp:include page="/resources/home/include/footer.jsp" />
+	</footer>>
+<%-- 	<aside class="control-sidebar">
 		<jsp:include page="/resources/dash/include/control-sidebar.jsp" />
-	</aside>
+	</aside> --%>
 
 
 
@@ -474,8 +444,8 @@ body {
 
 	<div class="control-sidebar-bg"></div>
 	<!-- Vendor JS -->
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/vendors.min.js"></script>
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/chat-popup.js"></script>
+	<%-- <script src="${ pageContext.request.contextPath }/resources/dash/js/vendors.min.js"></script> --%>
+ 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/chat-popup.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/icons/feather-icons/feather.min.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/Flot/jquery.flot.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/Flot/jquery.flot.resize.js"></script>
@@ -485,7 +455,7 @@ body {
 
 
 	<!-- Crypto Admin App -->
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/template.js"></script>
+<%-- 	<script src="${ pageContext.request.contextPath }/resources/dash/js/template.js"></script> --%>
 
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/chat-popup.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/icons/feather-icons/feather.min.js"></script>
@@ -494,9 +464,21 @@ body {
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/jquery-toast-plugin-master/src/jquery.toast.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/notification.js"></script>
 
-
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/includeUtil/stackedCards.min.js"></script>
-
+ 
+	<script src="${ pageContext.request.contextPath }/resources/dash/js/includeUtil/stackedCards.min.js"></script>		
+	
+	
+	
+	
+	<script src="${ pageContext.request.contextPath }/resources/home/js/vendors.min.js"></script>	
+	<!-- Corenav Master JavaScript -->
+    <script src="${ pageContext.request.contextPath }/resources/home/corenav-master/coreNavigation-1.1.3.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/home/js/nav.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+	
+	<script src="${ pageContext.request.contextPath }/resources/home/js/vendors.min.js"></script>	
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js"></script>
 	<script>
 		var stackedCardSlide = new stackedCards({
 		 	selector: '.stacked-cards-slide',

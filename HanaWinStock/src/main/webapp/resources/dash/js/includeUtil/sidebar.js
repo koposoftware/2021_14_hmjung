@@ -15,28 +15,18 @@
 
  */
 
-sidebarToggle = 1
-$("#sidebar-toggle").click(function(){
-	if(sidebarToggle == 1){
-		$(".light-logo").hide()
-		$('#subscribed').hide()		
-		sidebarToggle = 2
-	}else if(sidebarToggle == 2){
-		$(".light-logo").show()
-		$('#subscribed').show()
-		sidebarToggle = 1
-	}
-})
+
 function openForm( id , myid ) {
+		$("#close-sidebar").trigger("click")
+	
   //document.getElementById("personal-chat").style.display = "block";
-  	     newBox =	'<div class="box direct-chat direct-chat-info full-chat-box chatDirect">' +
+  	     newBox =	'<div class="box direct-chat direct-chat-info full-chat-box chatDirect" id="fathersending-'+id +'">' +
 				'<div class="box-header with-border">  ' +
 				  '<h4 class="box-title">' + id+ '</h4>  ' +
 				  '	<ul class="box-controls pull-right">  '+
-					  '	<li><a class="box-btn-close" href="#" onclick="closeSendingForm(\''+id+'\')></a></li>  '+
-						  '<li><a class="box-btn-slide" href="#"></a></li>  '+
-					  '	<li><a class="box-btn-fullscreen" href="#"></a></li>  '+
-				  '</ul>  '+
+					  '	<li><a class="box-btn-close" href="#" onclick="closeSendingForm(\''+id+'\')"></a></li>  '+
+						  '<li><a class="box-btn-slide" href="#"></a></li>'+
+				  '</ul> '+
 			  '	</div>  '+	
 			'<div class="box-body" id="sendingchat-'+ id +'"  >' + 
                 '<input type="hidden" id="sessionId3" value="">' +
@@ -159,12 +149,14 @@ function send2(myid){
 
 
 function closeSendingForm(id){
-	$("#sendingchat-" + id).remove()
+	console.log("#fathersending-" + id)
+	$("#fathersending-" + id).remove()
 }
 
 
 function closeForm(id) {
- 	$("#chat-" + id).remove()	
+	console.log("#father-" + id)
+ 	$("#father-" + id).remove()	
 }
 
 
@@ -189,13 +181,13 @@ function openDirect(myid){
                 $("#sessionId").val(si); 
              }
           }else if(d.type == "request"){
-	     newBox =	'<div class="box direct-chat direct-chat-info full-chat-box chatDirect">' +
+	     newBox =	'<div class="box direct-chat direct-chat-info full-chat-box chatDirect" id="father-'+myid + '" >' +
 				'<div class="box-header with-border">  ' +
 				  '<h4 class="box-title">' + d.userName+ '</h4>  ' +
 				  '	<ul class="box-controls pull-right">  '+
 					  '	<li><a class="box-btn-close" href="#" onclick="closeForm(\''+myid+'\')"></a></li>  '+
 						  '<li><a class="box-btn-slide" href="#"></a></li>  '+
-					  '	<li><a class="box-btn-fullscreen" href="#"></a></li>  '+
+				
 				  '</ul>  '+
 			  '	</div>  '+	
 			'<div class="box-body" id="chat-'+ myid +'"  >' + 

@@ -4,25 +4,24 @@
 <input type="hidden" id="sessionId" value="">
 
 
-<div class="box direct-chat direct-chat-info full-chat-box">
+<div class="box direct-chat direct-chat-info full-chat-box" style="height: 90%;">
 <div id="video-area" style="margin:auto; width:70%;" >
 	<!-- <video  controls class="w-p100">
 		<source  type="video/mp4" src="/HanaWinStock\resources\files\advertise\ad\file-20210921_08_52_25.mp4">  
 	</video> -->
 </div>
 	<div class="box-header with-border">
-		<h4 class="box-title">Direct Chat</h4>
-		<ul class="box-controls pull-right">
-			<li><a class="box-btn-close" href="#"></a></li>
-			<li><a class="box-btn-slide" href="#"></a></li>
-			<li><a class="box-btn-fullscreen" href="#"></a></li>
-		</ul>
+		<h4 class="box-title">실시간 채팅</h4>	
+				<button class="btn btn-danger btn-flat mb-5 btn-xs remove-chat" id="close-chat" onclick="removechatbox()">
+							<i class="fa fa-remove"></i>
+						</button>
 	</div>
 
 	<!-- /.box-header -->
 	<div class="box-body">
+
 		<!-- Conversations are loaded here -->
-		<div class="direct-chat-messages" id="direct-chat">
+		<div class="direct-chat-messages" id="direct-chat" style="height: 80%;">
 			<!-- Message. Default to the left -->
 
 			<!--/.direct-chat-messages-->
@@ -33,7 +32,7 @@
 		<div class="box-footer">
 
 			<div class="input-group">
-				<input type="text" name="message" id="chat" placeholder="Type Message ..." class="form-control">
+				<input type="text" name="message" id="chat" placeholder="메시지를 작성하세요" class="form-control">
 				<div class="input-group-addon">
 					<div class="align-self-end gap-items">
 					<!-- 	<span class="publisher-btn file-group"> <i class="fa fa-paperclip file-browser"></i> <input type="file">

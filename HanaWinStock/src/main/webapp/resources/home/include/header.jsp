@@ -16,13 +16,16 @@ transform:scale(0.75);
 <script>
 
 </script>
-	<c:if test="${not empty  leagueAccountVO}">	
-		<a type="button" data-bs-toggle="modal" data-bs-target="#modal-left">
-			<i class="fa fa-user-o" aria-hidden="true"></i>구독					
-		</a>
+<c:if test="${not empty  userVO}">
+	<c:if test="${userVO.userType eq 1}">
+		<c:if test="${not empty  leagueAccountVO}">
+			<a type="button" data-bs-toggle="modal" data-bs-target="#modal-left">
+				<i class="fa fa-user-o" aria-hidden="true"></i>구독
+			</a>
+		</c:if>
 	</c:if>
-	
-	
+</c:if>
+
 <nav class="nav-white bg-white">
 
 

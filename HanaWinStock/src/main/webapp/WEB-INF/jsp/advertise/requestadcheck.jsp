@@ -18,6 +18,11 @@
 	<!-- Style-->  
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/style.css">
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/skin_color.css">	
+	
+	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/vendors_css.css">	  
+	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/style.css">
+	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/skin_color.css">	
+	
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/jquery-3.6.0.min.js"></script>	
 
 <script type="text/javascript">
@@ -55,27 +60,22 @@
 </script>
 
 </head>
-<body class="hold-transition light-skin sidebar-mini theme-primary fixed">
-	<div class="wrapper">
-		<div id="loader"></div>
-		<header class="main-header">
-			<jsp:include page="/resources/dash/include/header.jsp" />
-		</header>	
-	</div>
-	<aside class="main-sidebar">
+<body class="theme-success" style="background-color:white;">
+	<header class="header-light">
+		<jsp:include page="/resources/home/include/header.jsp" />
+	</header>
+	
+	<aside>
 		<jsp:include page="/resources/dash/include/sidebar.jsp" />
 	</aside>
-	<!-- Content Wrapper. Contains page content -->
-	<div class="content-wrapper">
-		<div class="container-full">
-			<!-- Main content -->
-			<section class="content">
+		<section class="content" style="background-color:#f5f5f5;">
+			<div class="container">
 				<div class="row">
 				
 				<div class="col-12">
 					  <div class="box">
 						<div class="box-header with-border">
-						  <h4 class="box-title">목록</h4>
+						  <h4 class="box-title">광고 요청 목록</h4>
 						  <ul class="box-controls pull-right">
 							<li><a class="box-btn-close" href="#"></a></li>
 							<li><a class="box-btn-slide" href="#"></a></li>	
@@ -135,16 +135,13 @@
 				
 				
 				</div>
+				</div>
 			</section>
-		</div>
-	</div>
-	<footer class="main-footer">
-		<jsp:include page="/resources/dash/include/footer.jsp" />
-		 &copy; 2021 <a href="https://www.multipurposethemes.com/">Multipurpose Themes</a>. All Rights Reserved.
-	</footer>	
-	 <aside class="control-sidebar">
-	  	<jsp:include page="/resources/dash/include/control-sidebar.jsp" />  
-	 </aside>
+	
+	
+	<footer class="footer_three" style="background-color:white;">
+		<jsp:include page="/resources/home/include/footer.jsp" />
+	</footer>
 	<div class="control-sidebar-bg"></div>
 	<!-- Vendor JS -->
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/vendors.min.js"></script>
@@ -156,7 +153,7 @@
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/Flot/jquery.flot.categories.js"></script>
 
 	<!-- Crypto Admin App -->
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/template.js"></script>
+
 
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/chat-popup.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/icons/feather-icons/feather.min.js"></script>
@@ -165,7 +162,15 @@
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/jquery-toast-plugin-master/src/jquery.toast.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/notification.js"></script>
 
-
+	<script src="${ pageContext.request.contextPath }/resources/home/js/vendors.min.js"></script>	
+	<!-- Corenav Master JavaScript -->
+    <script src="${ pageContext.request.contextPath }/resources/home/corenav-master/coreNavigation-1.1.3.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/home/js/nav.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+	
+	<script src="${ pageContext.request.contextPath }/resources/home/js/vendors.min.js"></script>	
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js"></script>
 
 
 </body>          

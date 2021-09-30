@@ -39,7 +39,19 @@ public class StockInfoController {
 	
 	
 	@GetMapping("/search")
-	public String search() {				
+	public String search(Model model) {
+		
+		List<StockNameVO> stockNames=  summaryService.selectAllStockNames();
+		
+		List<String> stockSymbols = new ArrayList<String>();
+		for(StockNameVO stock : stockNames) {
+			stockSymbols.add(stock.getSymbol());
+		}
+		
+		List<StockSummaryVO> stockSummaryList = summaryService.selectCurrentStockSummary(stockSymbols);	
+		
+		model.addAttribute("stockSummaryList", stockSummaryList);
+		
 		return "stock/search";
 	}
 	

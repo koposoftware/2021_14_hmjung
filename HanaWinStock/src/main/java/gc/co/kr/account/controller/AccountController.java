@@ -257,7 +257,7 @@ public class AccountController {
 			String dest = (String) session.getAttribute("dest2");
 			System.out.println(dest);
 			if (dest != null &&!dest.equals("/account/signOut" ) ) {
-				session.removeAttribute("dest");
+				session.removeAttribute("dest2");
 				view = "redirect:" + dest;
 			} else {
 				view = "redirect:/";
@@ -296,7 +296,7 @@ public class AccountController {
 				System.out.println(dest);
 				if(dest != null && !dest.equals("/account/signOut" ) ) {
 					view = "redirect:" + dest;
-					session.removeAttribute("dest");
+					session.removeAttribute("dest2");
 				}else {
 					view = "redirect:/";					
 				}
@@ -315,8 +315,7 @@ public class AccountController {
 		}		
 		System.out.println("post viewleagueaccounts : " + view);
 		return view;
-	}
-	
+	}	
 	
 	@GetMapping("/signOut")
 	public String accountSignOut(HttpServletRequest request  , HttpSession session) {
@@ -632,7 +631,7 @@ public class AccountController {
 		String accountType = (String) session.getAttribute("accountType");
 		if (! accountType.equals( "leagueAccountVO" )) {
 			System.out.println("not logged in as league");
-			String msg = "warning:error:이 기능을 사용하기 위해서는 리그 계좌로 로그인 해야 합ㄴ디ㅏ.";
+			String msg = "warning:error:이 기능을 사용하기 위해서는 리그 계좌로 로그인 해야 합니다.";
 			session.setAttribute("msg", msg);
 			String referer = request.getHeader("Referer");
 			if(  referer != null ) {
@@ -651,7 +650,7 @@ public class AccountController {
 		String accountType = (String) session.getAttribute("accountType");
 		if (! accountType.equals( "leagueAccountVO" )) {
 			System.out.println("not logged in as league");
-			String msg = "warning:error:이 기능을 사용하기 위해서는 리그 계좌로 로그인 해야 합ㄴ디ㅏ.";
+			String msg = "warning:error:이 기능을 사용하기 위해서는 리그 계좌로 로그인 해야 합니다.";
 			session.setAttribute("msg", msg);
 			String referer = request.getHeader("Referer");
 			if(  referer != null ) {
@@ -686,7 +685,7 @@ public class AccountController {
 		String accountType = (String) session.getAttribute("accountType");
 		if (! accountType.equals( "leagueAccountVO" )) {
 			System.out.println("not logged in as league");
-			String msg = "warning:error:이 기능을 사용하기 위해서는 리그 계좌로 로그인 해야 합ㄴ디ㅏ.";
+			String msg = "warning:error:이 기능을 사용하기 위해서는 리그 계좌로 로그인 해야 합니다.";
 			session.setAttribute("msg", msg);
 			String referer = request.getHeader("Referer");
 			if(  referer != null ) {
@@ -700,7 +699,7 @@ public class AccountController {
 		String view = "gcaccount/channel";
 		if (! accountType.equals( "leagueAccountVO" )) {
 			System.out.println("not logged in as league");
-			String msg = "warning:error:이 기능을 사용하기 위해서는 리그 계좌로 로그인 해야 합ㄴ디ㅏ.";
+			String msg = "warning:error:이 기능을 사용하기 위해서는 리그 계좌로 로그인 해야 합니다.";
 			session.setAttribute("msg", msg);
 			String referer = request.getHeader("Referer");
 			if(  referer != null ) {
@@ -755,7 +754,7 @@ public class AccountController {
 		String accountType = (String) session.getAttribute("accountType");
 		if (! accountType.equals( "leagueAccountVO" )) {
 			System.out.println("not logged in as league");
-			String msg = "warning:error:이 기능을 사용하기 위해서는 리그 계좌로 로그인 해야 합ㄴ디ㅏ.";
+			String msg = "warning:error:이 기능을 사용하기 위해서는 리그 계좌로 로그인 해야 합니다.";
 			session.setAttribute("msg", msg);
 			String referer = request.getHeader("Referer");
 			if(  referer != null ) {

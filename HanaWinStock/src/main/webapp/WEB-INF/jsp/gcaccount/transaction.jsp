@@ -20,8 +20,30 @@
 	<!-- Style-->  
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/style.css">
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/skin_color.css">	
+	
+	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/vendors_css.css">	  
+	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/style.css">
+	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/skin_color.css">
+	
+	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/dash/js/includeUtil/sidebar.js"></script>
+		
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
+	
+	<style>
+	.chatDirect {
+		position: fixed;
+		bottom: 0;
+		right: 0;
+		width: 300px;
+		border: 1px solid gray;
+		background-color: white;
+	}
+	</style>
+	
 	<script>
+	myid = '${userVO.id}'
+	openDirect('${userVO.id}')
+	
 	$(document).ready(function() {	
 		let fullMsg = '${msg}'
 		// 자바스크립트 여기
@@ -51,37 +73,33 @@
 	</script>	
 	
 </head>
-<body class="hold-transition light-skin sidebar-mini theme-primary fixed">
-	<div class="wrapper">
-		<div id="loader"></div>
-		<header class="main-header">
-			<jsp:include page="/resources/dash/include/header.jsp" />
-		</header>	
-	</div>
-	<aside class="main-sidebar">
+<body class="theme-success" style="background-color:white;">
+	<header class="header-light">
+		<jsp:include page="/resources/home/include/header.jsp" />
+	</header>
+	
+	<aside>
 		<jsp:include page="/resources/dash/include/sidebar.jsp" />
 	</aside>
-	<!-- Content Wrapper. Contains page content -->
-	<div class="content-wrapper">
-		<div class="container-full">
+		<section class="content" style="background-color:#f5f5f5;">
+			<div class="container">
 			<!-- Main content -->
-			<section class="content">
 				<div class="row">
 				
 				<div class="box">
+					<div class="box-header">
+						<h4 class="box-title">거래내역</h4>
+					</div>
 						<div class="box-body no-padding">
 							<!-- Nav tabs -->
-							<ul class="nav nav-fill nav-pills margin-bottom margin-top-10">
-								<li class="nav-item bt-2 border-warning"> <a href="#navpills-1" class="nav-link active no-radius" data-bs-toggle="tab" aria-expanded="false">거래 내역</a> </li>
-								<li class="nav-item bt-2 border-primary"> <a href="#navpills-2" class="nav-link no-radius" data-bs-toggle="tab" aria-expanded="false">스탑-리밋</a> </li>
-							</ul>	
+						
 							<!-- Tab panes -->
 							<div class="tab-content">
 								<div id="navpills-1" class="tab-pane active">
 																		
 									<div class="btn-group p-20">
-									  <button type="button" class="btn btn-warning">전부</button>
-									  <button type="button" class="btn btn-success">매도</button>
+									  <button type="button" class="btn" style="background-color:#f5f5f5;">전부</button>
+									  <button type="button" class="btn btn-primary">매도</button>
 									  <button type="button" class="btn btn-danger">매수</button>
 									</div>
 								
@@ -143,97 +161,7 @@
 										
 									</div>
 								</div>
-								<div id="navpills-2" class="tab-pane">
-									<div class="table-responsive">
-									  <table class="table table-hover">
-										  <thead>
-											<tr>
-											  <th scope="col">Time</th>
-											  <th scope="col">Offer Id</th>
-											  <th scope="col">Amount</th>
-											  <th scope="col">Price</th>
-											  <th scope="col">Total Value</th>
-											  <th scope="col">Buy/Sell</th>
-											  <th scope="col">Edit</th>
-											  <th scope="col">Delete</th>
-											</tr>
-										  </thead>
-										  <tbody>
-											<tr>
-												<td>Wed Oct 16 2019 09:56:03</td>
-												<td class="">14374</td>
-												<td class="">0.1</td>
-												<td class="">8500</td>
-												<td class="">850</td>
-												<td class="text-danger">Sell</td>
-												<td>
-													<button class="btn btn-success-light btn-sm">Modify</button>
-												</td>
-												<td>
-													<button class="btn btn-danger-light btn-sm">Delete</button>
-												</td>
-											</tr>
-											<tr>
-												<td>Wed Oct 16 2019 09:48:47</td>
-												<td class="">14366</td>
-												<td class="">0.01</td>
-												<td class="">6500</td>
-												<td class="">65</td>
-												<td class="text-success">Buy</td>
-												<td>
-													<button class="btn btn-success-light btn-sm">Modify</button>
-												</td>
-												<td>
-													<button class="btn btn-danger-light btn-sm">Delete</button>
-												</td>
-											</tr>
-											<tr>
-												<td>Wed Oct 16 2019 08:11:23</td>
-												<td class="">14263</td>
-												<td class="">0.0001</td>
-												<td class="">7500</td>
-												<td class="">0.75</td>
-												<td class="text-success">Buy</td>
-												<td>
-													<button class="btn btn-success-light btn-sm">Modify</button>
-												</td>
-												<td>
-													<button class="btn btn-danger-light btn-sm">Delete</button>
-												</td>
-											</tr>
-											<tr>
-												<td>Tue Oct 15 2019 06:38:03</td>
-												<td class="">12714</td>
-												<td class="">0.0009</td>
-												<td class="">7000</td>
-												<td class="">6.3</td>
-												<td class="text-success">Buy</td>
-												<td>
-													<button class="btn btn-success-light btn-sm">Modify</button>
-												</td>
-												<td>
-													<button class="btn btn-danger-light btn-sm">Delete</button>
-												</td>
-											</tr>
-											<tr>
-												<td>Mon Oct 14 2019 14:39:54</td>
-												<td class="">11758</td>
-												<td class="">0.001</td>
-												<td class="">172</td>
-												<td class="">0.17200000000000001</td>
-												<td class="text-danger">Sell</td>
-												<td>
-													<button class="btn btn-success-light btn-sm">Modify</button>
-												</td>
-												<td>
-													<button class="btn btn-danger-light btn-sm">Delete</button>
-												</td>
-											</tr>
-										</tbody>
-										</table>
-									</div>
-																													
-							</div>
+							
 							</div>																	
 						</div>
 						<!-- /.box-body -->
@@ -241,16 +169,13 @@
 				
 				
 				</div>
+				</div>
 			</section>
-		</div>
-	</div>
-	<footer class="main-footer">
-		<jsp:include page="/resources/dash/include/footer.jsp" />
-		 &copy; 2021 <a href="https://www.multipurposethemes.com/">Multipurpose Themes</a>. All Rights Reserved.
-	</footer>	
-	 <aside class="control-sidebar">
-	  	<jsp:include page="/resources/dash/include/control-sidebar.jsp" />  
-	 </aside>
+	
+	<footer class="footer_three" style="background-color:white;">
+		<jsp:include page="/resources/home/include/footer.jsp" />
+	</footer>
+	 
 	<div class="control-sidebar-bg"></div>
 	<!-- Vendor JS -->
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/vendors.min.js"></script>
@@ -262,7 +187,7 @@
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/Flot/jquery.flot.categories.js"></script>
 
 	<!-- Crypto Admin App -->
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/template.js"></script>
+	<%-- <script src="${ pageContext.request.contextPath }/resources/dash/js/template.js"></script> --%>
 
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/chat-popup.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/icons/feather-icons/feather.min.js"></script>
@@ -271,7 +196,17 @@
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/jquery-toast-plugin-master/src/jquery.toast.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/notification.js"></script>
 
-
+	
+	
+	<script src="${ pageContext.request.contextPath }/resources/home/js/vendors.min.js"></script>	
+	<!-- Corenav Master JavaScript -->
+    <script src="${ pageContext.request.contextPath }/resources/home/corenav-master/coreNavigation-1.1.3.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/home/js/nav.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+	
+	<script src="${ pageContext.request.contextPath }/resources/home/js/vendors.min.js"></script>	
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js"></script>
 
 
 </body>          

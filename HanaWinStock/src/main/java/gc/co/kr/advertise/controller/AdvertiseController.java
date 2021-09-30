@@ -6,6 +6,7 @@ import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -208,10 +209,30 @@ public class AdvertiseController {
 	
 	
 	@PostMapping( value= "/requestad" , consumes = "multipart/form-data" )
-	public String requestAdPost(@RequestParam("file") MultipartFile file, HttpSession session , AdRequestVO requestVO,  Model model) {
+	public String requestAdPost(@RequestParam("file") MultipartFile file, HttpServletRequest request, HttpSession session , AdRequestVO requestVO,  Model model) {
 		String view = "";
 		String msg = "";
 		try {
+			
+			String daysStr = request.getParameter("days-count");
+			System.out.println("daysStr : " +  daysStr);
+			int addingDays = Integer.parseInt(daysStr);
+			
+			
+			String pattern = "MM/dd/yyyy";
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+			String date = simpleDateFormat.format(new Date());
+			System.out.println(date);
+			requestVO.setStartDate(date);
+			
+						
+			Calendar c= Calendar.getInstance();
+			c.add(Calendar.DATE, addingDays);
+			String date2 = simpleDateFormat.format(  c.getTime());
+			System.out.println(date2);
+			requestVO.setEndDate(date2);
+			
+			
 			MemberVO userVO = (MemberVO)session.getAttribute("userVO");
 			requestVO.setId(userVO.getId());			
 			String fileName = file.getOriginalFilename();
@@ -224,6 +245,9 @@ public class AdvertiseController {
 			String filePath = imageFile.getPath();
 			requestVO.setFilePath(filePath);
 			requestVO.setStatus("WAIT");
+			
+			
+			
 			System.out.println("requestVO : "  +  requestVO);			
 			file.transferTo(imageFile);
 			int row = service.createVideoRequest(requestVO);
@@ -244,6 +268,9 @@ public class AdvertiseController {
 		return  view;				
 	}
 	
+
+	
+	
 	@GetMapping("/requestadcheck")
 	public String checkRrequestAD(Model model) {		
 		List<AdRequestVO> list = service.selectAllRequestVO();
@@ -260,7 +287,7 @@ public class AdvertiseController {
 		return "advertise/detailrequest";
 	}
 	
-	
+
 	
 	@PostMapping("/adcheck/each/{no}")
 	public String checkRequestadcheckEachPost(@PathVariable("no") int no , AdRequestVO adRequestVO , HttpSession session ) {		

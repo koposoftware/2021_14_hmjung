@@ -19,7 +19,14 @@
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/style.css">
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/skin_color.css">	
 
+	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/vendors_css.css">	  
+	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/style.css">
+	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/skin_color.css">
+		
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/jquery-3.6.0.min.js"></script>
+	<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.1.60/inputmask/jquery.inputmask.js"></script>
+	
 	<script>
 	stockNameMap =  '${stockNameMap}'					
 	stockNameMap  = JSON.parse(stockNameMap)
@@ -65,16 +72,19 @@
 		$("a[href='#next']").text("다음")
 		$("a[href='#finish']").text("제출")
 		$("a[href='#finish']").click(function(){
+			$(".frequency_radio").each(function() {
+				if($(this).is(':checked')){
+					cval = $(this).val()
+					$('#hidden_freq').val( cval )
+					alert(cval)
+				}			
+			})
+			
 			$("#submitbtn").trigger("click")
 		})
 		
 		
-		$('.frequency_radio').change(function(){
-			if($(this).is(':checked')){
-				$('hidden_freq').val($(this).val())				
-			}			
-		})
-		
+	
 		
 		
 		
@@ -124,43 +134,16 @@
 	</script>	
 	
 </head>
-<body class="hold-transition light-skin sidebar-mini theme-primary fixed">
-	<div class="wrapper">
-		<div id="loader"></div>
-		<header class="main-header">
-			<jsp:include page="/resources/dash/include/header.jsp" />
-		</header>	
-	</div>
-	<aside class="main-sidebar">
+<body class="theme-success" style="background-color:white;">
+	<header class="header-light">
+		<jsp:include page="/resources/home/include/header.jsp" />
+	</header>
+	
+	<aside>
 		<jsp:include page="/resources/dash/include/sidebar.jsp" />
 	</aside>
-	<!-- Content Wrapper. Contains page content -->
-	<div class="content-wrapper">
-		<div class="container-full">
-			<!-- Main content -->
-
-			<!-- Content Header (Page header) -->
-			<div class="content-header">
-				<div class="d-flex align-items-center">
-					<div class="me-auto">
-						<h4 class="page-title">광고 종목 리스트</h4>
-						<div class="d-inline-block align-items-center">
-							<nav>
-								<ol class="breadcrumb">
-									<li class="breadcrumb-item"><a href="#">
-											<i class="mdi mdi-home-outline"></i>
-										</a></li>
-									<li class="breadcrumb-item" aria-current="page">광고 종목 리스트</li>
-									<li class="breadcrumb-item active" aria-current="page">종목 코드</li>
-								</ol>
-							</nav>
-						</div>
-					</div>
-
-				</div>
-			</div>
-
-			<section class="content">
+		<section class="content" style="background-color:#f5f5f5;">
+			<div class="container">
 				<div class="row">
 					<h3 class="subtitle">종목을 선택 해주세요.</h3>
 					<c:forEach items="${ list }" var="advertise" varStatus="loop">
@@ -217,12 +200,7 @@
 												<div class="col-md-8">
 													<label class="form-label">기간</label>
 
-													<div class="input-group">
-														<div class="input-group-addon">
-															<i class="fa fa-calendar"></i>
-														</div>
-														<input type="text" name="dateRange" class="form-control pull-right" id="reservation">
-													</div>
+													<input class="form-control" id="days-count" name="days-count" placeholder="일 수 입력"  type="number"  maxlength="25">
 												</div>
 											</div>
 											<div class="row mt-3">
@@ -230,13 +208,13 @@
 													<div class="form-group">
 														<label class="form-label">빈도수 설정</label>
 														<div class="demo-radio-button">
-															<input name="group1" name="frequency_radio" value=0.5 type="radio" id="radio_1" checked />
+															<input name="group1" name="frequency_radio" class="frequency_radio"  value=0.5 type="radio" id="radio_1" checked />
 															<label for="radio_1">30분</label>
-															<input name="group1" name="frequency_radio" value=1 type="radio" id="radio_2" /> 
+															<input name="group1" name="frequency_radio" class="frequency_radio" value=1 type="radio" id="radio_2" /> 
 															<label for="radio_2">1시간</label> 
-															<input name="group1" name="frequency_radio" value=2 type="radio" class="with-gap" id="radio_3" />
+															<input name="group1" name="frequency_radio" class="frequency_radio" value=2 type="radio" class="with-gap" id="radio_3" />
 															<label for="radio_3">2시간</label> 
-															<input name="group1" name="frequency_radio" value=3 type="radio" id="radio_4" class="with-gap" />
+															<input name="group1" name="frequency_radio" class="frequency_radio" value=3 type="radio" id="radio_4" class="with-gap" />
 															<label for="radio_4">3시간</label>
 															
 														<input hidden="true" name="frequency" value=0.5 id="hidden_freq">
@@ -331,27 +309,26 @@
 						</div>
 					</div>
 				</section>
-
-			</section>
-		</div>
 	</div>
-	<footer class="main-footer">
-		<jsp:include page="/resources/dash/include/footer.jsp" />
-		&copy; 2021
-		<a href="https://www.multipurposethemes.com/">Multipurpose Themes</a>
-		. All Rights Reserved.
+			</section>
+	
+	<footer class="footer_three" style="background-color:white;">
+		<jsp:include page="/resources/home/include/footer.jsp" />
 	</footer>
-	<aside class="control-sidebar">
-	  	<jsp:include page="/resources/dash/include/control-sidebar.jsp" />  
-	 </aside>
 	<div class="control-sidebar-bg"></div>
 	
+		<script src="${ pageContext.request.contextPath }/resources/home/js/vendors.min.js"></script>	
+	<!-- Corenav Master JavaScript -->
+    <script src="${ pageContext.request.contextPath }/resources/home/corenav-master/coreNavigation-1.1.3.js"></script>
+    <script src="${ pageContext.request.contextPath }/resources/home/js/nav.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
 	
-	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/dash/js/includeUtil/sidebar.js"></script>
-	
+	<script src="${ pageContext.request.contextPath }/resources/home/js/vendors.min.js"></script>	
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js"></script>
 
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/vendors.min.js"></script>
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/chat-popup.js"></script>
+<%-- 	<script src="${ pageContext.request.contextPath }/resources/dash/js/vendors.min.js"></script>
+ --%>	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/chat-popup.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/assets/icons/feather-icons/feather.min.js"></script>	
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js"></script>
@@ -362,15 +339,14 @@
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_plugins/input-mask/jquery.inputmask.extensions.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/moment/min/moment.min.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/bootstrap-daterangepicker/daterangepicker.js"></script>
-	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_plugins/timepicker/bootstrap-timepicker.min.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_plugins/iCheck/icheck.min.js"></script>
 	
 	<!-- Crypto Admin App -->
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/template.js"></script>
+	<%-- <script src="${ pageContext.request.contextPath }/resources/dash/js/template.js"></script> --%>
 	
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/advanced-form-element.js"></script>
+	<%-- <script src="${ pageContext.request.contextPath }/resources/dash/js/pages/advanced-form-element.js"></script> --%>
 
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/jquery-steps-master/build/jquery.steps.min.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/jquery-validation-1.17.0/dist/jquery.validate.min.js"></script>
@@ -382,6 +358,10 @@
 	<script src="${ pageContext.request.contextPath }/resources/js/sweet-alert.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/jquery-toast-plugin-master/src/jquery.toast.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/notification.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+		
+
 	
 
 </body>          

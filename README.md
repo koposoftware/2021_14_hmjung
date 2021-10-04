@@ -30,11 +30,6 @@
 
 
 
-
-   <img src="ppt.jpg"/>[발표자료](/project.pptx)<br>
-   <iframe id="ytplayer" type="text/html" width="640" height="360" src="https://www.youtube.com/embed/6LxbdIjWP04" frameborder="0"></iframe>
- 
-
 # 3. 프로젝트 결과
 
 ## 발표 ppt 

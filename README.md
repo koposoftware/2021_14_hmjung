@@ -38,26 +38,25 @@
 # 3. 프로젝트 결과
 
 ## 발표 ppt 
-   <img src="ppt.jpg"/>[발표자료](/project.pptx)<br>
+   [발표자료](/발표자료/최종프로젝트_정해명_발표자료.pdf)<br>
 
 ## 시연 동영상 
 
-   <iframe id="ytplayer" type="text/html" width="640" height="360" src="https://www.youtube.com/embed/6LxbdIjWP04" frameborder="0"></iframe>
+   <iframe id="ytplayer" type="text/html" width="640" height="360" src="https://www.youtube.com/embed/4cZFjeUAEuc" frameborder="0"></iframe>
 
 # 4. 본인 소개
 
 본인 소개를 추가하세요
 
-|이름 |정해명|![gdKO](/gdko.jpg)|
-|연락처 | gdko(@)kopo.ac.kr|
+|이름 |정해명|![gdKO](/발표자료/최종프로젝트_정해명_발표자료/profilePic.jpg)|
+|연락처 | hmchung2(@)gmail.com|
 |skill set| Frontend - HTML, CSS, Javascript|
-| | Backend - Java, Spring, Oracle|
-|자격증|  |
-|수상| |
-|특기사항|  TOEIC 990 |
+| | Backend - Java, Spring, Oracle, Python, C++, R|
+|수상| 서울특별시 빅데이터 공모전 우수상 |
+|경력|  T3Q 백앤드 개발 1년  |
+|프로젝트| 1. 공군기상단 기상 이상 탐지 시스템 개발
+           2. 자동 법률 문서 추천 프로그램 개발|
 
-# 5. 기타
-그외 프로젝트를 더욱 설명할수 있는 것들을 추가하세요
 
 # 홈페이지 설정
  본인 repository에서 "Setting"를 들어가서 GitHub Pages에서 설정 변경.

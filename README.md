@@ -38,6 +38,8 @@
 ## 시연 동영상 
 
    <iframe id="ytplayer" type="text/html" width="640" height="360" src="https://www.youtube.com/embed/4cZFjeUAEuc" frameborder="0"></iframe>
+   
+   [![영상](https://github.com/koposoftware/2021_14_hmjung/발표자료/최종프로젝트_정해명_발표자료/슬라이드3.PNG)](https://www.youtube.com/embed/4cZFjeUAEuc)
 
 # 4. 본인 소개
 

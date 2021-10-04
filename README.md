@@ -53,17 +53,5 @@
 |프로젝트| 1. 공군기상단 기상 이상 탐지 시스템 개발
            2. 자동 법률 문서 추천 프로그램 개발|
 
-
-# 홈페이지 설정
- 본인 repository에서 "Setting"를 들어가서 GitHub Pages에서 설정 변경.
-* Source
- Source에서 원하는 branch와 directory 설정한다. 
- 기본값은 master 에 root를 설정 
- Save 버튼 꼭 누른다.
- 
- * Theme Chooser
- theme을 변경하여 좀더 이쁜 홈페이지를 만든다.
-   
-   <img src="homepage.JPG"/><br>
    
  

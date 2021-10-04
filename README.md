@@ -42,9 +42,7 @@
 
 # 4. 본인 소개
 
-본인 소개를 추가하세요
-
-|이름 |정해명|![gdKO](/발표자료/최종프로젝트_정해명_발표자료/profilePic.jpg)|
+|이름 |정해명|![gdKO](발표자료/최종프로젝트_정해명_발표자료/profilePic.jpg)|
 |연락처 | hmchung2(@)gmail.com|
 |skill set| Frontend - HTML, CSS, Javascript|
 | | Backend - Java, Spring, Oracle, Python, C++, R|

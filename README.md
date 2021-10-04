@@ -38,7 +38,7 @@
 
 ## 시연 동영상 
    
-   [![영상](발표자료/최종프로젝트_정해명_발표자료/capture.PNG)](https://www.youtube.com/embed/4cZFjeUAEuc)
+   [![영상](발표자료/최종프로젝트_정해명_발표자료/capture.png)](https://www.youtube.com/embed/4cZFjeUAEuc)
 
 # 4. 본인 소개
 

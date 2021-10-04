@@ -11,11 +11,12 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link rel="icon" href="${ pageContext.request.contextPath }/resources/images/favicon.ico">
-<title>GreenCamel</title>
+<title>하나윈스톡</title>
 <!-- Vendors Style-->
-<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/vendors_css.css">
+
 
 <link href="https://www.amcharts.com/lib/3/plugins/export/export.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/vendors_css.css">
 
 <!-- Style-->
 <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/style.css">
@@ -30,6 +31,20 @@
 <script type="text/javascript" src="${ pageContext.request.contextPath }/resources/dash/js/includeUtil/sidebar.js"></script>
 
 <style>
+
+.box-one-body{
+	padding:0px;
+}
+.box-two-body{
+	padding:0px;
+}
+
+.box-three-body{
+	padding:0px;
+}
+
+
+
 .chatDirect {
 	position: fixed;
 	bottom: 0;
@@ -37,6 +52,8 @@
 	width: 300px;
 	border: 1px solid gray;
 	background-color: white;
+	z-index: 50;
+	
 }
 
 .enlarged-btn {
@@ -93,14 +110,22 @@
 	display: block;
 }
 
+
+
+
 /* Change the background color of the dropdown button when the dropdown content is shown */
+
+
+
+
 </style>
 
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script> -->
 
 <script>
 //-----------------------------------------------------------------
-									
+		am4lang_ko_KR={_decimalSeparator:".",_thousandSeparator:",",_big_number_suffix_3:"k",_big_number_suffix_6:"M",_big_number_suffix_9:"G",_big_number_suffix_12:"T",_big_number_suffix_15:"P",_big_number_suffix_18:"E",_big_number_suffix_21:"Z",_big_number_suffix_24:"Y",_small_number_suffix_3:"m",_small_number_suffix_6:"μ",_small_number_suffix_9:"n",_small_number_suffix_12:"p",_small_number_suffix_15:"f",_small_number_suffix_18:"a",_small_number_suffix_21:"z",_small_number_suffix_24:"y",_byte_suffix_B:"B",_byte_suffix_KB:"KB",_byte_suffix_MB:"MB",_byte_suffix_GB:"GB",_byte_suffix_TB:"TB",_byte_suffix_PB:"PB",_date:"yyyy-MM-dd",_date_millisecond:"mm:ss SSS",_date_second:"HH:mm:ss",_date_minute:"HH:mm",_date_hour:"HH:mm",_date_day:"MMM dd",_date_week:"ww",_date_month:"MMM",_date_year:"yyyy",_duration_millisecond:"SSS",_duration_millisecond_second:"ss.SSS",_duration_millisecond_minute:"mm:ss SSS",_duration_millisecond_hour:"hh:mm:ss SSS",_duration_millisecond_day:"d'd' mm:ss SSS",_duration_millisecond_week:"d'd' mm:ss SSS",_duration_millisecond_month:"M'm' dd'd' mm:ss SSS",_duration_millisecond_year:"y'y' MM'm' dd'd' mm:ss SSS",_duration_second:"ss",_duration_second_minute:"mm:ss",_duration_second_hour:"hh:mm:ss",_duration_second_day:"d'd' hh:mm:ss",_duration_second_week:"d'd' hh:mm:ss",_duration_second_month:"M'm' dd'd' hh:mm:ss",_duration_second_year:"y'y' MM'm' dd'd' hh:mm:ss",_duration_minute:"mm",_duration_minute_hour:"hh:mm",_duration_minute_day:"d'd' hh:mm",_duration_minute_week:"d'd' hh:mm",_duration_minute_month:"M'm' dd'd' hh:mm",_duration_minute_year:"y'y' MM'm' dd'd' hh:mm",_duration_hour:"hh'h'",_duration_hour_day:"d'd' hh'h'",_duration_hour_week:"d'd' hh'h'",_duration_hour_month:"M'm' dd'd' hh'h'",_duration_hour_year:"y'y' MM'm' dd'd' hh'h'",_duration_day:"d'd'",_duration_day_week:"d'd'",_duration_day_month:"M'm' dd'd'",_duration_day_year:"y'y' MM'm' dd'd'",_duration_week:"w'w'",_duration_week_month:"w'w'",_duration_week_year:"w'w'",_duration_month:"M'm'",_duration_month_year:"y'y' MM'm'",_duration_year:"y'y'",_era_ad:"AD",_era_bc:"BC",A:"AM",P:"PM",AM:"AM",PM:"PM","A.M.":"오전","P.M.":"오후",January:"1월",February:"2월",March:"3월",April:"4월",May:"5월",June:"6월",July:"7월",August:"8월",September:"9월",October:"10월",November:"11월",December:"12월",Jan:"1월",Feb:"2월",Mar:"3월",Apr:"4월","May(short)":"5월",Jun:"6월",Jul:"7월",Aug:"8월",Sep:"9월",Oct:"10월",Nov:"11월",Dec:"12월",Sunday:"일요일",Monday:"월요일",Tuesday:"화요일",Wednesday:"수요일",Thursday:"목요일",Friday:"금요일",Saturday:"토요일",Sun:"일",Mon:"월",Tue:"화",Wed:"수",Thu:"목",Fri:"금",Sat:"토",_dateOrd:function(e){var _="일";if(e<11||e>13)switch(e%10){case 1:case 2:case 3:_="일"}return _},"Zoom Out":"축소",Play:"시작",Stop:"정지",Legend:"범례","Click, tap or press ENTER to toggle":"켜고 끄려면 클릭, 탭 혹은 엔터를 눌러주세요.",Loading:"불러오는 중",Home:"홈",Chart:"차트","Serial chart":"시리얼 차트","X/Y chart":"X/Y 차트","Pie chart":"파이 차트","Gauge chart":"게이지 차트","Radar chart":"레이더 차트","Sankey diagram":"생키 다이어그램","Flow diagram":"플로우 다이어그램","Chord diagram":"코드 다이어그램","TreeMap chart":"트리맵 차트","Force directed tree":"포스 디렉티드 트리","Sliced chart":"슬라이스 차트",Series:"시리즈","Candlestick Series":"캔들스틱 시리즈","OHLC Series":"OHLC 시리즈","Column Series":"컬럼 시리즈","Line Series":"라인 시리즈","Pie Slice Series":"파이 슬라이스 시리즈","Funnel Series":"퍼널 시리즈","Pyramid Series":"피라미드 시리즈","X/Y Series":"X/Y 시리즈",Map:"맵","Press ENTER to zoom in":"확대하려면 엔터를 누르세요.","Press ENTER to zoom out":"축소하려면 엔터를 누르세요.","Use arrow keys to zoom in and out":"확대 혹은 축소하려면 방향키를 이용하세요.","Use plus and minus keys on your keyboard to zoom in and out":"확대 혹은 축소하려면 키보드의 +/- 키를 이용하세요.",Export:"내보내기",Image:"이미지",Data:"데이터",Print:"인쇄","Click, tap or press ENTER to open":"열려면, 클릭, 탭 또는 엔터를 누르세요.","Click, tap or press ENTER to print.":"출력하려면, 클릭, 탭 또는 엔터를 누르세요.","Click, tap or press ENTER to export as %1.":"%1(으)로 내보내려면 클릭, 탭 또는 엔터를 누르세요.",'To save the image, right-click this link and choose "Save picture as..."':'이미지를 저장하려면, 이 링크를 마우스로 우클릭하여 "다른 이름으로 저장"을 선택하세요.','To save the image, right-click thumbnail on the left and choose "Save picture as..."':'이미지를 저장하려면, 좌측 썸네일을 마우스로 우클릭하여 "다른 이름으로 저장"을 선택하세요.',"(Press ESC to close this message)":"(이 메시지를 끄려면 ESC를 누르세요.)","Image Export Complete":"이미지 내보내기 완료","Export operation took longer than expected. Something might have gone wrong.":"내보내기가 지연되고 있습니다. 문제가 없는지 확인이 필요합니다.","Saved from":"다음으로부터 저장됨: ",PNG:"",JPG:"",GIF:"",SVG:"",PDF:"",JSON:"",CSV:"",XLSX:"","Use TAB to select grip buttons or left and right arrows to change selection":"선택 범위를 변경하려면 선택 버튼이나 좌우 화살표를 이용하세요.","Use left and right arrows to move selection":"선택 범위를 움직이려면 좌우 화살표를 이용하세요.","Use left and right arrows to move left selection":"왼쪽 선택 범위를 움직이려면 좌우 화살표를 이용하세요.","Use left and right arrows to move right selection":"오른쪽 선택 범위를 움직이려면 좌우 화살표를 이용하세요.","Use TAB select grip buttons or up and down arrows to change selection":"선택 범위를 변경하려면 선택 버튼이나 상하 화살표를 이용하세요.","Use up and down arrows to move selection":"선택 범위를 움직이려면 상하 화살표를 이용하세요.","Use up and down arrows to move lower selection":"하단 선택 범위를 움직이려면 상하 화살표를 이용하세요.","Use up and down arrows to move upper selection":"상단 선택 범위를 움직이려면 상하 화살표를 이용하세요.","From %1 to %2":"%1 부터 %2 까지","From %1":"%1 부터","To %1":"%1 까지","No parser available for file: %1":"파일 파싱 불가능: %1","Error parsing file: %1":"파일 파싱 오류: %1","Unable to load file: %1":"파일 로드 불가능: %1","Invalid date":"날짜 올바르지 않음"}
+				
 		myid = '${userVO.id}'
 	    openDirect('${userVO.id}')
 									
@@ -276,10 +301,10 @@
  
  
 //-----------------------------------------------------------------
-		xtime = ~~(Date. now() / 1000) - 1631215740                   //1631215740  
+		xtime = ~~(Date. now() / 1000) -  1632768509     //1631215740                   //1631215740  
 		                                 
 		//1631969794
-		maximumTicCounts = 500
+		maximumTicCounts = 70
 		allSymbols  = []
 		chartDict = {};
  		dataDict = {}						
@@ -288,7 +313,7 @@
 		realdata = {}
 		
 		init_tic = 60
-		init_tic_counts = 50;
+		init_tic_counts = 30;
 		
 		
 		linedataTic = 2;
@@ -392,42 +417,16 @@
 		
 			
 		function printRealData(symbol , box , result){
-			$("#box-" + box + " .symbol").html(result.symbol);
-			//$("#box-" + box + " .marketPrice").html(result.marketPrice);
-		  	var thisval= parseFloat($("#box-" + box + " .marketPrice").html());
-			var thisval2 = parseFloat(result.marketPrice);
-			$("#box-" + box + " .marketPrice").css("color" , "red")
-		  	$({ val : parseFloat($("#box-" + box + " .marketPrice").text()) }).animate({ val : parseFloat(result.marketPrice)  }, {
-			   duration: 2000,
-			  	step: function() {
-			  		
-			    var num = numberWithCommas(this.val.toFixed(2)  );
-			    $("#box-" + box + " .marketPrice").html(num);
-					
-			  	},
-			  	complete: function() {
-			  		
-			    var num = numberWithCommas(this.val.toFixed(2) );
-			    $("#box-" + box + " .marketPrice").html(num);
-			    $("#box-" + box + " .marketPrice").css("color" , "black")
-			  }
-			});
-		  	
-			$("#box-" + box + " .marketChangePercent").html(result.marketChangePercent.toFixed(3));
-			$("#box-" + box + " .marketVolume").html(result.marketVolume);
-			$("#box-" + box + " .bid").html(result.bid);			
-			$("#box-" + box + " .bidSize").html(result.bidSize);
+/* 			$("#box-" + box + " .symbol").html(result.symbol);
+ */
+			var num = parseFloat(result.marketPrice.toFixed(2));			
+			$("#box-" + box + " .marketPrice").html(num);
+		  
+			$("#box-" + box + " .marketVolume").text(result.marketVolume);
 			
-			$("#box-" + box + " .ask").html(result.ask);			
-			$("#box-" + box + " .askSize").html(result.askSize);
+			$("#box-" + box + " .ask").text(result.ask)
+			$("#box-" + box + " .bid").text(result.bid)
 			
-			
-			
-			$("#box-" + box + " .dividendsYield").html(result.dividendsYield);
-			$("#box-" + box + " .floatingShares").html(result.floatingShares);
-			$("#box-" + box + " .shortRatio").html(result.shortRatio);
-			$("#box-" + box + " .shareOutstanding").html(result.shareOutstanding);
-			$("#box-" + box + " .epsForward").html(result.epsForward);			
 		}
 		
 		
@@ -448,7 +447,6 @@
 	      		contentType : "application/x-www-form-urlencoded;charset=ISO-8859-15",
 	      		datatype : 'json',
 	      		success : function(result) {	      			
-	      			console.log("one real time success")
 
 	      			realdata[box] = result
 	      			
@@ -486,7 +484,6 @@
 			
 			
 			function linefirstrun(symbol , tic , type  , box){
-				console.log("line graph real time starting")
 				$.ajax({type : 'get',
 		      		url : "${pageContext.request.contextPath }/ajax/getRealTimeStock.json",
 		      		data : {interval :linedataTic , // box_info[box]['tic'],
@@ -535,7 +532,6 @@
 				      		contentType : "application/x-www-form-urlencoded;charset=ISO-8859-15",
 				      		datatype : 'json',
 				      		success : function(result) {	      			
-				      			console.log("one real time success")
 
 				      			realdata[box] = result
 				      			
@@ -551,11 +547,7 @@
 				      			// check maximumTicCounts 
 				      			if(dataDict[box_info[box]["symbol"]].length > maximumTicCounts ){
 				      				console.log("over 500 data deleting")
-				      				for (var i = dataDict[box_info[box]["symbol"]].length  - 1; i >= 0; i--) {
-										  // remove element if index is odd
-									  if (i % 2 == 1)
-										  dataDict[box_info[box]["symbol"]].splice(i, 1);
-									}	
+				      				dataDict[box_info[box]["symbol"]].shift();
 				      			}
 				      			chartDict[box_info[box]["symbol"]].updateSeries([{
 				      				data: dataDict[box_info[box]["symbol"]]
@@ -571,7 +563,6 @@
 					candlefirstrun( symbol , tic , type  , box );
 				}else if( type == "line"){
 					interval[box]["func"] = setInterval(function(){
-						console.log("line graph real time starting")
 						$.ajax({type : 'get',
 				      		url : "${pageContext.request.contextPath }/ajax/getRealTimeStock.json",
 				      		data : {interval :linedataTic , // box_info[box]['tic'],
@@ -582,16 +573,16 @@
 				      		contentType : "application/x-www-form-urlencoded;charset=ISO-8859-15",
 				      		datatype : 'json',
 				      		success : function(result) {	      			
-				      			console.log("one real time success")
 				      			realdata[box] = result
 				      			chartDict[box_info[box]["symbol"]].addData(
 										{ date:  new Date( (~~(Date. now() / 1000)  - xtime)  * 1000  )   ,  //parseInt(result.unixTime) * 1000) 
-			  				 				price: result.marketPrice ,  
-			  				 				quantity: result.marketVolume },
+			  				 				price: result.marketPrice /* ,  
+			  				 				quantity: result.marketVolume */ },
 								         1);
 				      			//chartDict[box_info[box]["symbol"]].series.removeIndex(0);
-				      			
+				      	
 				      			printRealData(symbol , box , result)
+				      			
 				      									       
 				      		},
 				      		error : function() {
@@ -660,16 +651,19 @@
 							series : [ {
 								data : data
 							} ],
-							title : {
-								text : 'CandleStick Chart',
-								align : 'left'
-							},
+							
+							defaultLocale: 'ko',
+							
+							
 							xaxis : {                          //xaxis : {type : 'datetime'},   <---- default
 								  type: 'category',
 								  labels: {
+									rotateAlways: true,
 								    formatter: function(val) {
-								      return dayjs(val).format('HH:mm')          
-								    }
+								      return dayjs(val).format('HH:mm:ss')          
+								    },
+								    show: true,
+								  	rotate: -45,
 								  }
 							},
 							yaxis : {
@@ -705,6 +699,7 @@
 			}
 		
 			var chartReg = {};
+			
 			function createChart(chartdiv, charttype) {
 			  // Check if the chart instance exists
 			   maybeDisposeChart(chartdiv);
@@ -714,6 +709,7 @@
 			   return chartReg[chartdiv];
 			}
 
+			
 			function maybeDisposeChart(chartdiv) {
 			  if (chartReg[chartdiv]) {
 			    chartReg[chartdiv].dispose();
@@ -766,11 +762,13 @@
 			      			for(let i  = 0 ;  i <  result.length   ; i++ ){
 			      				currentData = result[i]	    
 			  				 	data.push({ date: new Date( parseInt(currentData.grp_id)  * 1000 ), 
-			  				 				price: currentData.avg_price,  
-			  				 				quantity: currentData.max_vol});			      				
+			  				 				price: currentData.avg_price/* ,  
+			  				 				quantity: currentData.max_vol */});			      				
 			      				}
 			      			var interfaceColors = new am4core.InterfaceColorSet();
 			      			chart.data = data;
+			      			chart.language.locale = am4lang_ko_KR;
+			      			
 			      			chart.leftAxesContainer.layout = "vertical";
 							
 							// uncomment this line if you want to change order of axes
@@ -793,7 +791,7 @@
 							//dateAxis.keepSelection = true;
 
 							var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-							valueAxis.tooltip.disabled = true;
+							valueAxis.tooltip.disabled = false;
 							valueAxis.zIndex = 1;
 							valueAxis.renderer.baseGrid.disabled = true;
 							valueAxis.renderer.minLabelPosition = 0.05;
@@ -821,7 +819,7 @@
 							series.name = "Series 1";
 							
 
-							var valueAxis2 = chart.yAxes.push(new am4charts.ValueAxis());
+/* 							var valueAxis2 = chart.yAxes.push(new am4charts.ValueAxis());
 							valueAxis2.tooltip.disabled = true;
 
 							// this makes gap between panels
@@ -833,28 +831,28 @@
 							valueAxis2.renderer.labels.template.verticalCenter = "bottom";
 							valueAxis2.renderer.labels.template.padding(2,2,2,2);
 							//valueAxis2.renderer.maxLabelPosition = 0.95;
-							valueAxis2.renderer.fontSize = "0.8em"
+							valueAxis2.renderer.fontSize = "0.8em" */
 
 							// uncomment these lines to fill plot area of this axis with some color
-							valueAxis2.renderer.gridContainer.background.fill = interfaceColors.getFor("alternativeBackground");
-							valueAxis2.renderer.gridContainer.background.fillOpacity = 0.05;
+/* 							valueAxis2.renderer.gridContainer.background.fill = interfaceColors.getFor("alternativeBackground");
+							valueAxis2.renderer.gridContainer.background.fillOpacity = 0.05; */
 
-							var series2 = chart.series.push(new am4charts.ColumnSeries());
+							/* var series2 = chart.series.push(new am4charts.ColumnSeries());
 							series2.columns.template.width = am4core.percent(50);
 							series2.dataFields.dateX = "date";
 							series2.dataFields.valueY = "quantity";
 							series2.yAxis = valueAxis2;
 							series2.tooltipText = "{valueY.value}";
-							series2.name = "Series 2";
+							series2.name = "Series 2"; */
 							
 							
 							chart.cursor = new am4charts.XYCursor();
 							chart.cursor.xAxis = dateAxis;
 							
-							var scrollbarX = new am4charts.XYChartScrollbar();
+						/* 	var scrollbarX = new am4charts.XYChartScrollbar();
 							scrollbarX.series.push(series);
 							scrollbarX.marginBottom = 20;
-							chart.scrollbarX = scrollbarX;														
+							chart.scrollbarX = scrollbarX;	 */													
 							series.stroke = am4core.color("#ff0000"); // 
 							chartDict[symbol] = chart
 							
@@ -868,14 +866,14 @@
 							});
 							
 						
-							series2.stroke = am4core.color("#ff0000");
+					/* 		series2.stroke = am4core.color("#ff0000");
 							series2.heatRules.push({
 								  "target": series2.columns.template,
 								  "property": "fill",
 								  "min": am4core.color("#F5DBCB"),
 								  "max": am4core.color("#ED7B84"),
 								  "dataField": "valueY"
-								});
+								}); */
 							
 							
 							
@@ -898,14 +896,14 @@
 							})
 
 							// need to set this, otherwise fillOpacity is not changed and not set
-							dateAxis.events.on("validated", function () {
+						/* 	dateAxis.events.on("validated", function () {
 							    am4core.iter.each(dateAxis.renderer.labels.iterator(), function (label) {
 							        label.fillOpacity = label.fillOpacity;
 							    })
-							})
+							}) */
 
 							// this makes date axis labels which are at equal minutes to be rotated
-							dateAxis.renderer.labels.template.adapter.add("rotation", function (rotation, target) {
+						/* 	dateAxis.renderer.labels.template.adapter.add("rotation", function (rotation, target) {
 							    var dataItem = target.dataItem;
 							    if (dataItem.date && dataItem.date.getTime() == am4core.time.round(new Date(dataItem.date.getTime()), "minute").getTime()) {
 							        target.verticalCenter = "middle";
@@ -917,7 +915,7 @@
 							        target.horizontalCenter = "middle";
 							        return 0;
 							    }
-							})
+							}) */
 
 							// bullet at the front of the line
 							var bullet = series.createChild(am4charts.CircleBullet);
@@ -971,7 +969,7 @@
 		
 		function printLongName(symbol , box){
 			var longName = stockNameMap[symbol] 	
-			$('#box-' + box  + " .box-title").html(longName)
+			$('#box-' + box  + " .box-title2").html(longName)
 			
 		}
 		
@@ -981,33 +979,9 @@
 		var ws;	
 		var chattingToggle = 1;
 
-	
 		
-		function beginTrading(){
-			if(userAccountInfo["stockList"].length == 0){
-				newSymbol = "AAPL"
-			}else{
-				newSymbol = userAccountInfo["stockList"][0]["symbol"]
-			}
-			clicked_box = "one"
-				$(".box-" + clicked_box + "-header").show();
-			
-			console.log( "newSymbol : " +   newSymbol)
-			$('#modal-' +clicked_box ).removeClass('enlarged-btn');
-			$('#remove-chart-'+clicked_box).show()
-			if(box_info[clicked_box]["type"] == "candlestick" ){
-				getinitdata(  clicked_box , newSymbol  );	
-			}else if(box_info[clicked_box]["type"] == "line" ){								
-				getinitdataLine(clicked_box , newSymbol  )
-			}
-			allSymbols.push(newSymbol)
-			printLongName(newSymbol , clicked_box)
-			
-			$("#box-one").appendTo("#row-one-col")
-			$("#box-one").show()
-			add_logo_box(newSymbol)
-			
-		}	
+
+		
 
 		$(document).ready(function() {			
 
@@ -1031,7 +1005,6 @@
 					$("#box-one").hide()
 					$("#box-two").hide()
 					$("#box-three").hide()
-					$("#chartdivs .box-header").hide()
 					
 					$(".hide-toggle").hide()										
 					
@@ -1049,7 +1022,7 @@
 							myAlarm("warning:실패:이미 화면에 존재 합니다.");
 						}else{
 							var newSymbol = $("#symbol-code").val()	
-							if(interval[clicked_box]["flag"]){								
+							if(interval[clicked_box]["flag"]){
 								
 								previous_symbol = box_info[clicked_box]["symbol"]
 								
@@ -1060,6 +1033,12 @@
 								delete chartDict[previous_symbol ]
 								delete dataDict[previous_symbol ] 
 								allSymbols.pop(previous_symbol)
+								
+								rlogo_id  = previous_symbol + "_logoBox"
+								console.log("rlogo_id : " +  rlogo_id)
+								$("#" + rlogo_id).remove()
+								
+								
 								var rchartId = "chart_"  +   previous_symbol;						
 								if(box_info[clicked_box]["type"] == "line"){
 									rchartId = "line" + rchartId
@@ -1077,7 +1056,6 @@
 								$(".box-" + clicked_box + "-header").show();
 																								
 								console.log( "newSymbol : " +   newSymbol)
-								$('#modal-' +clicked_box ).removeClass('enlarged-btn');
 								$('#remove-chart-'+clicked_box).show()
 								if(box_info[clicked_box]["type"] == "candlestick" ){
 									getinitdata(  clicked_box , newSymbol  );	
@@ -1130,13 +1108,8 @@
 							"end_date" : null
 							}
 						//$("#remove-chart-" + rbox).hide()
-						$("#modal-" + rbox).addClass("enlarged-btn");
-						$("#box-" + rbox + " .hide-toggle").hide();
-						$(".box-" + rbox + "-header").hide()
-						$("#box-" + rbox + " .box-title").html("")
-						
-						
-				
+						$("#box-" + rbox + " .hide-toggle").hide();						
+						$("#box-" + rbox + " .box-title").html("")																
 						
 					})
 						
@@ -1207,51 +1180,118 @@
 					
 					
 				$("#two-horizontal").click(function(){
-					box_counts  = 2;				
-					$('#box-one').appendTo("#row-one-col");
-					$('#box-one').show()
 					
-					$('#box-two').appendTo('#row-two-col');
-					$('#box-two').show()
+					if(box_counts == 3){
+						$('#remove-chart-three').trigger("click")
+					}															
+					
+					box_counts  = 2;	
+					if(box_info["one"]["symbol"] == null){
+						newTrading("one" , "#row-one-col")
+					}else{
+						$('#box-one').appendTo("#row-one-col");
+						$('#box-one').show()
+					}					
+					
+					if(box_info["two"]["symbol"] == null){
+						console.log("new trade")
+						newTrading("two" , "#row-two-col")
+					}else{
+						$('#box-two').appendTo('#row-two-col');
+						$('#box-two').show()
+					}
 					
 					$('#box-three').hide()					
 				})
 				
 				$("#three-horizontal").click(function(){
 					box_counts  = 3;
-					$('#box-one').appendTo('#row-one-col');
-					$('#box-one').show();
 					
-					$('#box-two').appendTo('#row-two-col');
-					$('#box-two').show();
+					if(box_info["one"]["symbol"] == null){
+						newTrading("one" , "#row-one-col")
+					}else{
+						$('#box-one').appendTo('#row-one-col');
+						$('#box-one').show();
+					}					
 					
-					$('#box-three').appendTo('#row-three-col');
-					$('#box-three').show()
+					if(box_info["two"]["symbol"] == null){
+						console.log("new trade")
+						newTrading("two" , "#row-two-col")
+					}else{
+						$('#box-two').appendTo('#row-two-col');
+						$('#box-two').show();
+					}
+										
+
+					if(box_info["three"]["symbol"] == null){
+						console.log("new trade")
+						newTrading("three" , "#row-three-col")
+					}else{
+						$('#box-three').appendTo('#row-three-col');
+						$('#box-three').show()
+					}											
 					
 				})
 				
+				
+				
 				$("#t-shape").click(function(){
-					box_counts = 3;
-					$('#box-one').appendTo('#row-one-col');
-					$('#box-one').show();
+					console.log("three cross")
+					box_counts  = 3;					
 					
-					$('#box-two').appendTo('#lc-one');
-					$('#box-two').show();
+					if(box_info["one"]["symbol"] == null){
+						newTrading("one" , "#row-one-col")
+					}else{
+						$('#box-one').appendTo('#row-one-col');
+						$('#box-one').show();
+					}					
+				
+					if(box_info["two"]["symbol"] == null){
+						console.log("new trade")
+						newTrading("two" , "#lc-one")
+					}else{
+						$('#box-two').appendTo('#lc-one');
+						$('#box-two').show();
+					}
 					
-					$('#box-three').appendTo('#lc-two');
-					$('#box-three').show()
 					
-					
+					if(box_info["three"]["symbol"] == null){
+						console.log("new trade")
+						newTrading("three" , "#lc-two")
+					}else{
+						$('#box-three').appendTo('#lc-two');
+						$('#box-three').show()
+					}	
+				
 				})
+				
+				
+			
 				
 		
 				
 				
 							
 		      	$("#one").click(function(){
+		      		if(box_counts == 3){
+						$('#remove-chart-three').trigger("click")
+						$('#remove-chart-two').trigger("click")
+					}else if(box_counts == 2){
+						$('#remove-chart-two').trigger("click")
+					}	
+		      		
+		      		
+		      		
+		      		
 		      		box_counts  = 1;
-					$('#box-one').appendTo("#row-one-col");		      	
-					$('#box-one').show()
+		      		
+		      		if(box_info["one"]["symbol"] == null){
+						newTrading("one" , "#row-one-col")
+					}else{
+						$('#box-one').appendTo("#row-one-col");		      	
+						$('#box-one').show()
+					}	
+					
 					
 					$('#box-two').hide()
 					$('#box-three').hide()
@@ -1259,41 +1299,88 @@
 				})
 				
 				$("#two-vertical").click(function(){
-					box_counts  = 2;
-					$('#box-one').appendTo('#lc-one');
-					$('#box-one').show()
 					
-					$('#box-two').appendTo('#lc-two');
-					$('#box-two').show()
+					if(box_counts == 3){
+						$('#remove-chart-three').trigger("click")
+						$('#remove-chart-two').trigger("click")
+					}
+		      							
+					
+					
+					box_counts  = 2;
+					
+					if(box_info["one"]["symbol"] == null){
+						newTrading("one" , "#lc-one")
+					}else{
+						$('#box-one').appendTo('#lc-one');
+						$('#box-one').show()
+					}					
+				
+					if(box_info["two"]["symbol"] == null){
+						console.log("new trade")
+						newTrading("two" , "#lc-two")
+					}else{
+						$('#box-two').appendTo('#lc-two');
+						$('#box-two').show()
+					}
+
 					
 					$('#box-three').hide()						
 				})
 				
 				$("#three-vertical").click(function(){
 					box_counts  = 3;
-					$('#box-one').appendTo('#sc-one');
-					$('#box-one').show()
+					if(box_info["one"]["symbol"] == null){
+						newTrading("one" , "#sc-one")
+					}else{
+						$('#box-one').appendTo('#sc-one');
+						$('#box-one').show()
+					}					
+				
+					if(box_info["two"]["symbol"] == null){
+						newTrading("two" , "#sc-two")
+					}else{
+						$('#box-two').appendTo('#sc-two');
+						$('#box-two').show()
+					}
 					
-					$('#box-two').appendTo('#sc-two');
-					$('#box-two').show()
 					
-					$('#box-three').appendTo("#sc-three");
-					$('#box-three').show()
+					if(box_info["three"]["symbol"] == null){
+						newTrading("three" , "#sc-three")
+					}else{
+						$('#box-three').appendTo("#sc-three");
+						$('#box-three').show()
+					}
+
 				})
 
 				
 				
 				$("#three-cross").click(function(){
-					box_counts  = 3;
-					$('#box-one').appendTo('#sc-one');
-					$('#box-one').show()
+					console.log("three cross")
+					box_counts  = 3;					
 					
-					$('#box-two').appendTo('#sc-two');
-					$('#box-two').show()
+					if(box_info["one"]["symbol"] == null){
+						newTrading("one" , "#sc-one")
+					}else{
+						$('#box-one').appendTo('#sc-one');
+						$('#box-one').show()
+					}					
+				
+					if(box_info["two"]["symbol"] == null){
+						newTrading("two" , "#sc-two")
+					}else{
+						$('#box-two').appendTo('#sc-two');
+						$('#box-two').show()
+					}
 					
-					$('#box-three').appendTo("#sc-three");
-					$('#box-three').show()
-
+					
+					if(box_info["three"]["symbol"] == null){
+						newTrading("three" , "#sc-three")
+					}else{
+						$('#box-three').appendTo("#sc-three");
+						$('#box-three').show()
+					}															
 				})
 				
 				$(".btn-buy").click(function(){
@@ -1324,7 +1411,71 @@
 				beginTrading()
 
 			})
+			
+		function newTrading(box , id){		 	
+			for(let i in userAccountInfo["stockList"] ){
+				if( ! allSymbols.includes( userAccountInfo["stockList"][i]["symbol"]  )){
+					newSymbol = userAccountInfo["stockList"][i]["symbol"]
+					clicked_box = box
+					$(".box-" + clicked_box + "-header").show();
+					console.log( "newSymbol : " +   newSymbol)
+					$('#remove-chart-'+clicked_box).show()
+					if(box_info[clicked_box]["type"] == "candlestick" ){
+						getinitdata(  clicked_box , newSymbol  );	
+					}else if(box_info[clicked_box]["type"] == "line" ){								
+						getinitdataLine(clicked_box , newSymbol  )
+					}
+					allSymbols.push(newSymbol)
+					printLongName(newSymbol , clicked_box)			
+					$("#box-" +  clicked_box  ).appendTo( id  /* "#row-one-col"  */ )
+					$("#box-" +  clicked_box).show()
+					add_logo_box(newSymbol)								
+					break;
+				}
+			}											
+		}
+		
+					
+			
+			
+
+					
+		function beginTrading(){
+		 	if(userAccountInfo["stockList"].length == 0){
+				newSymbol = "AAPL"
+			}else{
+				newSymbol = userAccountInfo["stockList"][0]["symbol"]
+			}
+			
+			clicked_box = "one"
+				$(".box-" + clicked_box + "-header").show();
+			
+			console.log( "newSymbol : " +   newSymbol)
+			$('#remove-chart-'+clicked_box).show()
+			if(box_info[clicked_box]["type"] == "candlestick" ){
+				getinitdata(  clicked_box , newSymbol  );	
+			}else if(box_info[clicked_box]["type"] == "line" ){								
+				getinitdataLine(clicked_box , newSymbol  )
+			}
+			allSymbols.push(newSymbol)
+			printLongName(newSymbol , clicked_box)
+			
+			$("#box-one").appendTo("#row-one-col")
+			$("#box-one").show()
+			add_logo_box(newSymbol)			
+		}
+		
+		
+		
+		
+		
 	
+		
+		
+		
+		
+			
+			
 					//----------------------------sell buy-------------------------------------
 	
 		function wholeTransact(symbol , action , counts , box){
@@ -1366,7 +1517,7 @@
 				      			console.log("transaction result : ")
 				      			console.log(result)
 				      			if(result["result"] == "success"){
-				      				myAlarm("success:체결:주문이 체결 되었습니다.")
+				      				myAlarm("success::주문이 체결 되었습니다.")
 				      				$.ajax({type : 'post',
 				      		      		url : "${pageContext.request.contextPath }/ajax/account/updateUserAccountInfo.json",
 				      		      		data : {
@@ -1531,8 +1682,9 @@
 			$("#portfolio tbody").empty()
 			for(let i in userAccountInfo["stockList"]){
 				console.log("table update")
+				index = parseInt(i) + 1
 				div = '<tr>'+ 
-					  '<td>'+i+'</td>' +
+					  '<td>'+  index +    '</td>' +
 					  '<td>'+userAccountInfo["stockList"][i]["symbol"]+'</td>' +
 					  '<td>'+userAccountInfo["stockList"][i]["totalCounts"]+'</td>' +
 					  '<td>$'+userAccountInfo["stockList"][i]["spentTotal"].toFixed(3)+'</td>' +
@@ -1545,7 +1697,7 @@
 
 		
 		function add_logo_box(symbol){
-			div = '<div class="col-md-2 realestate sponsored" id="'+  symbol + "_logoBox"    +  '">' + 
+			div = '<div class="col-md-4 realestate sponsored" id="'+  symbol + "_logoBox"    +  '">' + 
 			     '<div class="box box-body bg-hexagons-white pull-up">' + 
 			      '<div class="media align-items-center p-0">' +
 			      '<div class="col-md-3">'+
@@ -1557,25 +1709,29 @@
 			$("#logo-area").append(div)
 			       
 		}
-		
-		
-		
 
-		
+				
 </script>
 
 </head>
 <body class="theme-success" style="background-color: white;">
+
+
+
+
 	<header class="header-light">
 		<jsp:include page="/resources/home/include/header.jsp" />
 	</header>
 
-	<aside>
+ 	<aside>
 		<jsp:include page="/resources/dash/include/sidebar.jsp" />
-	</aside>
-	<section class="content" style="background-color: #f5f5f5;">
-		<div class="row">
-			<div class="col-md-1">
+	</aside> 
+	
+	
+	<section class="content" style="background-color: #f5f5f5;">		
+		<div class="row">		
+		
+			<div class="col-md-2">
 				<div class="dropdown">
 					<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">레이아웃</button>
 					<div class="dropdown-menu dropdown-grid">
@@ -1604,16 +1760,8 @@
 				</div>
 			</div>
 
-			<div class="col-md-9">
+			<div class="col-md-8">
 				<div class="row" id="logo-area"></div>
-
-
-
-
-
-
-
-
 			</div>
 			<div class="col-md-2">
 				<div class="row">
@@ -1666,7 +1814,7 @@
 			</div>
 		</div>
 
-		<div class="container">
+		
 			<div class="row" id="portfolio">
 				<div class="box">
 					<table class="table">
@@ -1683,14 +1831,19 @@
 					</table>
 				</div>
 			</div>
-		</div>
+		
 
 
 		<div hidden="true" id="e_chart_2" class="" style="height: 285px;"></div>
 		<div id="chartdivs">
 			<div class="box" id="box-one">
 				<div class="box-header with-border box-one-header">
-					<div class="btn-group">
+					<div class="btn-group">	
+					<button id="modal-one" type="button" class="waves-effect waves-light btn btn-light mb-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('one')">
+							종목<i class="mdi mdi-plus-box"></i>
+						</button>
+					</div>
+					<div class="btn-group">					
 						<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">그래프 종류</button>
 						<div class="dropdown-menu dropdown-menu-end">
 							<a class="dropdown-item line-one" onclick="graphType('one' ,'line')" href="#">라인</a>
@@ -1713,12 +1866,9 @@
 					<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-one" onclick="start('one')">날짜 설정</button>
 					<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="chatServer('one')">종목 채팅방 입장</button>
 				</div>
-				<h4 class="box-title ms-10"></h4>
+				<h4 class="box-title2 ms-10"></h4>
 				<div class="box-body box-one-body">
 					<div class="chart" id="chart-one">
-						<button id="modal-one" type="button" class="enlarged-btn waves-effect waves-light btn btn-light mb-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('one')">
-							종목<i class="mdi mdi-plus-box"></i>
-						</button>
 						<div class="hide-toggle">
 							<button class="btn btn-danger btn-flat mb-5 btn-xs remove-chart" id="remove-chart-one">
 								<i class="fa fa-remove"></i>
@@ -1736,6 +1886,9 @@
 			<div class="box" id="box-two">
 				<div class="box-header with-border box-two-header">
 					<div class="btn-group">
+						<button id="modal-two" type="button" class="waves-effect waves-light btn btn-light mb-5 ms-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('two')">
+							종목<i class="mdi mdi-plus-box"></i>
+						</button>
 						<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">그래프 종류</button>
 						<div class="dropdown-menu dropdown-menu-end">
 							<a class="dropdown-item line-two" onclick="graphType('two' ,'line')" href="#">라인</a>
@@ -1758,12 +1911,9 @@
 					<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-two" onclick="start('two')">날짜 설정</button>
 					<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="chatServer('two')">종목 채팅방 입장</button>
 				</div>
-				<h4 class="box-title ms-10"></h4>
+				<h4 class="box-title2 ms-10"></h4>
 				<div class="box-body box-two-body">
 					<div class="chart" id="chart-two">
-						<button id="modal-two" type="button" class="enlarged-btn waves-effect waves-light btn btn-light mb-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('two')">
-							종목<i class="mdi mdi-plus-box"></i>
-						</button>
 						<div class="hide-toggle">
 							<button class="btn btn-danger btn-flat mb-5 btn-xs remove-chart" id="remove-chart-two">
 								<i class="fa fa-remove"></i>
@@ -1781,6 +1931,9 @@
 			<div class="box" id="box-three">
 				<div class="box-header with-border box-three-header">
 					<div class="btn-group">
+						<button id="modal-three" type="button" class="waves-effect waves-light btn btn-light mb-5 ms-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('three')">
+							종목<i class="mdi mdi-plus-box"></i>
+						</button>
 						<button class="waves-effect waves-light btn btn-light mb-5 dropdown-toggle" type="button" data-bs-toggle="dropdown">그래프 종류</button>
 						<div class="dropdown-menu dropdown-menu-end">
 							<a class="dropdown-item line-three" onclick="graphType('three' ,'line')" href="#">라인</a>
@@ -1803,12 +1956,10 @@
 					<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="start('three')">날짜 설정</button>
 					<button type="button" class="waves-effect waves-light btn btn-light mb-5 start-three" onclick="chatServer('three')">종목 채팅방 입장</button>
 				</div>
-				<h4 class="box-title ms-10"></h4>
+				<h4 class="box-title2 ms-10"></h4>
 				<div class="box-body box-three-body">
 					<div class="chart" id="chart-three">
-						<button id="modal-three" type="button" class="enlarged-btn waves-effect waves-light btn btn-light mb-5 add-symbol" data-bs-toggle="modal" data-bs-target="#modal-center" onclick="initData('three')">
-							종목<i class="mdi mdi-plus-box"></i>
-						</button>
+
 						<div class="hide-toggle">
 							<button class="btn btn-danger btn-flat mb-5 btn-xs remove-chart" id="remove-chart-three">
 								<i class="fa fa-remove"></i>
@@ -1934,19 +2085,6 @@ http://localhost:8080/
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/echarts-liquidfill-master/dist/echarts-liquidfill.min.js"></script>
 
 
-
-	<%-- <script src="${ pageContext.request.contextPath }/resources/dash/js/template.js"></script> --%>
-	<%-- 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard.js"></script>
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard-chart.js"></script> --%>
-
-	<%-- 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard8.js"></script>
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard8-chart.js"></script> --%>
-
-	<%-- <script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard18.js"></script> --%>
-	<%-- 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard18-chart.js"></script> --%>
-
-
-
 	<!-- alert and notification -->
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/chat-popup.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/icons/feather-icons/feather.min.js"></script>
@@ -1971,7 +2109,6 @@ http://localhost:8080/
 
 	<!-- webticker -->
 	<%-- <script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard26.js"></script> --%>
-	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard18.js"></script>
 	<!-- dashboard9 -->
 	<%--  	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/dashboard28-chart.js"></script>
 
@@ -1985,6 +2122,8 @@ http://localhost:8080/
 
 	<script src="${ pageContext.request.contextPath }/resources/home/js/vendors.min.js"></script>
 	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js"></script>
+
+
 
 </body>
 

@@ -3,6 +3,90 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
     <!-- sidebar-->        
+    
+
+<style>
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 20;
+  top: 0;
+  left: 0;
+  background-color: white;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+</style>
+
+<div id="mySidenav" class="sidenav">
+	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+	<c:if test="${not empty followerLeagueList}">
+		
+		<c:forEach items="${ followerLeagueList}" var="follower" varStatus="loop">
+			<div class="subscribedPerson">
+			<a href="#" onclick="openForm('${follower.id}' ,'${userVO.id }' )"> 		
+			<img style="width:30px;" src="${ pageContext.request.contextPath }/resources/images/tier/${follower.tier }.png" alt="...">
+					
+				${follower.id }
+					<c:if test="${follower.loggedIn eq 'true'}">
+						<small style="color: green; font-size: xx-small;">로그인중</small>
+					</c:if>
+					<c:if test="${follower.loggedIn ne 'true'}">
+						<small style="color: red; font-size: xx-small;">로그아웃됨</small>
+					</c:if>
+					
+				</a>
+			</div>
+		</c:forEach>
+		
+	</c:if>	
+</div>
+
+
+<script>
+function openNav() {
+	$("#mySidenav").show()
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+	$("#mySidenav").hide()
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
+
+<%--  
+
     <div class="modal modal-left fade" id="modal-left" tabindex="-1">
 	  <div class="modal-dialog" style="width:25%">
 		<div class="modal-content">
@@ -11,38 +95,6 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-<%-- 				<table class="table table-bordered table-striped no-margin">
-					<thead>
-						<tr>
-							<th>#</th>
-							<th>#</th>
-							<th>#</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:if test="${not empty followerLeagueList}">
-							<c:forEach items="${ followerLeagueList}" var="follower" varStatus="loop">
-								<tr class="subscribedPerson">
-									<td><a href="#" class="avatar avatar-small" onclick="openForm('${follower.id}' ,'${userVO.id }' )"></a>
-									<img width="5px;" src="${ pageContext.request.contextPath }/resources/images/tier/${follower.tier }.png" alt="..."> 									
-									</td>
-									<td>${follower.id }</td>
-									<td>
-										<c:if test="${follower.loggedIn eq 'true'}">
-											<small style="color: green; font-size: xx-small;">로그인중</small>
-										</c:if>
-										<c:if test="${follower.loggedIn ne 'true'}">
-											<small style="color: red; font-size: xx-small;">로그아웃됨</small>
-										</c:if>
-									</td>																	
-								</tr>					
-							</c:forEach>
-						</c:if>
-
-					</tbody>
-
-
-				</table> --%>
 
 				<c:if test="${not empty followerLeagueList}">
 						<c:forEach items="${ followerLeagueList}" var="follower" varStatus="loop">
@@ -66,7 +118,7 @@
 					</c:forEach>
 					</c:if>
 					
-				<%-- 	<c:if test="${not empty followerLeagueList}">
+					<c:if test="${not empty followerLeagueList}">
 						<c:forEach items="${ followerLeagueList}" var="follower" varStatus="loop">
 							<c:if test="${loop.index < 5}">
 								<li class="subscribedPerson"><a href="#" class="avatar avatar-small" onclick="openForm('${follower.id}' ,'${userVO.id }' )">
@@ -81,7 +133,7 @@
 									</a></li>
 							</c:if>
 						</c:forEach>
-					</c:if> --%>
+					</c:if>
 
 				
 			</div>
@@ -91,3 +143,5 @@
 		</div>
 	</div>
 	</div>
+	 --%>
+	

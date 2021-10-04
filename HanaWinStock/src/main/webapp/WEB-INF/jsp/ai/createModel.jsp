@@ -152,6 +152,15 @@
 }
 	</style>	
 	<script>
+	temp = function() {
+		  setTimeout(
+		    function() {
+		    	$("#formbox :input").prop("disabled", true);
+				myAlarm("success:success:학습이 완료 되었습니다.");
+		    }, 5000);
+		}
+	
+	
 	$(document).ready(function() {	
 		$(".loading").hide()
 		
@@ -202,7 +211,7 @@
 			$(".loading").show()
 			
 			$.ajax({type : 'get',
-	      		url : "http://192.168.35.39:8000/createModel",
+	      		url : "http://192.168.82.186:8000/createModel",
 	      		data : sending_data,
 	      		contentType : "application/x-www-form-urlencoded;charset=ISO-8859-15",
 	      		datatype : 'json',
@@ -264,7 +273,7 @@
 											</div>
 										</div>
 										<div class="form-group row">
-											<label for="example-search-input" class="col-sm-2 col-form-label">검증 데이터 비율</label>
+											<label for="example-search-input" class="col-sm-2 col-form-label">학습/검증 데이터 비율</label>
 											<div class="col-sm-10">
 												<input class="form-control" type="number" name="number" id="train_ratio">
 											</div>

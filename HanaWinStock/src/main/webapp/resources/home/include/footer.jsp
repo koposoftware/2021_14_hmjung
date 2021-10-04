@@ -27,7 +27,7 @@
                     </div>											
 					<div class="col-lg-3 col-12">
 						<div class="widget">
-							<h4 class="footer-title">컨택트</h4>
+							<h4 class="footer-title">주소</h4>
 							<hr class="bg-primary mb-10 mt-0 d-inline-block mx-auto w-60">
 							<ul class="list list-unstyled mb-30">
 								<li> <i class="fa fa-map-marker"></i>14222 경기도 광명시 오리로 904,<br>대한민국</li>
@@ -38,7 +38,7 @@
 					</div>					
 					<div class="col-12 col-lg-6">
                         <div class="widget footer_widget clearfix">
-                            <h4 class="footer-title">링크</h4>
+                            <h4 class="footer-title">관련 링크</h4>
 							<hr class="bg-primary mb-10 mt-0 d-inline-block mx-auto w-60">
                             <ul class="list-unstyled">
 								<li>깃허브.<a href="https://github.com/hmchung2?tab=repositories">https://github.com/hmchung2?tab=repositories</a></li>

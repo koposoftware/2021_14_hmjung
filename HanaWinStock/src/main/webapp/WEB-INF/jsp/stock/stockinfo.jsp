@@ -102,7 +102,7 @@
 			//$(".loading").show()		
 			$(".loading").show()
 			$.ajax({type : 'get',
-	      		url : "http://192.168.35.39:8000/predictStock",
+	      		url : "http://192.168.82.186:8000/predictStock",
 	      		data : sending_data,
 	      		contentType : "application/x-www-form-urlencoded;charset=ISO-8859-15",
 	      		datatype : 'json',

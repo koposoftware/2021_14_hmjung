@@ -245,10 +245,18 @@
 		for(let i in stockMapJson){
 			var randomColor = '#'+Math.floor(Math.random()*16777215).toString(16);
 			colorList.push( randomColor )
+			//randomNum = getRandomInt(CSS_COLOR_NAMES.length ) 
+			//randomColor = CSS_COLOR_NAMES[randomNum]
+			//colorList.push( randomColor )
 		}
 		return colorList;
 		
 	}
+	
+	function getRandomInt(max) {
+		  return Math.floor(Math.random() * max);
+		}
+	
 	// 글로벌 변수 집합------------------------
 	
 	leagueAccountVO = '${leagueAccountVO}'
@@ -371,6 +379,9 @@
 	
 	
 	$(document).ready(function() {	
+		$("#view-transaction").click(function(){
+			location.href = "${pageContext.request.contextPath}/account/viewother/transaction/" + '${viewId}' + "/1"			
+		})
 
 		let fullMsg = '${msg}'
 		// 자바스크립트 여기
@@ -473,7 +484,8 @@
 			</c:if>
 
 			<c:if test="${viewId ne userVO.id }">
-				<h4 class="page-title">${viewId }의포트폴리오</h4>
+				<h4 class="page-title">${viewId }&nbsp;포트폴리오</h4>
+				<button type="button" class="waves-effect waves-light btn btn-outline btn-primary mb-5" id="view-transaction">거래내역</button>	
 			</c:if>
 			<div class="row">
 				<div class="col-md-9">
@@ -560,7 +572,7 @@
 													<th style="width:12.857%;">보유 개수</th>
 													<th style="width:12.857%;">전체 비용</th>
 													<th style="width:12.857%;">전체 이득</th>
-													<th style="width:5%;">로그</th>
+													<th style="width:5%;">거래내역</th>
 													<th style="width:5%;">종목 상세</th>
 												</tr>
 											</thead>
@@ -730,8 +742,7 @@
 
 				</div>
 				<div class="modal-footer modal-footer-uniform">
-					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">나가기</button>
-					
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">나가기</button>					
 				</div>
 			</div>
 		</div>

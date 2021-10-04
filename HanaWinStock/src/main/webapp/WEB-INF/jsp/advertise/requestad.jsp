@@ -76,7 +76,7 @@
 				if($(this).is(':checked')){
 					cval = $(this).val()
 					$('#hidden_freq').val( cval )
-					alert(cval)
+				
 				}			
 			})
 			

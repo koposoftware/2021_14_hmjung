@@ -260,7 +260,7 @@ mytier = tiermap['${leagueAccountVO.tier}']
 										</div>
 										<div class="row mb-30">
 											<div class="clearfix">
-												<button type="submit" id="start_league" class="waves-effect waves-light btn btn-success mb-5" data-bs-toggle="modal" data-bs-target="#modal-center2">계좌 선택</button>
+												<button type="submit" id="start_league" class="waves-effect waves-light btn btn-primary mb-5" data-bs-toggle="modal" data-bs-target="#modal-center2">계좌 선택</button>
 											</div>
 										</div>
 									</div>
@@ -422,13 +422,13 @@ mytier = tiermap['${leagueAccountVO.tier}']
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">리그 계좌 로그인</h5>
+					<h5 class="modal-title">대회 계좌 로그인</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<form method="post" action="${pageContext.request.contextPath}/account/leagueSignin">
 					<div class="modal-body">
 						<p>회원 비밀번호를 입력해주세요</p>
-						<input name="password" type="password" id="user_password">
+						<input class="form-control" style="width:50%; background-color:#f5f5f5;" name="password" type="password" id="user_password">
 					</div>
 					<div class="modal-footer modal-footer-uniform">
 						<button type="button" class="btn btn-danger" data-bs-dismiss="modal">취소</button>

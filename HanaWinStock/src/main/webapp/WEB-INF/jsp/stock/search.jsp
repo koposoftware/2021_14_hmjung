@@ -120,9 +120,9 @@
 							</c:if>
 							  	<p class="no-margin">거래량 : 
 							  	<fmt:formatNumber type="number" maxFractionDigits="0" value="${stock.regularMarketVolume}" /></p>
-							  	<p class="no-margin">요청 크기 : <span class="text-danger"><fmt:formatNumber type="number" maxFractionDigits="0" value="${stock.askSize}" /></span>
+							  	<p class="no-margin">요청 크기 : <span><fmt:formatNumber type="number" maxFractionDigits="0" value="${stock.askSize}" /></span>
 							  	</p>
-							  	<p class="no-margin">입찰 크기 : <span class="text-danger"><fmt:formatNumber type="number" maxFractionDigits="0" value="${stock.bidSize}" /></span>
+							  	<p class="no-margin">입찰 크기 : <span><fmt:formatNumber type="number" maxFractionDigits="0" value="${stock.bidSize}" /></span>
 							  	</p>
 							 						  							  
 							</div>

@@ -47,7 +47,7 @@
  	</insert>
  	
  	<select id="selectAllRequestVO" resultMap="adRequestMap">
- 		select * from gc_advertise_request
+ 		select * from gc_advertise_request order by no desc
  	</select>
  	
  	

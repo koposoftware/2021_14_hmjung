@@ -131,15 +131,11 @@
 									<h5><span class="unixtime">${model.startUnixTime}~${model.endUnixTime}</span></h5>
 									<hr>
 									<div class="row">										
-										<div class="col-md-4 text-center box-title align-items-start flex-column">
-											 <h4>모델 학습 데이터 추론 결과</h4>
-											<img alt="" src="${ pageContext.request.contextPath }/resources/greencamel_api/${model.symbol }/${model.modelName }/train_result.png">
-										</div>
-										<div class="col-md-4 text-center box-title align-items-start flex-column">
+										<div class="col-md-6 text-center box-title align-items-start flex-column">
 										<h4>모델 검증 데이터 추론 결과</h4>
  											<img alt="" src="${ pageContext.request.contextPath }/resources/greencamel_api/${model.symbol }/${model.modelName }/test_result.png">
 										</div>
-										<div class="col-md-4 text-center box-title align-items-start flex-column">
+										<div class="col-md-6 text-center box-title align-items-start flex-column">
 										 <h4>학습 손실 로그</h4> 
 											<img alt="" src="${ pageContext.request.contextPath }/resources/greencamel_api/${model.symbol }/${model.modelName }/loss_result.png">											
 										</div>																				

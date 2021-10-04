@@ -560,11 +560,11 @@ Theme Primary Color
     border-color: #159892 !important;
     color: #ffffff !important; }
   .theme-primary .btn-success:disabled {
-    background-color: #5de9e2;
+    background-color: #008485;
     border-color: #1bc5bd;
     opacity: 0.5; }
   .theme-primary .btn-success.disabled {
-    background-color: #5de9e2;
+    background-color: #008485;
     border-color: #1bc5bd;
     opacity: 0.5; }
 .theme-primary .show > .btn-success.dropdown-toggle {
@@ -2268,11 +2268,11 @@ Theme Secondary Color
     border-color: #159892 !important;
     color: #ffffff !important; }
   .theme-secondary .btn-success:disabled {
-    background-color: #5de9e2;
+    background-color: #008485;
     border-color: #1bc5bd;
     opacity: 0.5; }
   .theme-secondary .btn-success.disabled {
-    background-color: #5de9e2;
+    background-color: #008485;
     border-color: #1bc5bd;
     opacity: 0.5; }
 .theme-secondary .show > .btn-success.dropdown-toggle {
@@ -3976,11 +3976,11 @@ Theme Info Color
     border-color: #159892 !important;
     color: #ffffff !important; }
   .theme-info .btn-success:disabled {
-    background-color: #5de9e2;
+    background-color: #008485;
     border-color: #1bc5bd;
     opacity: 0.5; }
   .theme-info .btn-success.disabled {
-    background-color: #5de9e2;
+    background-color: #008485;
     border-color: #1bc5bd;
     opacity: 0.5; }
 .theme-info .show > .btn-success.dropdown-toggle {
@@ -5600,11 +5600,11 @@ Theme Success Color
     border-color: #159892 !important;
     color: #ffffff !important; }
   .theme-success .btn-primary:disabled {
-    background-color: #5de9e2;
+    background-color: #008485;
     border-color: #1bc5bd;
     opacity: 0.5; }
   .theme-success .btn-primary.disabled {
-    background-color: #5de9e2;
+    background-color: #008485;
     border-color: #1bc5bd;
     opacity: 0.5; }
 .theme-success .show > .btn-primary.dropdown-toggle {
@@ -7392,11 +7392,11 @@ Theme Danger Color
     border-color: #159892 !important;
     color: #ffffff !important; }
   .theme-danger .btn-success:disabled {
-    background-color: #5de9e2;
+    background-color: #008485;
     border-color: #1bc5bd;
     opacity: 0.5; }
   .theme-danger .btn-success.disabled {
-    background-color: #5de9e2;
+    background-color: #008485;
     border-color: #1bc5bd;
     opacity: 0.5; }
 .theme-danger .show > .btn-success.dropdown-toggle {
@@ -9100,11 +9100,11 @@ Theme Warning Color
     border-color: #159892 !important;
     color: #ffffff !important; }
   .theme-warning .btn-success:disabled {
-    background-color: #5de9e2;
+    background-color: #008485;
     border-color: #1bc5bd;
     opacity: 0.5; }
   .theme-warning .btn-success.disabled {
-    background-color: #5de9e2;
+    background-color: #008485;
     border-color: #1bc5bd;
     opacity: 0.5; }
 .theme-warning .show > .btn-success.dropdown-toggle {

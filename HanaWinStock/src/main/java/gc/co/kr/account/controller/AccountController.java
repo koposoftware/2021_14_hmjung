@@ -35,6 +35,7 @@ import gc.co.kr.leagueAccount.LeagueFollowVO;
 import gc.co.kr.member.vo.MemberVO;
 import gc.co.kr.message.MessageService;
 import gc.co.kr.message.MessageVO;
+import gc.co.kr.realtimestock.service.RealTimeStockService;
 import gc.co.kr.stocksummary.service.StockSummaryService;
 import gc.co.kr.stocksummary.vo.StockNameVO;
 import gc.co.kr.stocksummary.vo.StockSummaryVO;
@@ -56,8 +57,8 @@ public class AccountController {
 	@Autowired
 	private MessageService messageService;
 	
-	//@Autowired
-	//private RealTimeStockService realTimeservice;
+	@Autowired
+	private RealTimeStockService realTimeservice;
 
 	ObjectMapper mapper = new ObjectMapper();
 	
@@ -302,15 +303,19 @@ public class AccountController {
 				}
 				System.out.println("성공");
 				
-				List<LeagueFollowVO> followerList = leagueService.selectmyfollow(userVO.getId());				
-				List<String> users = new ArrayList<String>();
-				for(LeagueFollowVO follower: followerList) {
-					users.add(follower.getFollowedId());
-				}
-				List<LeagueAccountVO> followerLeagueList =  leagueService.getSessionFollowers(users);
-				System.out.println("my followerLeagueList: " + followerLeagueList.size());		
-				
-				session.setAttribute("followerLeagueList" , followerLeagueList);								
+				List<LeagueFollowVO> followerList = leagueService.selectmyfollow(userVO.getId());
+				System.out.println(followerList.size() );
+				if(followerList.size()  > 0 ) {
+					List<String> users = new ArrayList<String>();
+					for(LeagueFollowVO follower: followerList) {
+						System.out.println(follower);
+						users.add(follower.getFollowedId());
+					}
+					List<LeagueAccountVO> followerLeagueList =  leagueService.getSessionFollowers(users);
+					System.out.println("my followerLeagueList: " + followerLeagueList.size());		
+					
+					session.setAttribute("followerLeagueList" , followerLeagueList);	
+				}											
 			}
 		}		
 		System.out.println("post viewleagueaccounts : " + view);

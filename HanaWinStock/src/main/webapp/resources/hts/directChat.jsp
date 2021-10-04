@@ -4,7 +4,7 @@
 <input type="hidden" id="sessionId" value="">
 
 
-<div class="box direct-chat direct-chat-info full-chat-box" style="height: 90%;">
+<div class="box direct-chat direct-chat-info full-chat-box">
 <div id="video-area" style="margin:auto; width:70%;" >
 	<!-- <video  controls class="w-p100">
 		<source  type="video/mp4" src="/HanaWinStock\resources\files\advertise\ad\file-20210921_08_52_25.mp4">  
@@ -18,7 +18,7 @@
 	</div>
 
 	<!-- /.box-header -->
-	<div class="box-body">
+	<div class="box-body" style="height:400px;">
 
 		<!-- Conversations are loaded here -->
 		<div class="direct-chat-messages" id="direct-chat" style="height: 80%;">
@@ -29,7 +29,7 @@
 			<!-- /.direct-chat-pane -->
 		</div>
 		<!-- /.box-body -->
-		<div class="box-footer">
+		<div class="box-footer" style="height:100px;">
 
 			<div class="input-group">
 				<input type="text" name="message" id="chat" placeholder="메시지를 작성하세요" class="form-control">

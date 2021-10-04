@@ -13,24 +13,42 @@
     <link rel="icon" href="${ pageContext.request.contextPath }/resources/images/favicon.ico">
 
     <title>하나윈스톡</title>
-    
+    <link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/vendors_css.css">
 	<!-- Vendors Style-->
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/vendors_css.css">
 	  
 	<!-- Style-->  
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/style.css">
 	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/home/css/skin_color.css">
-	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/vendors_css.css">
-	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/style.css">
-	<link rel="stylesheet" href="${ pageContext.request.contextPath }/resources/dash/css/skin_color.css">
+	
+	
 	<script type="text/javascript" src="${ pageContext.request.contextPath }/resources/js/jquery-3.6.0.min.js"></script>	
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+	
+
+
+
+	
     <script>
-     $(document).ready(function() {     	
-     	let fullMsg = '${msg}'
-     	if (fullMsg != null && fullMsg != "") {
-     		myAlarm(fullMsg)
-     	}
-     })
+    $(document).ready(function() {
+    	
+        var owl = $('.servicesCarosal');
+                
+        //console.log(owl);
+
+        if (owl.length) { 
+            owl.owlCarousel({
+
+            });
+        }
+    	let fullMsg = '${msg}'
+         	if (fullMsg != null && fullMsg != "") {
+         		myAlarm(fullMsg)
+         	}
+    });
+
+    
+ 
      </script> 
   </head>
 
@@ -40,7 +58,7 @@
 		<jsp:include page="/resources/home/include/header.jsp" />
 	</header>
 
-    
+
     
     <section class="py-lg-80 py-30"  data-overlay="7" style="background-image: url(${ pageContext.request.contextPath }/resources/images/front-end-img/banners/hanabuilding.png); background-size:cover; height:900px;">
 		<div class="container">
@@ -86,24 +104,25 @@
 	</footer>
 	
 	
-	<!-- Vendor JS -->
-	<script src="${ pageContext.request.contextPath }/resources/home/js/vendors.min.js"></script>	
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
 	
-	
+
 	<!-- Corenav Master JavaScript -->
     <script src="${ pageContext.request.contextPath }/resources/home/corenav-master/coreNavigation-1.1.3.js"></script>
     <script src="${ pageContext.request.contextPath }/resources/home/js/nav.js"></script>
-	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js"></script>
-	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+
+		<!-- Vendor JS -->
+	<script src="${ pageContext.request.contextPath }/resources/home/js/vendors.min.js"></script>		
 	<!-- CryptoCurrency front end -->
+	
 	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/chat-popup.js"></script>
-    <script src="${ pageContext.request.contextPath }/resources/assets/icons/feather-icons/feather.min.js"></script>	
-    <script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/sweetalert/sweetalert.min.js"></script>
-    <script src="${ pageContext.request.contextPath }/resources/js/sweet-alert.js"></script>		 
-    
-   	<script src="${ pageContext.request.contextPath }/resources/home/js/vendors.min.js"></script>	
-	<!-- Corenav Master JavaScript -->
-	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/OwlCarousel2/dist/owl.carousel.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/icons/feather-icons/feather.min.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/sweetalert/sweetalert.min.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/js/sweet-alert.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/assets/vendor_components/jquery-toast-plugin-master/src/jquery.toast.js"></script>
+	<script src="${ pageContext.request.contextPath }/resources/dash/js/pages/notification.js"></script>	
+
     
     
     

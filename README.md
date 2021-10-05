@@ -70,7 +70,9 @@
 |이름 |정해명|![gdKO](발표자료/최종프로젝트_정해명_발표자료/profilePic.jpg)|
 |연락처 | hmchung2(@)gmail.com|
 |skill set| Frontend - HTML, CSS, Javascript|
-| | Backend - Java, Spring, Oracle, Python, C++, R|
+| | Backend - Java, Spring, Python, C++, R|
+| | Database - Oracle, MySql, PostgresSql, Tibero |
+| | Framework - Flask, Django, Spring
 |수상| 서울특별시 빅데이터 공모전 우수상 |
 |경력|  T3Q 백엔드 API 개발 1년  |
 |프로젝트| 1. 공군기상단 기상 이상 탐지 시스템 개발|

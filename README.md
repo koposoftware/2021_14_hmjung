@@ -67,7 +67,7 @@
 
 |항목|내용||
 |--------|---------------------------|----|
-|이름 |정해명|<img src="발표자료/최종프로젝트_정해명_발표자료/profilePic.jpg" width="50" />|
+|이름 |정해명|<img src="발표자료/최종프로젝트_정해명_발표자료/profilePic.jpg" width="150" />|
 |연락처 | hmchung2(@)gmail.com|
 |skill set| Frontend - HTML, CSS, Javascript|
 | | Backend - Java, Spring, Python, C++, R|

@@ -1,4 +1,4 @@
-# 프로젝트 제목
+# 하나윈스톡 : 실시간 인공지능 WTS
 
 [프로젝트 홈페이지](https://koposoftware.github.io/2021_14_hmjung/)
 

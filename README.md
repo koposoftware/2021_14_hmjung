@@ -54,7 +54,7 @@
 - Language : Python, Java(jdk-1.8), Javascript, HTML, CSS
 - IDE Tools : Eclipse, Sqldeveloper, atom
 - DB : Oracle 11g
-- Library : Spring WebSockets, Keras, Tensorflow, Pandas, amcharts, jQuery, iQuery-UI, JSTL, Bootstrap-4.3.1   
+- Library : Keras, Tensorflow, Pandas, Spring WebSockets, amcharts, jQuery, iQuery-UI, JSTL, Bootstrap-4.3.1   
 
 ## 발표 pdf 
    [발표자료](/발표자료/최종프로젝트_정해명_발표자료.pdf)<br>

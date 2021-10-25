@@ -76,7 +76,7 @@
 |연락처 | hmchung2(@)gmail.com|
 |skill set| Frontend - HTML, CSS, Javascript|
 | | Backend - Java, Spring, Python, C++, R|
-| | Database - Oracle, MySql, PostgresSql, Tibero |
+| | Database - Oracle, MySql, PostgreSql, Tibero |
 | | Framework - Flask, Django, Spring
 |수상| 서울특별시 빅데이터 공모전 우수상 |
 |경력|  T3Q 백엔드 API 개발 1년  |

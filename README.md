@@ -3,22 +3,18 @@
 [프로젝트 홈페이지](https://koposoftware.github.io/2021_14_hmjung/)
 
 # 1. 프로젝트 개요
-
-<img src="발표자료/최종프로젝트_제안서/슬라이드3.PNG"/>
-주식시장에서 가장 중요한 요소는 빠른 정보력이라고 생각합니다.
-
 실시간 차트, 인공지능을 활용해서 사용자에게 주식 관련 정보를 생성하고
 또 실시간 채팅과 구독 시스템 기능으로 
 사용자들끼리도 정보를 교환할 수 있는 플랫폼을 개발하고자 
 하나윈스톡 프로젝트를 기획하게 되었습니다.
 
+## 발표 pdf 
+   [발표자료](/발표자료/최종프로젝트_정해명_발표자료.pdf)<br>
 
-# 2. 프로젝트 제안서
-   
-초기 하나 윈스톡 주제 선정 및 제안 발표 자료 입니다.
-[<img src="발표자료/프로젝트주제발표_정해명/슬라이드11.PNG" width="640" />](발표자료/프로젝트주제발표_정해명.pdf)<br><br>
+## 시연 동영상 
+   [![영상](발표자료/최종프로젝트_정해명_발표자료/capture.png)](https://www.youtube.com/embed/4cZFjeUAEuc)
 
-# 3. 프로젝트 결과
+# 2. 프로젝트 결과
 
 ## 실시간 주가 차트 페이지
    <img src="발표자료/최종프로젝트_정해명_판넬/슬라이드10.PNG" width="640"/>
@@ -53,7 +49,7 @@
    <img src="발표자료/최종프로젝트_제안서/슬라이드11.PNG" width="640"/>
    
 ## * 개발환경
-- OS : Window10, Linux CentOS
+- OS :Linux CentOS
 - Framework : Flask Framework, Spring Framework 4, Mybatis
 - Server : Flask Server, Apache Tomcat9
 - Language : Python, Java(jdk-1.8), Javascript, HTML, CSS
@@ -61,12 +57,6 @@
 - DB : Oracle 11g
 - Library : Keras, Tensorflow, Pandas, Spring WebSockets, amcharts, jQuery, iQuery-UI, JSTL, Bootstrap-4.3.1   
 
-## 발표 pdf 
-   [발표자료](/발표자료/최종프로젝트_정해명_발표자료.pdf)<br>
-
-## 시연 동영상 
-   
-   [![영상](발표자료/최종프로젝트_정해명_발표자료/capture.png)](https://www.youtube.com/embed/4cZFjeUAEuc)
 
 # 4. 본인 소개
 

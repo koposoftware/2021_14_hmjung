@@ -4,7 +4,7 @@
 실시간 데이터 처리와 인공지능 예측을 결합하여 사용자에게 **거래 경험을 혁신적으로 제공**하는 것을 목표로 한 사이드 프로젝트입니다.  
 
 [👉 프로젝트 홈페이지](https://koposoftware.github.io/2021_14_hmjung/)  
-[📽️ 시연 영상](https://www.youtube.com/embed/4cZFjeUAEuc)  
+[![시연 영상](발표자료/최종프로젝트_정해명_발표자료/capture.png)](https://www.youtube.com/embed/4cZFjeUAEuc)
 
 ---
 
